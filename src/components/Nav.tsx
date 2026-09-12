@@ -1,0 +1,115 @@
+"use client";
+
+import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { PAGINAS, SITE } from "@/lib/site";
+
+export default function Nav() {
+  const [open, setOpen] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
+  const toggleRef = useRef<HTMLButtonElement>(null);
+  const pathname = usePathname();
+
+  // Fecha o menu mobile ao tocar fora dele, não só no botão.
+  useEffect(() => {
+    if (!open) return;
+    const onPointerDown = (e: PointerEvent) => {
+      const target = e.target as Node;
+      if (menuRef.current?.contains(target)) return;
+      if (toggleRef.current?.contains(target)) return;
+      setOpen(false);
+    };
+    document.addEventListener("pointerdown", onPointerDown);
+    return () => document.removeEventListener("pointerdown", onPointerDown);
+  }, [open]);
+
+  return (
+    <header className="absolute inset-x-0 top-0 z-50">
+      <nav className="mx-auto flex max-w-[1400px] items-center justify-between px-6 py-5">
+        <Link href="/" className="-m-2 flex items-center gap-2 p-2">
+          <span className="font-display text-2xl leading-none text-olive italic">
+            {SITE.nome}
+          </span>
+          <span className="font-mono mt-1 hidden text-[8px] tracking-[0.3em] text-ink/50 uppercase sm:inline">
+            Confeitaria
+          </span>
+        </Link>
+
+        <ul className="hidden items-center gap-9 md:flex">
+          {PAGINAS.map((p) => {
+            const isActive = !p.href.includes("#") && pathname === p.href;
+            return (
+              <li key={p.href}>
+                <Link
+                  href={p.href}
+                  scroll={!p.href.includes("#")}
+                  className={`font-mono -m-2 inline-block p-2 text-[10px] font-bold tracking-[0.22em] uppercase transition-colors duration-300 hover:text-olive ${
+                    isActive ? "text-olive" : "text-ink/65"
+                  }`}
+                >
+                  {p.label}
+                </Link>
+              </li>
+            );
+          })}
+          <li>
+            <a
+              href={SITE.whatsapp.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-mono rounded-full bg-olive px-5 py-3 text-[10px] font-bold tracking-[0.22em] text-gold uppercase transition-colors duration-300 hover:bg-olive-deep"
+            >
+              Encomendar
+            </a>
+          </li>
+        </ul>
+
+        <button
+          ref={toggleRef}
+          aria-label="Menu"
+          aria-expanded={open}
+          className="flex flex-col gap-1.5 p-3 md:hidden"
+          onClick={() => setOpen((v) => !v)}
+        >
+          <span
+            className={`block h-0.5 w-6 origin-center bg-ink transition-all duration-200 ${open ? "translate-y-2 rotate-45" : ""}`}
+          />
+          <span
+            className={`block h-0.5 w-6 bg-ink transition-all duration-200 ${open ? "scale-x-0 opacity-0" : ""}`}
+          />
+          <span
+            className={`block h-0.5 w-6 origin-center bg-ink transition-all duration-200 ${open ? "-translate-y-2 -rotate-45" : ""}`}
+          />
+        </button>
+      </nav>
+
+      <div
+        ref={menuRef}
+        className={`overflow-hidden transition-all duration-300 md:hidden ${open ? "max-h-96" : "max-h-0"}`}
+      >
+        <div className="border-t border-ink/10 bg-cream/98 px-6 pt-2 pb-6">
+          {PAGINAS.map((p) => (
+            <Link
+              key={p.href}
+              href={p.href}
+              scroll={!p.href.includes("#")}
+              onClick={() => setOpen(false)}
+              className="font-mono flex items-center border-b border-ink/10 py-4 text-xs font-bold tracking-[0.2em] text-ink/75 uppercase"
+            >
+              {p.label}
+            </Link>
+          ))}
+          <a
+            href={SITE.whatsapp.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-mono mt-5 block rounded-full bg-olive px-5 py-4 text-center text-[10px] font-bold tracking-[0.22em] text-gold uppercase"
+          >
+            Encomendar no WhatsApp
+          </a>
+        </div>
+      </div>
+    </header>
+  );
+}

@@ -39,3 +39,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# imagens de origem (capturas do Instagram e render do bolo) - pesadas, nao versionar
+/imgs_dalami
