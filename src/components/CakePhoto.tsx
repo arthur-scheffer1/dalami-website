@@ -65,18 +65,22 @@ export default function CakePhoto({
 
   return (
     <div ref={wrapRef} className={className}>
+      {/* Dimensões explícitas em vez de `fill`: com `fill` a altura dependia de
+          uma cascata de percentuais (aspect-square -> h-full -> h-full), e se
+          qualquer elo não resolvesse, a imagem virava 0px e sumia em silêncio. */}
       <div
         ref={innerRef}
-        className="relative h-full w-full will-change-transform"
+        className="w-full will-change-transform"
         style={{ transformStyle: "preserve-3d" }}
       >
         <Image
           src={src}
           alt={alt}
-          fill
+          width={734}
+          height={720}
           priority
           sizes="(max-width: 768px) 70vw, 520px"
-          className="object-contain drop-shadow-[0_40px_45px_rgba(27,19,16,0.28)]"
+          className="h-auto w-full drop-shadow-[0_40px_45px_rgba(27,19,16,0.28)]"
         />
       </div>
     </div>

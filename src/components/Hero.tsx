@@ -35,11 +35,11 @@ export default function Hero() {
         duration: 1.1,
         stagger: { each: 0.035, from: "center" },
       })
-        .from(
-          cakeRef.current,
-          { scale: 0.68, opacity: 0, duration: 1.3, ease: "power3.out" },
-          "-=0.85",
-        )
+        // Sem `opacity` aqui de propósito: `from` aplica o estado inicial na
+        // hora, então qualquer falha nesta timeline deixaria o bolo invisível
+        // para sempre. A entrada é só de escala — se a animação não rodar, o
+        // pior caso é o bolo aparecer sem animar, não sumir.
+        .from(cakeRef.current, { scale: 0.68, duration: 1.3, ease: "power3.out" }, "-=0.85")
         .from(".hero-side", { opacity: 0, y: 14, duration: 0.6, stagger: 0.1 }, "-=0.7")
         .from(".hero-eyebrow", { opacity: 0, y: 12, duration: 0.6 }, "-=0.6")
         .from(".hero-cta", { opacity: 0, scale: 0.9, duration: 0.5 }, "-=0.4");
@@ -93,7 +93,7 @@ export default function Hero() {
           {/* Camada 2 — o bolo, entre as duas cópias do texto */}
           <div
             ref={cakeRef}
-            className="pointer-events-none absolute top-1/2 left-1/2 z-10 aspect-square w-[56%] max-w-[520px] min-w-[230px] -translate-x-1/2 -translate-y-1/2"
+            className="pointer-events-none absolute top-1/2 left-1/2 z-10 w-[56%] max-w-[520px] min-w-[230px] -translate-x-1/2 -translate-y-1/2"
           >
             <CakePhoto
               src="/images/bolo-hero.png"
