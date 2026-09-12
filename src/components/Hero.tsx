@@ -81,23 +81,19 @@ export default function Hero() {
         </p>
 
         <div className="relative flex items-center justify-center">
-          {/* Camada 1 — palavra de trás */}
+          {/* A palavra fica por cima do bolo, inteira */}
           <h1
             aria-label={SITE.nomeCompleto}
-            className="font-poster relative z-0 w-full text-center leading-[0.8] tracking-[-0.02em] text-ink"
+            className="font-poster relative z-20 w-full text-center leading-[0.8] tracking-[-0.02em] text-ink"
             style={{ fontSize: "clamp(64px, 15vw, 230px)" }}
           >
             <span className="hero-word inline-block">DALAMI</span>
           </h1>
 
-          {/* Camada 2 — o bolo, entre as duas cópias do texto */}
+          {/* O bolo, atrás da palavra */}
           <div
             ref={cakeRef}
-            // Escala reduzida de propósito: a imagem é quase quadrada, então a
-            // 56% ela ficava ~3x mais alta que a palavra e dominava o hero. A
-            // 38% ela fica próxima da altura das letras, que é o que faz o
-            // entrelaçamento ser lido como entrelaçamento.
-            className="pointer-events-none absolute top-1/2 left-1/2 z-10 w-[38%] max-w-[380px] min-w-[190px] -translate-x-1/2 -translate-y-1/2"
+            className="pointer-events-none absolute top-1/2 left-1/2 z-0 w-[38%] max-w-[380px] min-w-[190px] -translate-x-1/2 -translate-y-1/2"
           >
             <CakePhoto
               src="/images/bolo-hero.png"
@@ -106,17 +102,6 @@ export default function Hero() {
             />
           </div>
 
-          {/* Camada 3 — cópia recortada, volta por cima do bolo */}
-          <h1
-            aria-hidden="true"
-            className="font-poster pointer-events-none absolute inset-0 z-20 flex items-center justify-center text-center leading-[0.8] tracking-[-0.02em] text-ink"
-            // 46%: as letras voltam por cima do bolo em mais da metade da sua
-            // altura. Com 64% sobrava só uma faixa fina de letra no topo, e o
-            // bolo parecia estar simplesmente na frente da palavra.
-            style={{ fontSize: "clamp(64px, 15vw, 230px)", clipPath: "inset(0 0 46% 0)" }}
-          >
-            <span className="hero-word inline-block">DALAMI</span>
-          </h1>
         </div>
 
         <p className="hero-side font-mono hidden text-right text-[10px] leading-relaxed tracking-[0.12em] text-ink/55 uppercase lg:block">
