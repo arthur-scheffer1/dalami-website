@@ -28,7 +28,11 @@ export default function CakePhoto({
     const inner = innerRef.current;
     if (!inner) return;
 
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    // Mesmo critério do antigo Cake3D: quem pede menos movimento perde a
+    // amplitude, não o efeito. Desligar tudo aqui deixava o bolo parado para
+    // qualquer um com "reduzir movimento" ativado no sistema.
+    const prefereMenos = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const forca = prefereMenos ? 0.35 : 1;
 
     const alvo = { x: 0, y: 0 };
     const atual = { x: 0, y: 0 };
@@ -49,9 +53,9 @@ export default function CakePhoto({
 
       // Giro horizontal mais solto que a inclinação vertical: virar demais para
       // cima ou para baixo denuncia que é uma foto plana.
-      const rotY = atual.x * 13;
-      const rotX = -atual.y * 7;
-      const deslocX = atual.x * 10;
+      const rotY = atual.x * 16 * forca;
+      const rotX = -atual.y * 8 * forca;
+      const deslocX = atual.x * 12 * forca;
 
       inner.style.transform = `perspective(1100px) rotateX(${rotX}deg) rotateY(${rotY}deg) translate3d(${deslocX}px, 0, 0)`;
     };
