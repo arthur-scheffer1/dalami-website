@@ -1,9 +1,11 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { gsap } from "@/lib/gsap";
+import { revelaAoEntrar } from "@/lib/anima";
+import { useIsoLayoutEffect } from "@/lib/use-iso-layout-effect";
 
 /**
  * Seção 5 — sobre a marca.
@@ -25,8 +27,10 @@ export const HISTORIA_RASCUNHO = {
 export default function SobreMarca() {
   const rootRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
+  useIsoLayoutEffect(() => {
     const ctx = gsap.context(() => {
+      const mm = gsap.matchMedia();
+
       gsap.fromTo(
         ".sobre-foto",
         { clipPath: "inset(0 0 100% 0)" },
@@ -34,22 +38,31 @@ export default function SobreMarca() {
           clipPath: "inset(0 0 0% 0)",
           duration: 1.1,
           ease: "power4.inOut",
-          scrollTrigger: { trigger: rootRef.current, start: "top 75%" },
+          scrollTrigger: { trigger: ".sobre-foto", start: "top 82%" },
         },
       );
 
-      gsap.fromTo(
-        ".sobre-item",
-        { opacity: 0, x: 36 },
-        {
-          opacity: 1,
-          x: 0,
-          duration: 0.9,
-          stagger: 0.12,
-          ease: "power3.out",
-          scrollTrigger: { trigger: rootRef.current, start: "top 70%" },
-        },
-      );
+      mm.add("(min-width: 768px)", () => {
+        gsap.fromTo(
+          ".sobre-item",
+          { opacity: 0, x: 36 },
+          {
+            opacity: 1,
+            x: 0,
+            duration: 0.9,
+            stagger: 0.12,
+            ease: "power3.out",
+            scrollTrigger: { trigger: rootRef.current, start: "top 70%" },
+          },
+        );
+      });
+
+      // Celular: o texto fica abaixo da foto, longe do topo da seção.
+      mm.add("(max-width: 767px)", () => {
+        gsap.utils.toArray<HTMLElement>(".sobre-item").forEach((item) => {
+          revelaAoEntrar(item, { opacity: 0, x: 24 }, { trigger: item, start: "top 92%", duration: 0.6 });
+        });
+      });
     }, rootRef);
     return () => ctx.revert();
   }, []);

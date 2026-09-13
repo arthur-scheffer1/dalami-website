@@ -37,11 +37,14 @@ export default function AncoraSuave() {
 
       e.preventDefault();
 
+      // O menu é fixo: sem folga, o topo da seção ancorada pararia debaixo dele.
+      const folga = -88;
+
       const lenis = lenisRef.current;
       if (lenis) {
-        lenis.scrollTo(alvo, { offset: -8, duration: 1.2 });
+        lenis.scrollTo(alvo, { offset: folga, duration: 1.2 });
       } else {
-        alvo.scrollIntoView({ behavior: "smooth", block: "start" });
+        window.scrollTo({ top: alvo.getBoundingClientRect().top + window.scrollY + folga, behavior: "smooth" });
       }
 
       window.history.pushState(null, "", url.hash);

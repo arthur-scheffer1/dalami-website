@@ -1,7 +1,9 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import { gsap } from "@/lib/gsap";
+import { revelaAoEntrar } from "@/lib/anima";
+import { useIsoLayoutEffect } from "@/lib/use-iso-layout-effect";
 import { AVISO_DECORACAO, COMO_ENCOMENDAR, TAMANHOS } from "@/lib/menu";
 import { SITE } from "@/lib/site";
 
@@ -9,51 +11,75 @@ import { SITE } from "@/lib/site";
 export default function Encomendas() {
   const rootRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
+  useIsoLayoutEffect(() => {
     const ctx = gsap.context(() => {
-      const tl = gsap.timeline({
-        defaults: { ease: "none" },
-        scrollTrigger: {
-          trigger: rootRef.current,
-          start: "top 60%",
-          end: "top -15%",
-          scrub: true,
-        },
+      const mm = gsap.matchMedia();
+
+      mm.add("(min-width: 768px)", () => {
+        const tl = gsap.timeline({
+          defaults: { ease: "none" },
+          scrollTrigger: {
+            trigger: rootRef.current,
+            start: "top 60%",
+            end: "top -15%",
+            scrub: true,
+          },
+        });
+
+        tl.fromTo(".enc-eyebrow", { opacity: 0.05, y: 14 }, { opacity: 1, y: 0, duration: 0.4 })
+          .fromTo(
+            ".enc-heading",
+            { clipPath: "inset(0 100% 0 0)" },
+            { clipPath: "inset(0 0% 0 0)", duration: 0.9 },
+          )
+          .fromTo(".enc-texto", { opacity: 0.05, y: 16 }, { opacity: 1, y: 0, duration: 0.4 });
+
+        gsap.fromTo(
+          ".enc-tamanho",
+          { opacity: 0, y: 28 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.7,
+            stagger: 0.1,
+            ease: "power3.out",
+            scrollTrigger: { trigger: ".enc-tamanhos", start: "top 78%" },
+          },
+        );
+
+        gsap.fromTo(
+          ".enc-passo",
+          { opacity: 0, x: -22 },
+          {
+            opacity: 1,
+            x: 0,
+            duration: 0.6,
+            stagger: 0.12,
+            ease: "power3.out",
+            scrollTrigger: { trigger: ".enc-passos", start: "top 82%" },
+          },
+        );
       });
 
-      tl.fromTo(".enc-eyebrow", { opacity: 0.05, y: 14 }, { opacity: 1, y: 0, duration: 0.4 })
-        .fromTo(
+      // Celular: os quatro cartões de tamanho viram uma coluna alta; com um
+      // gatilho só, os últimos animariam muito antes de entrarem na tela.
+      mm.add("(max-width: 767px)", () => {
+        revelaAoEntrar(".enc-eyebrow", { opacity: 0.05, y: 14 });
+        revelaAoEntrar(
           ".enc-heading",
           { clipPath: "inset(0 100% 0 0)" },
-          { clipPath: "inset(0 0% 0 0)", duration: 0.9 },
-        )
-        .fromTo(".enc-texto", { opacity: 0.05, y: 16 }, { opacity: 1, y: 0, duration: 0.4 });
+          { clipPath: "inset(0 0% 0 0)", duration: 0.9, ease: "power4.inOut", start: "top 88%" },
+        );
+        revelaAoEntrar(".enc-texto", { opacity: 0.05, y: 16 });
 
-      gsap.fromTo(
-        ".enc-tamanho",
-        { opacity: 0, y: 28 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.7,
-          stagger: 0.1,
-          ease: "power3.out",
-          scrollTrigger: { trigger: ".enc-tamanhos", start: "top 78%" },
-        },
-      );
+        gsap.utils.toArray<HTMLElement>(".enc-tamanho").forEach((cartao) => {
+          revelaAoEntrar(cartao, { opacity: 0, y: 24 }, { trigger: cartao, start: "top 92%", duration: 0.6 });
+        });
 
-      gsap.fromTo(
-        ".enc-passo",
-        { opacity: 0, x: -22 },
-        {
-          opacity: 1,
-          x: 0,
-          duration: 0.6,
-          stagger: 0.12,
-          ease: "power3.out",
-          scrollTrigger: { trigger: ".enc-passos", start: "top 82%" },
-        },
-      );
+        gsap.utils.toArray<HTMLElement>(".enc-passo").forEach((passo) => {
+          revelaAoEntrar(passo, { opacity: 0, x: -18 }, { trigger: passo, start: "top 94%", duration: 0.5 });
+        });
+      });
     }, rootRef);
     return () => ctx.revert();
   }, []);
@@ -62,20 +88,20 @@ export default function Encomendas() {
     <section id="encomendas" ref={rootRef} className="bg-cream py-24 md:py-32">
       <div className="mx-auto max-w-[1400px] px-6">
         <div className="mb-16 max-w-2xl">
-          <div className="enc-eyebrow mb-4" style={{ opacity: 0.05 }}>
+          <div className="enc-eyebrow mb-4">
             <span className="font-mono text-[10px] tracking-[0.3em] text-olive uppercase">
               Encomendas
             </span>
           </div>
           <h2
             className="enc-heading font-poster mb-7 leading-[0.9] tracking-tight text-ink uppercase"
-            style={{ fontSize: "clamp(40px, 6vw, 86px)", clipPath: "inset(0 100% 0 0)" }}
+            style={{ fontSize: "clamp(40px, 6vw, 86px)" }}
           >
             Bolo inteiro
             <br />
             pra sua data
           </h2>
-          <p className="enc-texto font-body text-[17px] leading-relaxed text-ink/65" style={{ opacity: 0.05 }}>
+          <p className="enc-texto font-body text-[17px] leading-relaxed text-ink/65">
             Todos os sabores do cardápio saem em quatro tamanhos. Os rendimentos são
             aproximados e variam conforme o corte de cada fatia.
           </p>
@@ -86,7 +112,6 @@ export default function Encomendas() {
             <div
               key={t.sigla}
               className="enc-tamanho rounded-2xl border border-ink/12 bg-sand/50 p-7 transition-colors duration-300 hover:border-olive/50"
-              style={{ opacity: 0 }}
             >
               <span className="font-poster block text-5xl leading-none text-olive">{t.sigla}</span>
               <span className="font-mono mt-4 block text-[10px] tracking-[0.18em] text-ink/50 uppercase">
@@ -107,7 +132,6 @@ export default function Encomendas() {
                 <li
                   key={passo}
                   className="enc-passo flex items-baseline gap-5 border-b border-ink/15 py-5"
-                  style={{ opacity: 0 }}
                 >
                   <span className="font-mono text-[10px] tracking-[0.2em] text-olive">
                     {String(i + 1).padStart(2, "0")}

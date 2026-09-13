@@ -1,27 +1,41 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import { gsap } from "@/lib/gsap";
+import { revelaAoEntrar } from "@/lib/anima";
+import { useIsoLayoutEffect } from "@/lib/use-iso-layout-effect";
 import { SITE } from "@/lib/site";
 
 /** Seção 8 — venha nos visitar: endereço, horários, atalhos e mapa. */
 export default function Localizacao() {
   const rootRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
+  useIsoLayoutEffect(() => {
     const ctx = gsap.context(() => {
-      gsap.fromTo(
-        ".loc-item",
-        { opacity: 0, y: 30 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.8,
-          stagger: 0.1,
-          ease: "power3.out",
-          scrollTrigger: { trigger: rootRef.current, start: "top 72%" },
-        },
-      );
+      const mm = gsap.matchMedia();
+
+      mm.add("(min-width: 768px)", () => {
+        gsap.fromTo(
+          ".loc-item",
+          { opacity: 0, y: 30 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.8,
+            stagger: 0.1,
+            ease: "power3.out",
+            scrollTrigger: { trigger: rootRef.current, start: "top 72%" },
+          },
+        );
+      });
+
+      // Celular: endereço, horários e botões ficam empilhados numa coluna bem
+      // alta — os botões estariam a uma tela de distância do gatilho comum.
+      mm.add("(max-width: 767px)", () => {
+        gsap.utils.toArray<HTMLElement>(".loc-item").forEach((item) => {
+          revelaAoEntrar(item, { opacity: 0, y: 24 }, { trigger: item, start: "top 92%", duration: 0.6 });
+        });
+      });
 
       gsap.fromTo(
         ".loc-mapa",
@@ -30,7 +44,7 @@ export default function Localizacao() {
           clipPath: "inset(0 0 0% 0)",
           duration: 1.2,
           ease: "power4.inOut",
-          scrollTrigger: { trigger: ".loc-mapa", start: "top 82%" },
+          scrollTrigger: { trigger: ".loc-mapa", start: "top 85%" },
         },
       );
     }, rootRef);
@@ -42,19 +56,19 @@ export default function Localizacao() {
       <div className="mx-auto max-w-[1400px] px-6">
         <div className="mb-14 grid gap-12 md:grid-cols-2 md:gap-20">
           <div>
-            <span className="loc-item font-mono mb-4 block text-[10px] tracking-[0.3em] text-gold uppercase" style={{ opacity: 0 }}>
+            <span className="loc-item font-mono mb-4 block text-[10px] tracking-[0.3em] text-gold uppercase">
               Onde estamos
             </span>
             <h2
               className="loc-item font-poster mb-8 leading-[0.9] tracking-tight text-cream uppercase"
-              style={{ fontSize: "clamp(40px, 6vw, 86px)", opacity: 0 }}
+              style={{ fontSize: "clamp(40px, 6vw, 86px)" }}
             >
               Venha nos
               <br />
               visitar
             </h2>
 
-            <div className="loc-item mb-8" style={{ opacity: 0 }}>
+            <div className="loc-item mb-8">
               <span className="font-mono mb-3 block text-[10px] tracking-[0.22em] text-gold/70 uppercase">
                 Endereço
               </span>
@@ -65,7 +79,7 @@ export default function Localizacao() {
               </address>
             </div>
 
-            <div className="loc-item mb-9" style={{ opacity: 0 }}>
+            <div className="loc-item mb-9">
               <span className="font-mono mb-3 block text-[10px] tracking-[0.22em] text-gold/70 uppercase">
                 Horários
               </span>
@@ -82,7 +96,7 @@ export default function Localizacao() {
               </div>
             </div>
 
-            <div className="loc-item flex flex-wrap gap-3" style={{ opacity: 0 }}>
+            <div className="loc-item flex flex-wrap gap-3">
               <a
                 href={SITE.maps}
                 target="_blank"

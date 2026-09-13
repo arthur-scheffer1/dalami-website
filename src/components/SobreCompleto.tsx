@@ -1,9 +1,11 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { gsap, SplitText } from "@/lib/gsap";
+import { revelaAoEntrar } from "@/lib/anima";
+import { useIsoLayoutEffect } from "@/lib/use-iso-layout-effect";
 import { SITE } from "@/lib/site";
 
 /**
@@ -30,9 +32,10 @@ const VALORES = [
 export default function SobreCompleto() {
   const rootRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
+  useIsoLayoutEffect(() => {
     const ctx = gsap.context(() => {
       const split = new SplitText(".sobre-titulo", { type: "chars" });
+      const mm = gsap.matchMedia();
       gsap.from(split.chars, {
         yPercent: 110,
         opacity: 0,
@@ -67,18 +70,27 @@ export default function SobreCompleto() {
         );
       });
 
-      gsap.fromTo(
-        ".sobre-valor",
-        { opacity: 0, y: 28 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.8,
-          stagger: 0.12,
-          ease: "power3.out",
-          scrollTrigger: { trigger: ".sobre-valores", start: "top 80%" },
-        },
-      );
+      mm.add("(min-width: 768px)", () => {
+        gsap.fromTo(
+          ".sobre-valor",
+          { opacity: 0, y: 28 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.8,
+            stagger: 0.12,
+            ease: "power3.out",
+            scrollTrigger: { trigger: ".sobre-valores", start: "top 80%" },
+          },
+        );
+      });
+
+      // Celular: os três valores empilham; cada um espera a própria vez.
+      mm.add("(max-width: 767px)", () => {
+        gsap.utils.toArray<HTMLElement>(".sobre-valor").forEach((valor) => {
+          revelaAoEntrar(valor, { opacity: 0, y: 24 }, { trigger: valor, start: "top 92%", duration: 0.6 });
+        });
+      });
 
       return () => split.revert();
     }, rootRef);
@@ -124,7 +136,7 @@ export default function SobreCompleto() {
       <section className="sobre-valores border-y border-ink/12 bg-sand/40 py-20">
         <div className="mx-auto grid max-w-[1400px] gap-10 px-6 md:grid-cols-3">
           {VALORES.map((v) => (
-            <div key={v.n} className="sobre-valor" style={{ opacity: 0 }}>
+            <div key={v.n} className="sobre-valor">
               <span className="font-mono block text-[10px] tracking-[0.24em] text-olive">{v.n}</span>
               <h2 className="font-display mt-3 mb-3 text-2xl text-ink">{v.titulo}</h2>
               <p className="font-body text-[15px] leading-relaxed text-ink/60">{v.texto}</p>

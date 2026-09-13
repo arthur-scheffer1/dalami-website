@@ -7,9 +7,20 @@ import { PAGINAS, SITE } from "@/lib/site";
 
 export default function Nav() {
   const [open, setOpen] = useState(false);
+  const [rolou, setRolou] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const toggleRef = useRef<HTMLButtonElement>(null);
   const pathname = usePathname();
+
+  // O menu passou a acompanhar a rolagem: no cardápio, que é longo, ele antes
+  // sumia no topo e só voltava se a pessoa rolasse tudo de volta. Ganha fundo
+  // quando sai do topo, para não ficar boiando sobre o conteúdo.
+  useEffect(() => {
+    const onScroll = () => setRolou(window.scrollY > 80);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   // Fecha o menu mobile ao tocar fora dele, não só no botão.
   useEffect(() => {
@@ -25,8 +36,18 @@ export default function Nav() {
   }, [open]);
 
   return (
-    <header className="absolute inset-x-0 top-0 z-50">
-      <nav className="mx-auto flex max-w-[1400px] items-center justify-between px-6 py-5">
+    <header
+      className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
+        rolou || open
+          ? "border-b border-ink/10 bg-cream/90 backdrop-blur-md"
+          : "border-b border-transparent bg-transparent"
+      }`}
+    >
+      <nav
+        className={`mx-auto flex max-w-[1400px] items-center justify-between px-6 transition-all duration-300 ${
+          rolou ? "py-3" : "py-5"
+        }`}
+      >
         <Link href="/" className="-m-2 flex items-center gap-2 p-2">
           <span className="font-display text-2xl leading-none text-olive italic">
             {SITE.nome}

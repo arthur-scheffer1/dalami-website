@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 
 /**
@@ -23,16 +23,22 @@ export default function CakePhoto({
 }) {
   const wrapRef = useRef<HTMLDivElement>(null);
   const innerRef = useRef<HTMLDivElement>(null);
+  const [carregada, setCarregada] = useState(false);
 
   useEffect(() => {
     const inner = innerRef.current;
     if (!inner) return;
 
-    // Mesmo critério do antigo Cake3D: quem pede menos movimento perde a
-    // amplitude, não o efeito. Desligar tudo aqui deixava o bolo parado para
-    // qualquer um com "reduzir movimento" ativado no sistema.
+    // Quem pede menos movimento perde amplitude, não o efeito: desligar tudo
+    // aqui deixava o bolo parado para qualquer um com "reduzir movimento"
+    // ativado no sistema.
     const prefereMenos = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const forca = prefereMenos ? 0.35 : 1;
+
+    // Sem ponteiro fino (celular e tablet) não existe cursor para seguir, e o
+    // bolo ficaria completamente parado. Nesses aparelhos ele balança sozinho,
+    // devagar, em vez de perseguir alguma coisa.
+    const semCursor = window.matchMedia("(hover: none)").matches;
 
     const alvo = { x: 0, y: 0 };
     const atual = { x: 0, y: 0 };
@@ -42,11 +48,20 @@ export default function CakePhoto({
       alvo.x = (e.clientX / window.innerWidth) * 2 - 1;
       alvo.y = (e.clientY / window.innerHeight) * 2 - 1;
     };
-    window.addEventListener("pointermove", onPointerMove, { passive: true });
+    if (!semCursor) {
+      window.addEventListener("pointermove", onPointerMove, { passive: true });
+    }
 
+    const inicio = performance.now();
     let raf = 0;
     const animar = () => {
       raf = requestAnimationFrame(animar);
+
+      if (semCursor) {
+        const t = (performance.now() - inicio) / 1000;
+        alvo.x = Math.sin(t * 0.45) * 0.5;
+        alvo.y = Math.sin(t * 0.31) * 0.28;
+      }
 
       atual.x += (alvo.x - atual.x) * 0.06;
       atual.y += (alvo.y - atual.y) * 0.06;
@@ -86,7 +101,15 @@ export default function CakePhoto({
           /* A caixa nunca passa de 380px — pedir 520px servia imagem maior que
              o necessário em toda tela grande. */
           sizes="(max-width: 640px) 60vw, 380px"
-          className="h-auto w-full drop-shadow-[0_40px_45px_rgba(27,19,16,0.28)]"
+          onLoad={() => setCarregada(true)}
+          /* A sombra só entra depois que a imagem decodifica. drop-shadow segue
+             o canal alpha; sem bitmap decodificado não há alpha, e o navegador
+             projeta a sombra da CAIXA do elemento — um retângulo escuro em volta
+             do bolo, visível só na primeira visita, antes de o arquivo entrar em
+             cache. */
+          className={`h-auto w-full transition-[filter] duration-500 ${
+            carregada ? "drop-shadow-[0_40px_45px_rgba(27,19,16,0.28)]" : ""
+          }`}
         />
       </div>
     </div>

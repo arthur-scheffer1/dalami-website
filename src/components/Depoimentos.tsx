@@ -1,7 +1,9 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import { gsap } from "@/lib/gsap";
+import { revelaAoEntrar } from "@/lib/anima";
+import { useIsoLayoutEffect } from "@/lib/use-iso-layout-effect";
 
 /**
  * ⚠️ SEÇÃO 7 — DEPOIMENTOS FICTÍCIOS, NÃO PUBLICAR ASSIM.
@@ -38,21 +40,32 @@ const DEPOIMENTOS_FICTICIOS = [
 export default function Depoimentos() {
   const rootRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
+  useIsoLayoutEffect(() => {
     const ctx = gsap.context(() => {
-      gsap.fromTo(
-        ".dep-card",
-        { opacity: 0, y: 40, rotate: (i: number) => (i % 2 === 0 ? -1.5 : 1.5) },
-        {
-          opacity: 1,
-          y: 0,
-          rotate: 0,
-          duration: 0.9,
-          stagger: 0.15,
-          ease: "power3.out",
-          scrollTrigger: { trigger: rootRef.current, start: "top 72%" },
-        },
-      );
+      const mm = gsap.matchMedia();
+
+      mm.add("(min-width: 768px)", () => {
+        gsap.fromTo(
+          ".dep-card",
+          { opacity: 0, y: 40, rotate: (i: number) => (i % 2 === 0 ? -1.5 : 1.5) },
+          {
+            opacity: 1,
+            y: 0,
+            rotate: 0,
+            duration: 0.9,
+            stagger: 0.15,
+            ease: "power3.out",
+            scrollTrigger: { trigger: rootRef.current, start: "top 72%" },
+          },
+        );
+      });
+
+      // Celular: os três cartões viram uma pilha de quase três telas de altura.
+      mm.add("(max-width: 767px)", () => {
+        gsap.utils.toArray<HTMLElement>(".dep-card").forEach((card) => {
+          revelaAoEntrar(card, { opacity: 0, y: 30 }, { trigger: card, start: "top 92%", duration: 0.6 });
+        });
+      });
 
       gsap.fromTo(
         ".dep-heading",
@@ -61,7 +74,7 @@ export default function Depoimentos() {
           clipPath: "inset(0 0% 0 0)",
           duration: 1.1,
           ease: "power4.inOut",
-          scrollTrigger: { trigger: rootRef.current, start: "top 78%" },
+          scrollTrigger: { trigger: ".dep-heading", start: "top 88%" },
         },
       );
     }, rootRef);
@@ -77,7 +90,7 @@ export default function Depoimentos() {
           </span>
           <h2
             className="dep-heading font-poster mx-auto leading-[0.92] tracking-tight text-ink uppercase"
-            style={{ fontSize: "clamp(36px, 5.5vw, 78px)", clipPath: "inset(0 100% 0 0)" }}
+            style={{ fontSize: "clamp(36px, 5.5vw, 78px)" }}
           >
             Dizem por aí
           </h2>
@@ -88,7 +101,6 @@ export default function Depoimentos() {
             <figure
               key={d.texto}
               className="dep-card flex flex-col justify-between rounded-[1.75rem] border border-ink/12 bg-sand/40 p-8"
-              style={{ opacity: 0 }}
             >
               <blockquote className="font-display text-xl leading-relaxed text-ink/85 italic">
                 “{d.texto}”
