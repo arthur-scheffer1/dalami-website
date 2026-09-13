@@ -30,6 +30,7 @@
   --color-blush: #ebbfc4;
 
   --font-poster: var(--font-archivo-black), sans-serif;
+  --font-script: var(--font-yellowtail), cursive;
   --font-display: var(--font-fraunces), serif;
   --font-body: var(--font-outfit), sans-serif;
   --font-mono: var(--font-space-mono), monospace;

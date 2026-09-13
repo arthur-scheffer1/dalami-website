@@ -10,7 +10,7 @@ import Image from "next/image";
  *
  * A inclinação persegue o alvo com amortecimento (não salta até ele) e é
  * aplicada direto no style, fora do React, para não re-renderizar a cada frame.
- * Quem tem prefers-reduced-motion recebe a foto parada.
+ * Quem tem prefers-reduced-motion recebe amplitude reduzida, não foto parada.
  */
 export default function CakePhoto({
   src,
@@ -83,7 +83,9 @@ export default function CakePhoto({
           width={734}
           height={720}
           priority
-          sizes="(max-width: 768px) 70vw, 520px"
+          /* A caixa nunca passa de 380px — pedir 520px servia imagem maior que
+             o necessário em toda tela grande. */
+          sizes="(max-width: 640px) 60vw, 380px"
           className="h-auto w-full drop-shadow-[0_40px_45px_rgba(27,19,16,0.28)]"
         />
       </div>

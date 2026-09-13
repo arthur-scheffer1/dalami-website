@@ -1,21 +1,22 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { gsap, SplitText } from "@/lib/gsap";
+import { gsap } from "@/lib/gsap";
 import { SITE } from "@/lib/site";
 import CakePhoto from "./CakePhoto";
 
 /**
- * Hero no espírito da referência ("Too Much Sauce"): tipografia gigante sobre
- * fundo creme, com um objeto atravessando as letras — aqui um bolo 3D que
- * acompanha o cursor.
+ * Hero: tipografia gigante sobre fundo creme, com a foto do bolo atrás da
+ * palavra, inclinando-se em direção ao cursor.
  *
- * O entrelaçamento são duas cópias da palavra: a de trás recebe o bolo por
- * cima, e a da frente é recortada por clip-path, de modo que só a metade
- * superior das letras volta a aparecer sobre o bolo.
+ * Dois cuidados estruturais:
  *
- * Os textos laterais moram em colunas próprias do grid (não sobrepostos em
- * position: absolute, como antes) — assim nunca colidem com o título.
+ * - A centralização do bolo (CSS) e a animação do bolo (GSAP) moram em
+ *   elementos diferentes. Num elemento só, o GSAP reescreveria o `transform`
+ *   e congelaria o `-50%` da centralização num valor em pixels, tirando o
+ *   bolo do centro no primeiro redimensionamento da janela.
+ * - Os textos laterais moram em colunas próprias do grid, nunca sobrepostos
+ *   em position: absolute, para não colidirem com o título.
  */
 export default function Hero() {
   const rootRef = useRef<HTMLDivElement>(null);
@@ -23,23 +24,17 @@ export default function Hero() {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      const splits = gsap.utils
-        .toArray<HTMLElement>(".hero-word")
-        .map((el) => new SplitText(el, { type: "chars" }));
-      const chars = splits.flatMap((s) => s.chars);
-
       const tl = gsap.timeline({ defaults: { ease: "power4.out" } });
 
-      tl.from(chars, {
-        yPercent: 115,
-        duration: 1.1,
-        stagger: { each: 0.035, from: "center" },
-      })
+      // A palavra inteira sobe por trás de uma máscara, em vez de entrar letra
+      // a letra: o SplitText embrulharia cada caractere numa caixa própria e
+      // quebraria as ligações da cursiva, que são o traço da fonte.
+      tl.from(".hero-word", { yPercent: 108, duration: 1.2 })
         // Sem `opacity` aqui de propósito: `from` aplica o estado inicial na
         // hora, então qualquer falha nesta timeline deixaria o bolo invisível
         // para sempre. A entrada é só de escala — se a animação não rodar, o
         // pior caso é o bolo aparecer sem animar, não sumir.
-        .from(cakeRef.current, { scale: 0.68, duration: 1.3, ease: "power3.out" }, "-=0.85")
+        .from(cakeRef.current, { scale: 0.68, duration: 1.3, ease: "power3.out" }, "-=0.9")
         .from(".hero-side", { opacity: 0, y: 14, duration: 0.6, stagger: 0.1 }, "-=0.7")
         .from(".hero-eyebrow", { opacity: 0, y: 12, duration: 0.6 }, "-=0.6")
         .from(".hero-cta", { opacity: 0, scale: 0.9, duration: 0.5 }, "-=0.4");
@@ -56,7 +51,6 @@ export default function Hero() {
         },
       });
 
-      return () => splits.forEach((s) => s.revert());
     }, rootRef);
 
     return () => ctx.revert();
@@ -82,24 +76,29 @@ export default function Hero() {
 
         <div className="relative flex items-center justify-center">
           {/* A palavra fica por cima do bolo, inteira */}
+          {/* A máscara (overflow-hidden) é o que faz a palavra surgir subindo.
+              O padding inferior dá espaço para o floreio da cursiva, que desce
+              abaixo da linha de base e seria cortado sem ele. */}
           <h1
             aria-label={SITE.nomeCompleto}
-            className="font-poster relative z-20 w-full text-center leading-[0.8] tracking-[-0.02em] text-ink"
-            style={{ fontSize: "clamp(64px, 15vw, 230px)" }}
+            className="font-script relative z-20 w-full text-center leading-[1.05] text-ink"
+            style={{ fontSize: "clamp(72px, 17vw, 250px)" }}
           >
-            <span className="hero-word inline-block">DALAMI</span>
+            <span className="block overflow-hidden pb-[0.16em]">
+              <span className="hero-word inline-block">Dalami</span>
+            </span>
           </h1>
 
-          {/* O bolo, atrás da palavra */}
-          <div
-            ref={cakeRef}
-            className="pointer-events-none absolute top-1/2 left-1/2 z-0 w-[38%] max-w-[380px] min-w-[190px] -translate-x-1/2 -translate-y-1/2"
-          >
-            <CakePhoto
-              src="/images/bolo-hero.png"
-              alt="Bolo de chocolate com ganache e morangos"
-              className="h-full w-full"
-            />
+          {/* O bolo, atrás da palavra. A camada de fora só centraliza (CSS puro,
+              intocada pelo GSAP); a de dentro é a que anima. */}
+          <div className="pointer-events-none absolute top-1/2 left-1/2 z-0 w-[52%] max-w-[380px] -translate-x-1/2 -translate-y-1/2 sm:w-[44%] lg:w-[38%]">
+            <div ref={cakeRef}>
+              <CakePhoto
+                src="/images/bolo-hero.png"
+                alt="Bolo de chocolate com ganache e morangos"
+                className="w-full"
+              />
+            </div>
           </div>
 
         </div>

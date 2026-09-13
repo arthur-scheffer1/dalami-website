@@ -27,11 +27,14 @@ export default function Composicao() {
           },
         );
 
+        // Só para cima: a imagem interna tem 116% de altura e começa alinhada ao
+        // topo da moldura, então qualquer deslocamento positivo abriria uma
+        // fresta de fundo no topo. O limite de -13% consome exatamente a sobra.
         gsap.fromTo(
           img,
-          { yPercent: -8 },
+          { yPercent: 0 },
           {
-            yPercent: 8,
+            yPercent: -13,
             ease: "none",
             scrollTrigger: {
               trigger: el,

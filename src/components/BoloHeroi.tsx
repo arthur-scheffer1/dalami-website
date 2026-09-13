@@ -48,11 +48,13 @@ export default function BoloHeroi() {
           scrollTrigger: { trigger: ".heroi-foto-wrap", start: "top 75%" },
         },
       );
+      // Mesma regra da Composicao: a imagem tem 114% de altura alinhada ao topo,
+      // então deslizar para baixo abriria fresta. Só para cima.
       gsap.fromTo(
         ".heroi-foto-img",
-        { yPercent: -7 },
+        { yPercent: 0 },
         {
-          yPercent: 7,
+          yPercent: -12,
           ease: "none",
           scrollTrigger: {
             trigger: ".heroi-foto-wrap",

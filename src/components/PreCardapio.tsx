@@ -6,10 +6,15 @@ import Link from "next/link";
 import { gsap } from "@/lib/gsap";
 import { CATEGORIAS } from "@/lib/menu";
 
-/** Seção 3 — prévia do cardápio: os campeões de venda, com preço a partir de. */
-const DESTAQUES = CATEGORIAS.flatMap((c) => c.bolos)
-  .filter((b) => b.campeao)
-  .map((b) => ({ ...b }));
+/**
+ * Seção 3 — prévia do cardápio: os campeões de venda, com preço a partir de.
+ * Cada linha carrega o id da própria categoria, para levar à âncora certa do
+ * cardápio — antes todas apontavam para #classicos, inclusive o Bolo de Pudim,
+ * que fica na linha premium.
+ */
+const DESTAQUES = CATEGORIAS.flatMap((c) =>
+  c.bolos.filter((b) => b.campeao).map((b) => ({ ...b, categoria: c.id })),
+);
 
 const FOTOS: Record<string, string> = {
   "Morango e Nutella": "/images/fatia-nutella-morango.jpg",
@@ -99,7 +104,7 @@ export default function PreCardapio() {
           {DESTAQUES.map((bolo) => (
             <Link
               key={bolo.nome}
-              href="/cardapio#classicos"
+              href={`/cardapio#${bolo.categoria}`}
               onMouseEnter={() => setAtivo(bolo.nome)}
               onMouseLeave={() => setAtivo(null)}
               className="pc-linha group flex items-baseline justify-between gap-6 border-b border-ink/15 py-7 transition-colors duration-300 hover:bg-olive/5"
@@ -116,7 +121,10 @@ export default function PreCardapio() {
 
           <div
             aria-hidden="true"
-            className={`pointer-events-none absolute top-1/2 right-[8%] hidden h-[300px] w-[230px] -translate-y-1/2 overflow-hidden rounded-2xl transition-all duration-500 lg:block ${
+            /* No vão central da lista: em right-[8%] a foto cobria a coluna de
+               preços, que é alinhada à direita. O miolo entre nome e preço é a
+               única faixa realmente vazia. */
+            className={`pointer-events-none absolute top-1/2 left-1/2 hidden h-[300px] w-[230px] -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-2xl transition-all duration-500 lg:block ${
               ativo ? "scale-100 opacity-100" : "scale-90 opacity-0"
             }`}
           >

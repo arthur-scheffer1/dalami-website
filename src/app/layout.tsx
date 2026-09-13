@@ -1,17 +1,26 @@
 import type { Metadata } from "next";
-import { Archivo_Black, Fraunces, Outfit, Space_Mono } from "next/font/google";
+import { Archivo_Black, Fraunces, Outfit, Space_Mono, Yellowtail } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import "./globals.css";
 import SmoothScroll from "@/components/SmoothScroll";
+import AncoraSuave from "@/components/AncoraSuave";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 
-// Hero/poster type: heavy neo-grotesk, the weight the reference leans on.
+// Hero/poster type: heavy neo-grotesk, usado nos títulos de seção.
 const archivoBlack = Archivo_Black({
   weight: "400",
   subsets: ["latin"],
   variable: "--font-archivo-black",
+  display: "swap",
+});
+
+// Script do nome da marca no hero — o mais próximo do lettering do logo.
+const yellowtail = Yellowtail({
+  weight: "400",
+  subsets: ["latin"],
+  variable: "--font-yellowtail",
   display: "swap",
 });
 
@@ -48,10 +57,11 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="pt-BR"
-      className={`${archivoBlack.variable} ${fraunces.variable} ${outfit.variable} ${spaceMono.variable}`}
+      className={`${archivoBlack.variable} ${yellowtail.variable} ${fraunces.variable} ${outfit.variable} ${spaceMono.variable}`}
     >
       <body>
         <SmoothScroll>
+          <AncoraSuave />
           <Nav />
           {children}
           <Footer />
