@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { PAGINAS, SITE } from "@/lib/site";
 
 const SOCIAIS = [
@@ -52,6 +53,17 @@ export default function Footer() {
             <br />
             {SITE.endereco.bairro} — {SITE.endereco.cidade}/{SITE.endereco.uf}
           </address>
+
+          {/* Decorativo: o nome da marca já aparece como texto à esquerda,
+              então o emblema não precisa repetir isso para o leitor de tela. */}
+          <Image
+            src="/images/logo-dalami.svg"
+            alt=""
+            width={100}
+            height={100}
+            unoptimized
+            className="h-16 w-16 shrink-0"
+          />
         </div>
 
         <div className="font-mono border-t border-ink/10 pt-6 text-[9px] tracking-[0.2em] text-ink/35 uppercase">
