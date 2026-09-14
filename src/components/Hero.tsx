@@ -81,7 +81,7 @@ export default function Hero() {
               abaixo da linha de base e seria cortado sem ele. */}
           <h1
             aria-label={SITE.nomeCompleto}
-            className="font-script relative z-20 w-full text-center leading-[1.05] text-olive"
+            className="font-marca relative z-20 w-full text-center leading-[1.05] text-olive"
             style={{ fontSize: "clamp(72px, 17vw, 250px)" }}
           >
             <span className="block overflow-hidden pb-[0.16em]">

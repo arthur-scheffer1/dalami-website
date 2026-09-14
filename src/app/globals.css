@@ -29,8 +29,13 @@
   /* Rosa da caixa de viagem */
   --color-blush: #ebbfc4;
 
+  /* Marrom claro das formas impressas na caixa das fatias */
+  --color-tan: #9a6a3c;
+
   --font-poster: var(--font-archivo-black), sans-serif;
   --font-script: var(--font-yellowtail), cursive;
+  /* Só o wordmark "Dalami" usa esta — é o lettering da caixa */
+  --font-marca: var(--font-grand-hotel), cursive;
   --font-display: var(--font-fraunces), serif;
   --font-body: var(--font-outfit), sans-serif;
   --font-mono: var(--font-space-mono), monospace;

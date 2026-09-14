@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Archivo_Black, Fraunces, Outfit, Space_Mono, Yellowtail } from "next/font/google";
+import { Archivo_Black, Fraunces, Grand_Hotel, Outfit, Space_Mono, Yellowtail } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import "./globals.css";
@@ -21,6 +21,15 @@ const yellowtail = Yellowtail({
   weight: "400",
   subsets: ["latin"],
   variable: "--font-yellowtail",
+  display: "swap",
+});
+
+// Script do wordmark "Dalami" — monolinear e arredondada como o lettering
+// impresso na caixa das fatias.
+const grandHotel = Grand_Hotel({
+  weight: "400",
+  subsets: ["latin"],
+  variable: "--font-grand-hotel",
   display: "swap",
 });
 
@@ -57,7 +66,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="pt-BR"
-      className={`${archivoBlack.variable} ${yellowtail.variable} ${fraunces.variable} ${outfit.variable} ${spaceMono.variable}`}
+      className={`${archivoBlack.variable} ${yellowtail.variable} ${grandHotel.variable} ${fraunces.variable} ${outfit.variable} ${spaceMono.variable}`}
     >
       <body>
         <SmoothScroll>
