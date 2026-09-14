@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { PAGINAS, SITE } from "@/lib/site";
 
@@ -48,10 +49,37 @@ export default function Nav() {
           rolou ? "py-3" : "py-5"
         }`}
       >
-        <Link href="/" className="-m-2 flex items-center gap-2 p-2">
-          <span className="font-display text-2xl leading-none text-olive italic">
-            {SITE.nome}
-          </span>
+        <Link href="/" className="-m-2 flex items-center gap-2.5 p-2">
+          {/* Vetor em vez do PNG: a 36px o raster vinha embaçado, com os
+              artefatos do JPG de origem. O círculo já vem no desenho, então
+              não precisa de rounded-full. `unoptimized` porque o otimizador do
+              Next recusa SVG sem liberar `dangerouslyAllowSVG`. */}
+          <Image
+            src="/images/logo-dalami.svg"
+            alt=""
+            width={100}
+            height={100}
+            unoptimized
+            priority
+            className="h-9 w-9"
+          />
+          {/* Mesmo vetor do hero. O nome fica em sr-only porque aqui ele é
+              desenho, não texto — sem isso o link do logo ficaria sem rótulo. */}
+          <span
+            aria-hidden
+            className="block h-[18px] w-[77px] bg-olive"
+            style={{
+              maskImage: "url(/images/dalami-wordmark.svg)",
+              WebkitMaskImage: "url(/images/dalami-wordmark.svg)",
+              maskSize: "contain",
+              WebkitMaskSize: "contain",
+              maskRepeat: "no-repeat",
+              WebkitMaskRepeat: "no-repeat",
+              maskPosition: "center",
+              WebkitMaskPosition: "center",
+            }}
+          />
+          <span className="sr-only">{SITE.nome}</span>
           <span className="font-mono mt-1 hidden text-[8px] tracking-[0.3em] text-ink/50 uppercase sm:inline">
             Confeitaria
           </span>
