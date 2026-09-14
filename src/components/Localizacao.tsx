@@ -201,7 +201,7 @@ export default function Localizacao() {
   return (
     <section id="localizacao" ref={rootRef} className="bg-olive-deep px-4 py-20 sm:px-6 md:py-28">
       <div className="mx-auto max-w-[1400px]">
-        <div className="loc-caixa relative overflow-hidden rounded-[1.75rem] bg-cream px-6 py-16 sm:px-10 md:rounded-[2.5rem] md:px-16 md:py-24">
+        <div className="loc-caixa relative overflow-hidden rounded-[1.75rem] border-2 border-white bg-cream px-6 py-16 sm:px-10 md:rounded-[2.5rem] md:px-16 md:py-24">
           <Grafismos />
 
           <div className="relative z-10 mx-auto max-w-2xl text-center">
@@ -211,7 +211,7 @@ export default function Localizacao() {
 
             <div className="loc-item">
               <span
-                className="font-marca block leading-[0.95] text-olive-deep"
+                className="font-script block leading-[0.95] text-olive-deep"
                 style={{ fontSize: "clamp(62px, 11vw, 132px)" }}
               >
                 {SITE.nome}
