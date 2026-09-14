@@ -235,7 +235,7 @@ export default function CardapioCompleto() {
                             <span className="font-mono block text-[9px] tracking-[0.2em] text-ink/40 uppercase">
                               {t}
                             </span>
-                            <span className="font-mono text-sm text-ink">R$ {bolo.precos[t]}</span>
+                            <span className="font-mono text-sm text-olive">R$ {bolo.precos[t]}</span>
                           </span>
                         ))}
                       </div>

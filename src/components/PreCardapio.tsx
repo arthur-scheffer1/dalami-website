@@ -133,7 +133,7 @@ export default function PreCardapio() {
               <span className="font-display text-2xl text-ink transition-transform duration-300 group-hover:translate-x-2 md:text-4xl">
                 {bolo.nome}
               </span>
-              <span className="font-mono shrink-0 text-[10px] tracking-[0.16em] text-ink/50 uppercase md:text-xs">
+              <span className="font-mono shrink-0 text-[10px] tracking-[0.16em] text-olive uppercase md:text-xs">
                 a partir de R$ {bolo.precos.P}
               </span>
             </Link>
