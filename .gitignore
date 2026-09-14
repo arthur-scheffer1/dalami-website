@@ -42,3 +42,6 @@ next-env.d.ts
 
 # imagens de origem (capturas do Instagram e render do bolo) - pesadas, nao versionar
 /imgs_dalami
+
+# configuracao pessoal do Claude Code
+.claude/settings.local.json
