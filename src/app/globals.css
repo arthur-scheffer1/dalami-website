@@ -130,7 +130,9 @@ body {
    Mascara CSS nao aceita stroke, entao o contorno vem de drop-shadows sem
    desfoque: o filtro segue o canal alfa, e cada um filtra o resultado do
    anterior, o que engrossa e suaviza a borda. Oito direcoes para o traco sair
-   uniforme em curva de cursiva.
+   uniforme em curva de cursiva. Os deslocamentos sao pequenos de proposito:
+   como cada drop-shadow filtra o resultado do anterior, eles se somam, e o
+   traco final sai mais grosso que o valor declarado.
 
    IMPORTANTE: este filtro vai no elemento PAI do mascarado, nunca nele mesmo.
    O CSS aplica filter antes da mascara, entao no proprio elemento a sombra
@@ -143,14 +145,14 @@ body {
    interpolar entre elas. */
 :root {
   --contorno-marca:
-    drop-shadow(3px 0 0 var(--color-gold-logo))
-    drop-shadow(-3px 0 0 var(--color-gold-logo))
-    drop-shadow(0 3px 0 var(--color-gold-logo))
-    drop-shadow(0 -3px 0 var(--color-gold-logo))
-    drop-shadow(1.4px 1.4px 0 var(--color-gold-logo))
-    drop-shadow(-1.4px 1.4px 0 var(--color-gold-logo))
-    drop-shadow(1.4px -1.4px 0 var(--color-gold-logo))
-    drop-shadow(-1.4px -1.4px 0 var(--color-gold-logo));
+    drop-shadow(1px 0 0 var(--color-gold-logo))
+    drop-shadow(-1px 0 0 var(--color-gold-logo))
+    drop-shadow(0 1px 0 var(--color-gold-logo))
+    drop-shadow(0 -1px 0 var(--color-gold-logo))
+    drop-shadow(0.7px 0.7px 0 var(--color-gold-logo))
+    drop-shadow(-0.7px 0.7px 0 var(--color-gold-logo))
+    drop-shadow(0.7px -0.7px 0 var(--color-gold-logo))
+    drop-shadow(-0.7px -0.7px 0 var(--color-gold-logo));
   --contorno-nulo:
     drop-shadow(0 0 0 transparent)
     drop-shadow(0 0 0 transparent)
