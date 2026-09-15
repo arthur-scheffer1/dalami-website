@@ -1,23 +1,16 @@
 /**
- * Tela de carregamento: o wordmark enche de ganache de baixo para cima e a
- * cortina sobe revelando o site.
+ * Cortina de carregamento: um véu creme sobre a página, e nada mais.
  *
- * É CSS puro, sem JavaScript, e isso é deliberado. Um preloader que depende de
- * JS para sumir vira uma cortina permanente sobre o site inteiro se o script
- * falhar ou demorar — a mesma armadilha que já deixou o bolo do hero invisível
- * duas vezes neste projeto, só que muito mais cara. Em CSS a animação se
+ * O logo do carregamento é o próprio wordmark do hero, que enche de ganache no
+ * lugar onde já vai ficar (ver `.hero-word-enchendo` no globals.css). Antes
+ * havia um segundo logo aqui no meio da tela, e a troca entre os dois era
+ * visível como um salto: um sumia, outro aparecia noutro tamanho e posição.
+ * Com um só, o logo não se move e a transição vira apenas o fundo saindo.
+ *
+ * É CSS puro, sem JavaScript, e isso é deliberado: uma cortina que depende de
+ * JS para sumir cobre o site inteiro se o script falhar. Em CSS a animação se
  * completa sozinha, aconteça o que acontecer com o bundle.
- *
- * Fica fora do fluxo e marcado como decorativo: o conteúdo real já está no HTML
- * atrás dele, então leitor de tela e indexador não esperam nada.
  */
 export default function Preloader() {
-  return (
-    <div className="preloader" aria-hidden="true">
-      <div className="preloader-centro">
-        <span className="preloader-marca" />
-        <span className="preloader-legenda">Confeitaria</span>
-      </div>
-    </div>
-  );
+  return <div className="preloader" aria-hidden="true" />;
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { gsap } from "@/lib/gsap";
 import { revelaAoEntrar } from "@/lib/anima";
 import { useIsoLayoutEffect } from "@/lib/use-iso-layout-effect";
@@ -145,6 +145,12 @@ function Grafismos() {
 export default function Localizacao() {
   const rootRef = useRef<HTMLDivElement>(null);
 
+  // O iframe do Google Maps engole os eventos de roda: com o ponteiro em cima
+  // dele, o Lenis para de receber scroll e a página trava enquanto o mapa tenta
+  // dar zoom. Ele começa inerte e só ganha interação depois de um clique
+  // deliberado, voltando a ser inerte quando o ponteiro sai.
+  const [mapaAtivo, setMapaAtivo] = useState(false);
+
   useIsoLayoutEffect(() => {
     const ctx = gsap.context(() => {
       const mm = gsap.matchMedia();
@@ -286,15 +292,31 @@ export default function Localizacao() {
           </div>
         </div>
 
-        <div className="loc-mapa relative mt-5 min-h-[340px] overflow-hidden rounded-[1.75rem] border border-cream/15 md:mt-6 md:min-h-[420px] md:rounded-[2.5rem]">
+        <div
+          className="loc-mapa relative mt-5 min-h-[340px] overflow-hidden rounded-[1.75rem] border border-cream/15 md:mt-6 md:min-h-[420px] md:rounded-[2.5rem]"
+          onMouseLeave={() => setMapaAtivo(false)}
+        >
           <iframe
             src={SITE.mapsEmbed}
             title="Mapa com a localização da Dalami Confeitaria"
             loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"
-            className="absolute inset-0 h-full w-full"
+            className={`absolute inset-0 h-full w-full ${mapaAtivo ? "" : "pointer-events-none"}`}
             style={{ border: 0, filter: "grayscale(0.25) contrast(1.05)" }}
           />
+
+          {!mapaAtivo && (
+            <button
+              type="button"
+              onClick={() => setMapaAtivo(true)}
+              className="group absolute inset-0 z-10 flex cursor-pointer items-end justify-center pb-6"
+              aria-label="Ativar o mapa para arrastar e ampliar"
+            >
+              <span className="font-mono rounded-full bg-olive-deep/85 px-5 py-3 text-[10px] font-bold tracking-[0.2em] text-cream uppercase backdrop-blur-sm transition-colors duration-300 group-hover:bg-olive-deep">
+                Clique para usar o mapa
+              </span>
+            </button>
+          )}
         </div>
       </div>
     </section>
