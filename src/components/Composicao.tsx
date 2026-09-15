@@ -46,14 +46,17 @@ export default function Composicao() {
           },
         );
 
-        // Alterna o sentido da deriva horizontal para a composição não ficar rígida.
+        // Alterna o sentido da deriva horizontal para a composição não ficar
+        // rígida. Sem scrub: isto é revelação, não profundidade — presa à
+        // rolagem, ela se desfazia quando a pessoa subia.
         gsap.fromTo(
           el,
           { x: i % 2 === 0 ? -18 : 18 },
           {
             x: 0,
-            ease: "none",
-            scrollTrigger: { trigger: el, start: "top bottom", end: "top 40%", scrub: true },
+            duration: 1.1,
+            ease: "power3.out",
+            scrollTrigger: { trigger: el, start: "top 82%" },
           },
         );
       });

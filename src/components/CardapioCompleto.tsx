@@ -71,9 +71,10 @@ export default function CardapioCompleto() {
             {
               opacity: 1,
               y: 0,
-              stagger: 0.12,
-              ease: "none",
-              scrollTrigger: { trigger: bloco, start: "top 70%", end: "bottom 75%", scrub: true },
+              duration: 0.55,
+              stagger: 0.07,
+              ease: "power3.out",
+              scrollTrigger: { trigger: bloco, start: "top 74%" },
             },
           );
         });

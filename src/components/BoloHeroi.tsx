@@ -20,29 +20,28 @@ export default function BoloHeroi() {
       const split = new SplitText(".heroi-nome", { type: "chars" });
       const mm = gsap.matchMedia();
 
-      // Desktop: uma timeline com scrub, presa ao topo da seção — cabe tudo na
-      // mesma altura de tela, então o encadeamento é legível.
+      // Desktop: tudo cabe na mesma altura de tela, então uma timeline só
+      // encadeia os blocos de forma legível.
+      // Gatilho único, sem scrub: a entrada toca uma vez quando a seção chega e
+      // fica onde parou. Presa à rolagem, ela se desfazia ao subir — e o texto
+      // ficava refém da barra em vez de simplesmente aparecer.
       mm.add("(min-width: 768px)", () => {
         const tl = gsap.timeline({
-          defaults: { ease: "none" },
-          scrollTrigger: {
-            trigger: rootRef.current,
-            start: "top 60%",
-            end: "top -20%",
-            scrub: true,
-          },
+          defaults: { ease: "power3.out" },
+          scrollTrigger: { trigger: rootRef.current, start: "top 72%" },
         });
 
-        tl.fromTo(".heroi-eyebrow", { opacity: 0.05, y: 14 }, { opacity: 1, y: 0, duration: 0.4 })
-          .fromTo(".heroi-eyebrow-line", { width: 0 }, { width: 40, duration: 0.4 }, "<")
+        tl.fromTo(".heroi-eyebrow", { opacity: 0.05, y: 14 }, { opacity: 1, y: 0, duration: 0.6 })
+          .fromTo(".heroi-eyebrow-line", { width: 0 }, { width: 40, duration: 0.6 }, "<")
           .fromTo(
             split.chars,
             { opacity: 0.08, yPercent: 60 },
-            { opacity: 1, yPercent: 0, duration: 0.9, stagger: 0.04 },
+            { opacity: 1, yPercent: 0, duration: 0.7, stagger: 0.025 },
+            "-=0.25",
           )
-          .fromTo(".heroi-desc", { opacity: 0.05, y: 16 }, { opacity: 1, y: 0, duration: 0.4 })
-          .fromTo(".heroi-ing", { opacity: 0.05, x: -24 }, { opacity: 1, x: 0, duration: 0.3, stagger: 0.12 })
-          .fromTo(".heroi-cta", { opacity: 0.05, y: 14 }, { opacity: 1, y: 0, duration: 0.35 });
+          .fromTo(".heroi-desc", { opacity: 0.05, y: 16 }, { opacity: 1, y: 0, duration: 0.6 }, "-=0.35")
+          .fromTo(".heroi-ing", { opacity: 0.05, x: -24 }, { opacity: 1, x: 0, duration: 0.5, stagger: 0.09 }, "-=0.4")
+          .fromTo(".heroi-cta", { opacity: 0.05, y: 14 }, { opacity: 1, y: 0, duration: 0.5 }, "-=0.25");
       });
 
       // Celular: cada bloco no seu próprio gatilho.

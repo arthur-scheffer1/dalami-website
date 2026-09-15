@@ -16,23 +16,22 @@ export default function Encomendas() {
       const mm = gsap.matchMedia();
 
       mm.add("(min-width: 768px)", () => {
-        const tl = gsap.timeline({
-          defaults: { ease: "none" },
-          scrollTrigger: {
-            trigger: rootRef.current,
-            start: "top 60%",
-            end: "top -15%",
-            scrub: true,
-          },
+      // Gatilho único, sem scrub: a entrada toca uma vez quando a seção chega e
+      // fica onde parou. Presa à rolagem, ela se desfazia ao subir — e o texto
+      // ficava refém da barra em vez de simplesmente aparecer.
+      const tl = gsap.timeline({
+          defaults: { ease: "power3.out" },
+          scrollTrigger: { trigger: rootRef.current, start: "top 72%" },
         });
 
-        tl.fromTo(".enc-eyebrow", { opacity: 0.05, y: 14 }, { opacity: 1, y: 0, duration: 0.4 })
+        tl.fromTo(".enc-eyebrow", { opacity: 0.05, y: 14 }, { opacity: 1, y: 0, duration: 0.6 })
           .fromTo(
             ".enc-heading",
             { clipPath: "inset(0 100% 0 0)" },
-            { clipPath: "inset(0 0% 0 0)", duration: 0.9 },
+            { clipPath: "inset(0 0% 0 0)", duration: 1, ease: "power4.inOut" },
+            "-=0.3",
           )
-          .fromTo(".enc-texto", { opacity: 0.05, y: 16 }, { opacity: 1, y: 0, duration: 0.4 });
+          .fromTo(".enc-texto", { opacity: 0.05, y: 16 }, { opacity: 1, y: 0, duration: 0.6 }, "-=0.5");
 
         gsap.fromTo(
           ".enc-tamanho",
