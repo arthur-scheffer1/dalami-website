@@ -68,10 +68,13 @@ export default function Depoimentos() {
       });
 
       gsap.fromTo(
+        // A folga de -30% em cima e embaixo existe para o recorte não
+        // decepar acento: com leading apertado o til e o agudo sobem acima
+        // da caixa da linha, e um inset colado na borda os corta ao meio.
         ".dep-heading",
-        { clipPath: "inset(0 100% 0 0)" },
+        { clipPath: "inset(-30% 100% -30% 0)" },
         {
-          clipPath: "inset(0 0% 0 0)",
+          clipPath: "inset(-30% 0% -30% 0)",
           duration: 1.1,
           ease: "power4.inOut",
           scrollTrigger: { trigger: ".dep-heading", start: "top 88%" },

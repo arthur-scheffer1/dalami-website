@@ -26,9 +26,12 @@ export default function Encomendas() {
 
         tl.fromTo(".enc-eyebrow", { opacity: 0.05, y: 14 }, { opacity: 1, y: 0, duration: 0.6 })
           .fromTo(
+            // A folga de -30% em cima e embaixo existe para o recorte não
+            // decepar acento: com leading apertado o til e o agudo sobem acima
+            // da caixa da linha, e um inset colado na borda os corta ao meio.
             ".enc-heading",
-            { clipPath: "inset(0 100% 0 0)" },
-            { clipPath: "inset(0 0% 0 0)", duration: 1, ease: "power4.inOut" },
+            { clipPath: "inset(-30% 100% -30% 0)" },
+            { clipPath: "inset(-30% 0% -30% 0)", duration: 1, ease: "power4.inOut" },
             "-=0.3",
           )
           .fromTo(".enc-texto", { opacity: 0.05, y: 16 }, { opacity: 1, y: 0, duration: 0.6 }, "-=0.5");
@@ -66,8 +69,8 @@ export default function Encomendas() {
         revelaAoEntrar(".enc-eyebrow", { opacity: 0.05, y: 14 });
         revelaAoEntrar(
           ".enc-heading",
-          { clipPath: "inset(0 100% 0 0)" },
-          { clipPath: "inset(0 0% 0 0)", duration: 0.9, ease: "power4.inOut", start: "top 88%" },
+          { clipPath: "inset(-30% 100% -30% 0)" },
+          { clipPath: "inset(-30% 0% -30% 0)", duration: 0.9, ease: "power4.inOut", start: "top 88%" },
         );
         revelaAoEntrar(".enc-texto", { opacity: 0.05, y: 16 });
 
