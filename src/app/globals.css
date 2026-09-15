@@ -32,6 +32,11 @@
   /* Marrom claro das formas impressas na caixa das fatias */
   --color-tan: #9a6a3c;
 
+  /* Dourado exato do lettering, medido nos ~19 mil pixels das letras do
+     arquivo do logo (mediana). O --color-gold acima e' a versao da paleta,
+     2% mais clara; este e' o valor literal da marca. */
+  --color-gold-logo: #dfbf78;
+
   --font-poster: var(--font-archivo-black), sans-serif;
   --font-script: var(--font-yellowtail), cursive;
   --font-display: var(--font-fraunces), serif;
@@ -128,14 +133,14 @@ body {
    uniforme em curva de cursiva. */
 .hero-word-contorno {
   filter:
-    drop-shadow(2px 0 0 var(--color-gold))
-    drop-shadow(-2px 0 0 var(--color-gold))
-    drop-shadow(0 2px 0 var(--color-gold))
-    drop-shadow(0 -2px 0 var(--color-gold))
-    drop-shadow(1.4px 1.4px 0 var(--color-gold))
-    drop-shadow(-1.4px 1.4px 0 var(--color-gold))
-    drop-shadow(1.4px -1.4px 0 var(--color-gold))
-    drop-shadow(-1.4px -1.4px 0 var(--color-gold));
+    drop-shadow(2px 0 0 var(--color-gold-logo))
+    drop-shadow(-2px 0 0 var(--color-gold-logo))
+    drop-shadow(0 2px 0 var(--color-gold-logo))
+    drop-shadow(0 -2px 0 var(--color-gold-logo))
+    drop-shadow(1.4px 1.4px 0 var(--color-gold-logo))
+    drop-shadow(-1.4px 1.4px 0 var(--color-gold-logo))
+    drop-shadow(1.4px -1.4px 0 var(--color-gold-logo))
+    drop-shadow(-1.4px -1.4px 0 var(--color-gold-logo));
 }
 
 /* Fade, nao wipe: deslizar a cortina revelaria o hero por baixo de uma borda
