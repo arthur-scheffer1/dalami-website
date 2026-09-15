@@ -84,7 +84,7 @@ body {
   display: grid;
   place-items: center;
   background-color: var(--color-cream);
-  animation: preloader-sobe 0.75s cubic-bezier(0.76, 0, 0.24, 1) 1.5s forwards;
+  animation: preloader-sai 0.55s ease-out 1.35s forwards;
 }
 
 .preloader-centro {
@@ -94,7 +94,7 @@ body {
   gap: 1.1rem;
   /* Sobe junto com a cortina, um pouco antes dela, para o logo parecer que
      "entrega" o lugar ao hero em vez de ser cortado no meio do caminho. */
-  animation: preloader-marca-sai 0.6s cubic-bezier(0.76, 0, 0.24, 1) 1.45s forwards;
+  animation: preloader-marca-sai 0.45s cubic-bezier(0.76, 0, 0.24, 1) 1.2s forwards;
 }
 
 /* O mesmo vetor do hero, preenchido por um gradiente que sobe dentro das
@@ -111,7 +111,7 @@ body {
   background-repeat: no-repeat;
   -webkit-mask: url(/images/dalami-wordmark.svg) center / contain no-repeat;
   mask: url(/images/dalami-wordmark.svg) center / contain no-repeat;
-  animation: preloader-enche 1.45s cubic-bezier(0.62, 0, 0.3, 1) forwards;
+  animation: preloader-enche 1.2s cubic-bezier(0.62, 0, 0.3, 1) forwards;
 }
 
 .preloader-legenda {
@@ -137,15 +137,17 @@ body {
   to { transform: translateY(-14px); opacity: 0; }
 }
 
-@keyframes preloader-sobe {
-  to { clip-path: inset(0 0 100% 0); visibility: hidden; }
+/* Fade, não wipe: a cortina e o hero são os dois creme, então deslizar uma
+   sobre a outra não se vê — o que aparecia era só o conteúdo pipocando. */
+@keyframes preloader-sai {
+  to { opacity: 0; visibility: hidden; }
 }
 
 /* Quem pede menos movimento recebe a mesma tela, só que curta e sem o
    enchimento — o site aparece quase de imediato. */
 @media (prefers-reduced-motion: reduce) {
-  .preloader { animation-delay: 0.35s; animation-duration: 0.4s; }
-  .preloader-centro { animation-delay: 0.3s; animation-duration: 0.3s; }
+  .preloader { animation-delay: 0.3s; animation-duration: 0.3s; }
+  .preloader-centro { animation-delay: 0.22s; animation-duration: 0.25s; }
   .preloader-marca { animation: none; background-position: 0% 100%; }
   .preloader-legenda { animation-delay: 0.05s; }
 }

@@ -6,6 +6,21 @@ import { gsap } from "@/lib/gsap";
 import { SITE } from "@/lib/site";
 
 /**
+ * Quanto a entrada do hero espera, em segundos, para coincidir com a saída da
+ * cortina do Preloader. Precisa acompanhar os tempos de `.preloader` no
+ * globals.css: começa um pouco antes de a cortina terminar de sumir, para o
+ * hero já estar em movimento quando aparece, em vez de começar do zero.
+ */
+const ATRASO_PRELOADER = 1.45;
+
+/**
+ * Só a primeira carga tem cortina. Em navegação client-side (voltar do
+ * cardápio, por exemplo) o layout não remonta e o Preloader não roda, então
+ * esperar aqui deixaria o hero parado por um segundo e meio sem motivo.
+ */
+let jaMostrouCortina = false;
+
+/**
  * Hero: tipografia gigante sobre fundo creme, atravessada na diagonal por uma
  * faixa de ganache que desce do canto superior esquerdo.
  *
@@ -21,8 +36,12 @@ export default function Hero() {
   const rootRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    const prefereMenos = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const atraso = jaMostrouCortina ? 0 : prefereMenos ? 0.35 : ATRASO_PRELOADER;
+    jaMostrouCortina = true;
+
     const ctx = gsap.context(() => {
-      const tl = gsap.timeline({ defaults: { ease: "power4.out" } });
+      const tl = gsap.timeline({ delay: atraso, defaults: { ease: "power4.out" } });
 
       // A palavra inteira sobe por trás de uma máscara, em vez de entrar letra
       // a letra: o SplitText embrulharia cada caractere numa caixa própria e
