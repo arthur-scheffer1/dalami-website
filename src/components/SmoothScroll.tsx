@@ -9,6 +9,20 @@ export default function SmoothScroll({ children }: { children: React.ReactNode }
   const lenisRef = useRef<Lenis | null>(null);
 
   useEffect(() => {
+    const navegacao = performance.getEntriesByType("navigation")[0] as
+      | PerformanceNavigationTiming
+      | undefined;
+    const recarregou = navegacao?.type === "reload";
+
+    // Recarregar em qualquer página leva de volta à home. `replace` em vez de
+    // `href` para a página de origem não ficar no histórico — senão o botão
+    // voltar cairia nela e recarregar de novo traria a pessoa para cá outra
+    // vez. Sai antes de montar o Lenis: esta instância não vai durar.
+    if (recarregou && window.location.pathname !== "/") {
+      window.location.replace("/");
+      return;
+    }
+
     const lenis = new Lenis({
       duration: 1.1,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
@@ -23,13 +37,9 @@ export default function SmoothScroll({ children }: { children: React.ReactNode }
     // daquela seção já gasta e o logo do carregamento surgindo do nada.
     //
     // Só em recarga, detectada pela Navigation Timing API — não em qualquer
-    // carregamento. Um link direto para /cardapio#classicos, aberto de fora,
-    // precisa continuar caindo na categoria certa.
-    const navegacao = performance.getEntriesByType("navigation")[0] as
-      | PerformanceNavigationTiming
-      | undefined;
-
-    if (navegacao?.type === "reload") {
+    // carregamento. Um link direto para /#localizacao, aberto de fora, precisa
+    // continuar caindo na seção certa.
+    if (recarregou) {
       // O navegador restaura o scroll sozinho no load; "manual" o impede, e o
       // scrollTo cobre o caso de a restauração já ter acontecido.
       history.scrollRestoration = "manual";
