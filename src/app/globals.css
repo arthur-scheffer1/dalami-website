@@ -121,6 +121,23 @@ body {
   }
 }
 
+/* Contorno dourado do wordmark do hero.
+   Mascara CSS nao aceita stroke, entao o contorno vem de drop-shadows sem
+   desfoque: o filtro segue o canal alfa, e cada um filtra o resultado do
+   anterior, o que engrossa e suaviza a borda. Oito direcoes para o traco sair
+   uniforme em curva de cursiva. */
+.hero-word-contorno {
+  filter:
+    drop-shadow(2px 0 0 var(--color-gold))
+    drop-shadow(-2px 0 0 var(--color-gold))
+    drop-shadow(0 2px 0 var(--color-gold))
+    drop-shadow(0 -2px 0 var(--color-gold))
+    drop-shadow(1.4px 1.4px 0 var(--color-gold))
+    drop-shadow(-1.4px 1.4px 0 var(--color-gold))
+    drop-shadow(1.4px -1.4px 0 var(--color-gold))
+    drop-shadow(-1.4px -1.4px 0 var(--color-gold));
+}
+
 /* Fade, nao wipe: deslizar a cortina revelaria o hero por baixo de uma borda
    dura, e o que se quer e' o verde simplesmente se dissolvendo. */
 @keyframes preloader-sai {

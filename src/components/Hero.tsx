@@ -138,18 +138,21 @@ export default function Hero() {
               Entra como máscara CSS: assim o arquivo fica cacheado à parte em
               vez de inflar o HTML, e a cor continua vindo do CSS.
               O overflow-hidden do pai é o que faz a palavra surgir subindo. */}
-          <h1 aria-label={SITE.nomeCompleto} className="mx-auto w-full max-w-[1150px]">
+          <h1 aria-label={SITE.nomeCompleto} className="mx-auto w-full max-w-[1185px]">
             <span className="block overflow-hidden">
               <span
-                className={`hero-word block w-full bg-olive ${
+                className={`hero-word hero-word-contorno block w-full bg-olive ${
                   primeiraCarga ? "hero-word-enchendo" : ""
                 }`}
                 style={{
                   aspectRatio: "557 / 130",
                   maskImage: "url(/images/dalami-wordmark.svg)",
                   WebkitMaskImage: "url(/images/dalami-wordmark.svg)",
-                  maskSize: "contain",
-                  WebkitMaskSize: "contain",
+                  /* 97% em vez de contain: sem essa folga o desenho encosta
+                     nas bordas da caixa e o contorno dourado seria cortado
+                     pelo overflow-hidden que faz a palavra subir. */
+                  maskSize: "97%",
+                  WebkitMaskSize: "97%",
                   maskRepeat: "no-repeat",
                   WebkitMaskRepeat: "no-repeat",
                   maskPosition: "center",
