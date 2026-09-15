@@ -141,8 +141,8 @@ export default function Hero() {
           <h1 aria-label={SITE.nomeCompleto} className="mx-auto w-full max-w-[1185px]">
             <span className="block overflow-hidden">
               <span
-                className={`hero-word hero-word-contorno block w-full bg-olive ${
-                  primeiraCarga ? "hero-word-enchendo" : ""
+                className={`hero-word block w-full bg-olive ${
+                  primeiraCarga ? "hero-word-enchendo" : "hero-word-contorno"
                 }`}
                 style={{
                   aspectRatio: "557 / 130",

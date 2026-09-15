@@ -119,10 +119,14 @@ body {
   from {
     background-color: color-mix(in srgb, var(--color-gold) 22%, transparent);
     background-image: linear-gradient(to top, var(--color-gold) 0 50%, transparent 50%);
+    /* Sem contorno durante o carregamento: ali a palavra e' o logo dourado
+       sobre o verde, e contorna-la estragaria o efeito de encher. */
+    filter: var(--contorno-nulo);
   }
   to {
     background-color: color-mix(in srgb, var(--color-olive) 14%, transparent);
     background-image: linear-gradient(to top, var(--color-olive) 0 50%, transparent 50%);
+    filter: var(--contorno-marca);
   }
 }
 
@@ -130,9 +134,13 @@ body {
    Mascara CSS nao aceita stroke, entao o contorno vem de drop-shadows sem
    desfoque: o filtro segue o canal alfa, e cada um filtra o resultado do
    anterior, o que engrossa e suaviza a borda. Oito direcoes para o traco sair
-   uniforme em curva de cursiva. */
-.hero-word-contorno {
-  filter:
+   uniforme em curva de cursiva.
+
+   Guardado em variavel porque a animacao de saida da cortina precisa do mesmo
+   valor, e as duas listas de filtro tem que casar funcao por funcao para o
+   navegador interpolar entre elas. */
+:root {
+  --contorno-marca:
     drop-shadow(2px 0 0 var(--color-gold-logo))
     drop-shadow(-2px 0 0 var(--color-gold-logo))
     drop-shadow(0 2px 0 var(--color-gold-logo))
@@ -141,6 +149,20 @@ body {
     drop-shadow(-1.4px 1.4px 0 var(--color-gold-logo))
     drop-shadow(1.4px -1.4px 0 var(--color-gold-logo))
     drop-shadow(-1.4px -1.4px 0 var(--color-gold-logo));
+  --contorno-nulo:
+    drop-shadow(0 0 0 transparent)
+    drop-shadow(0 0 0 transparent)
+    drop-shadow(0 0 0 transparent)
+    drop-shadow(0 0 0 transparent)
+    drop-shadow(0 0 0 transparent)
+    drop-shadow(0 0 0 transparent)
+    drop-shadow(0 0 0 transparent)
+    drop-shadow(0 0 0 transparent);
+}
+
+/* Navegacao client-side: nao houve cortina, entao o contorno ja entra posto. */
+.hero-word-contorno {
+  filter: var(--contorno-marca);
 }
 
 /* Fade, nao wipe: deslizar a cortina revelaria o hero por baixo de uma borda
