@@ -73,3 +73,79 @@ body {
   background: var(--color-olive);
   border-radius: 2px;
 }
+
+/* ── Tela de carregamento ────────────────────────────────────────────────────
+   Sem JS de propósito: se o script falhar, a animação termina mesmo assim e
+   libera a tela. Ver o comentário em Preloader.tsx. */
+.preloader {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: grid;
+  place-items: center;
+  background-color: var(--color-cream);
+  animation: preloader-sobe 0.75s cubic-bezier(0.76, 0, 0.24, 1) 1.5s forwards;
+}
+
+.preloader-centro {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.1rem;
+  /* Sobe junto com a cortina, um pouco antes dela, para o logo parecer que
+     "entrega" o lugar ao hero em vez de ser cortado no meio do caminho. */
+  animation: preloader-marca-sai 0.6s cubic-bezier(0.76, 0, 0.24, 1) 1.45s forwards;
+}
+
+/* O mesmo vetor do hero, preenchido por um gradiente que sobe dentro das
+   letras. O fundo esverdeado fraco é o "vazio" — sem ele a palavra não existe
+   antes de encher. */
+.preloader-marca {
+  display: block;
+  width: min(62vw, 460px);
+  aspect-ratio: 557 / 130;
+  background-color: color-mix(in srgb, var(--color-olive) 14%, transparent);
+  background-image: linear-gradient(to top, var(--color-olive) 0 50%, transparent 50%);
+  background-size: 100% 200%;
+  background-position: 0% 0%;
+  background-repeat: no-repeat;
+  -webkit-mask: url(/images/dalami-wordmark.svg) center / contain no-repeat;
+  mask: url(/images/dalami-wordmark.svg) center / contain no-repeat;
+  animation: preloader-enche 1.45s cubic-bezier(0.62, 0, 0.3, 1) forwards;
+}
+
+.preloader-legenda {
+  font-family: var(--font-space-mono), monospace;
+  font-size: 9px;
+  letter-spacing: 0.42em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--color-olive) 70%, transparent);
+  opacity: 0;
+  animation: preloader-legenda 0.7s ease-out 0.5s forwards;
+}
+
+@keyframes preloader-enche {
+  from { background-position: 0% 0%; }
+  to   { background-position: 0% 100%; }
+}
+
+@keyframes preloader-legenda {
+  to { opacity: 1; }
+}
+
+@keyframes preloader-marca-sai {
+  to { transform: translateY(-14px); opacity: 0; }
+}
+
+@keyframes preloader-sobe {
+  to { clip-path: inset(0 0 100% 0); visibility: hidden; }
+}
+
+/* Quem pede menos movimento recebe a mesma tela, só que curta e sem o
+   enchimento — o site aparece quase de imediato. */
+@media (prefers-reduced-motion: reduce) {
+  .preloader { animation-delay: 0.35s; animation-duration: 0.4s; }
+  .preloader-centro { animation-delay: 0.3s; animation-duration: 0.3s; }
+  .preloader-marca { animation: none; background-position: 0% 100%; }
+  .preloader-legenda { animation-delay: 0.05s; }
+}
