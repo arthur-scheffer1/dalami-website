@@ -105,10 +105,7 @@ body {
      preenchimento, a outra troca a cor. Sem conflito entre elas. */
   animation:
     preloader-enche 1.25s cubic-bezier(0.62, 0, 0.3, 1) forwards,
-    preloader-vira-oliva 0.55s ease-out 1.35s forwards,
-    /* Só depois de a cortina ter sumido por completo (1,35s + 0,55s): o
-       contorno é do hero, não do carregamento. */
-    contorno-entra 0.4s ease-out 1.9s forwards;
+    preloader-vira-oliva 0.55s ease-out 1.35s forwards;
 }
 
 @keyframes preloader-enche {
@@ -135,15 +132,21 @@ body {
    anterior, o que engrossa e suaviza a borda. Oito direcoes para o traco sair
    uniforme em curva de cursiva.
 
-   Guardado em variavel porque a animacao de saida da cortina precisa do mesmo
-   valor, e as duas listas de filtro tem que casar funcao por funcao para o
-   navegador interpolar entre elas. */
+   IMPORTANTE: este filtro vai no elemento PAI do mascarado, nunca nele mesmo.
+   O CSS aplica filter antes da mascara, entao no proprio elemento a sombra
+   nasce da caixa e a mascara recorta em seguida tudo que fica fora do desenho
+   — ou seja, o contorno inteiro. No pai, o conteudo ja chega mascarado e a
+   sombra segue o alfa das letras.
+
+   Guardado em variavel porque a animacao precisa do mesmo valor, e as duas
+   listas de filtro tem que casar funcao por funcao para o navegador
+   interpolar entre elas. */
 :root {
   --contorno-marca:
-    drop-shadow(2px 0 0 var(--color-gold-logo))
-    drop-shadow(-2px 0 0 var(--color-gold-logo))
-    drop-shadow(0 2px 0 var(--color-gold-logo))
-    drop-shadow(0 -2px 0 var(--color-gold-logo))
+    drop-shadow(3px 0 0 var(--color-gold-logo))
+    drop-shadow(-3px 0 0 var(--color-gold-logo))
+    drop-shadow(0 3px 0 var(--color-gold-logo))
+    drop-shadow(0 -3px 0 var(--color-gold-logo))
     drop-shadow(1.4px 1.4px 0 var(--color-gold-logo))
     drop-shadow(-1.4px 1.4px 0 var(--color-gold-logo))
     drop-shadow(1.4px -1.4px 0 var(--color-gold-logo))
@@ -164,6 +167,12 @@ body {
   filter: var(--contorno-marca);
 }
 
+/* Primeira carga: o contorno so aparece depois de a cortina sumir (1,35s de
+   espera + 0,55s de fade), para nao invadir o carregamento. */
+.hero-contorno-atrasado {
+  animation: contorno-entra 0.4s ease-out 1.9s forwards;
+}
+
 /* Fade, nao wipe: deslizar a cortina revelaria o hero por baixo de uma borda
    dura, e o que se quer e' o verde simplesmente se dissolvendo. */
 @keyframes contorno-entra {
@@ -177,10 +186,9 @@ body {
 
 @media (prefers-reduced-motion: reduce) {
   .preloader { animation-delay: 0.3s; animation-duration: 0.3s; }
+  .hero-contorno-atrasado { animation-delay: 0.6s; animation-duration: 0.2s; }
   .hero-word-enchendo {
     background-position: 0% 100%;
-    animation:
-      preloader-vira-oliva 0.3s ease-out 0.3s forwards,
-      contorno-entra 0.2s ease-out 0.6s forwards;
+    animation: preloader-vira-oliva 0.3s ease-out 0.3s forwards;
   }
 }

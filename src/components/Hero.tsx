@@ -42,15 +42,24 @@ export default function Hero() {
   const [primeiraCarga] = useState(() => !jaMostrouCortina);
 
   useEffect(() => {
-    const prefereMenos = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const atraso = jaMostrouCortina ? 0 : prefereMenos ? 0.35 : ATRASO_PRELOADER;
+    const prefereMenos = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+    const atraso = jaMostrouCortina
+      ? 0
+      : prefereMenos
+        ? 0.35
+        : ATRASO_PRELOADER;
     jaMostrouCortina = true;
 
     const ctx = gsap.context(() => {
       // Tempos absolutos em vez de relativos: na primeira carga a palavra não
       // entra por aqui — ela já está na tela, enchendo — e um encadeamento
       // relativo empurraria todo o resto para trás ao perder esse elo.
-      const tl = gsap.timeline({ delay: atraso, defaults: { ease: "power4.out" } });
+      const tl = gsap.timeline({
+        delay: atraso,
+        defaults: { ease: "power4.out" },
+      });
 
       tl.from(
         ".hero-faixa",
@@ -69,7 +78,11 @@ export default function Hero() {
         tl.from(".hero-word", { yPercent: 108, duration: 1.2 }, 0);
       }
 
-      tl.from(".hero-side", { opacity: 0, y: 14, duration: 0.6, stagger: 0.1 }, 0.9)
+      tl.from(
+        ".hero-side",
+        { opacity: 0, y: 14, duration: 0.6, stagger: 0.1 },
+        0.9,
+      )
         .from(".hero-eyebrow", { opacity: 0, y: 12, duration: 0.6 }, 0.9)
         .from(".hero-cta", { opacity: 0, scale: 0.9, duration: 0.5 }, 1.1);
 
@@ -138,27 +151,40 @@ export default function Hero() {
               Entra como máscara CSS: assim o arquivo fica cacheado à parte em
               vez de inflar o HTML, e a cor continua vindo do CSS.
               O overflow-hidden do pai é o que faz a palavra surgir subindo. */}
-          <h1 aria-label={SITE.nomeCompleto} className="mx-auto w-full max-w-[1185px]">
+          <h1
+            aria-label={SITE.nomeCompleto}
+            className="mx-auto w-full max-w-[1185px]"
+          >
             <span className="block overflow-hidden">
+              {/* O contorno mora aqui, no pai: aplicado no próprio elemento
+                  mascarado, a máscara o recortaria fora de existência. */}
               <span
-                className={`hero-word block w-full bg-olive ${
-                  primeiraCarga ? "hero-word-enchendo" : "hero-word-contorno"
+                className={`block ${
+                  primeiraCarga
+                    ? "hero-contorno-atrasado"
+                    : "hero-word-contorno"
                 }`}
-                style={{
-                  aspectRatio: "557 / 130",
-                  maskImage: "url(/images/dalami-wordmark.svg)",
-                  WebkitMaskImage: "url(/images/dalami-wordmark.svg)",
-                  /* 97% em vez de contain: sem essa folga o desenho encosta
+              >
+                <span
+                  className={`hero-word block w-full bg-olive ${
+                    primeiraCarga ? "hero-word-enchendo" : ""
+                  }`}
+                  style={{
+                    aspectRatio: "557 / 130",
+                    maskImage: "url(/images/dalami-wordmark.svg)",
+                    WebkitMaskImage: "url(/images/dalami-wordmark.svg)",
+                    /* 97% em vez de contain: sem essa folga o desenho encosta
                      nas bordas da caixa e o contorno dourado seria cortado
                      pelo overflow-hidden que faz a palavra subir. */
-                  maskSize: "97%",
-                  WebkitMaskSize: "97%",
-                  maskRepeat: "no-repeat",
-                  WebkitMaskRepeat: "no-repeat",
-                  maskPosition: "center",
-                  WebkitMaskPosition: "center",
-                }}
-              />
+                    maskSize: "97%",
+                    WebkitMaskSize: "97%",
+                    maskRepeat: "no-repeat",
+                    WebkitMaskRepeat: "no-repeat",
+                    maskPosition: "center",
+                    WebkitMaskPosition: "center",
+                  }}
+                />
+              </span>
             </span>
           </h1>
         </div>
