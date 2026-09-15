@@ -5,6 +5,7 @@ import { gsap } from "@/lib/gsap";
 import { revelaAoEntrar } from "@/lib/anima";
 import { useIsoLayoutEffect } from "@/lib/use-iso-layout-effect";
 import { SITE } from "@/lib/site";
+import EstadoLoja from "./EstadoLoja";
 
 /** Tracinhos curtos em diagonal — a textura impressa na caixa das fatias. */
 function Hachura({ className, cor = "var(--color-ink)" }: { className?: string; cor?: string }) {
@@ -260,6 +261,7 @@ export default function Localizacao() {
                     </div>
                   ))}
                 </div>
+                <EstadoLoja className="mt-4 text-ink/60" />
               </div>
             </div>
 

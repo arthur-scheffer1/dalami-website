@@ -9,6 +9,7 @@ import SmoothScroll from "@/components/SmoothScroll";
 import AncoraSuave from "@/components/AncoraSuave";
 import Nav from "@/components/Nav";
 import Preloader from "@/components/Preloader";
+import BotaoWhatsApp from "@/components/BotaoWhatsApp";
 import Footer from "@/components/Footer";
 
 // Hero/poster type: heavy neo-grotesk, usado nos títulos de seção.
@@ -130,6 +131,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           {children}
           <Footer />
         </SmoothScroll>
+        <BotaoWhatsApp />
         <Analytics />
         <SpeedInsights />
       </body>
