@@ -57,6 +57,14 @@ body {
   touch-action: pan-y;
 }
 
+/* A cor vai na raiz tambem, nao so no body: nas areas de seguranca do celular
+   (atras da barra de status e do indicador inferior) e no elastico de rolagem,
+   o navegador pinta a tela com a cor do elemento raiz. Sem ela declarada, essas
+   faixas herdam o que estiver por tras — no caso, o verde da cortina. */
+html {
+  background-color: var(--color-cream);
+}
+
 body {
   background-color: var(--color-cream);
   color: var(--color-ink);
@@ -85,7 +93,10 @@ body {
    Preloader.tsx. */
 .preloader {
   position: fixed;
-  inset: 0;
+  /* Valores negativos porque `inset: 0` para no limite do viewport, e no
+     celular a barra do navegador se recolhe durante a rolagem, descobrindo
+     uma faixa embaixo. */
+  inset: -1px;
   z-index: 90;
   background-color: var(--color-olive);
   animation: preloader-sai 0.55s ease-out 1.35s forwards;
