@@ -89,81 +89,62 @@ body {
 
 /* ── Tela de carregamento ────────────────────────────────────────────────────
    A cortina e' o verde do logo; quem faz o papel de marca e' o wordmark do
-   proprio hero, em dourado, logo abaixo. Sem JS de proposito — ver
-   Preloader.tsx. */
+   proprio hero, em dourado, logo abaixo.
+
+   Tudo em CSS de proposito: uma cortina que dependa de JS para sumir cobre o
+   site inteiro se o script falhar. Os tempos sao curtos porque a espera era o
+   problema — num celular rapido a pagina pinta em poucas centenas de
+   milissegundos, e o que sobrava era verde a toa.
+
+   Antecipar a saida por JS foi tentado e descartado: trocar a animacao no meio
+   reinicia o preenchimento, e o dourado volta ao zero para encher de novo. */
 .preloader {
   position: fixed;
-  /* Valores negativos porque `inset: 0` para no limite do viewport, e no
-     celular a barra do navegador se recolhe durante a rolagem, descobrindo
-     uma faixa embaixo. */
+  /* Negativo porque inset: 0 para no limite do viewport, e no celular a barra
+     do navegador se recolhe durante a rolagem, descobrindo uma faixa. */
   inset: -1px;
   z-index: 90;
   background-color: var(--color-olive);
-  animation: preloader-sai 0.55s ease-out 1.35s forwards;
+  animation: preloader-sai 0.4s ease-out 0.75s forwards;
 }
 
 /* O wordmark do hero na primeira carga: comeca vazio e o dourado sobe dentro
    das letras ate preenche-las, sobre o verde da cortina — o logo da marca.
-   Depois ele vira oliva no mesmo intervalo em que a cortina some, porque no
-   hero o fundo e' creme e dourado sobre creme quase nao se le. */
+   Depois vira oliva no mesmo intervalo em que a cortina some, porque no hero o
+   fundo e' creme e dourado sobre creme quase nao se le. */
 .hero-word-enchendo {
   background-color: color-mix(in srgb, var(--color-gold) 22%, transparent);
   background-image: linear-gradient(to top, var(--color-gold) 0 50%, transparent 50%);
   background-size: 100% 200%;
   background-position: 0% 0%;
   background-repeat: no-repeat;
-  /* Duas animacoes, cada uma mexendo em propriedades diferentes: uma sobe o
+  /* Duas animacoes mexendo em propriedades diferentes: uma sobe o
      preenchimento, a outra troca a cor. Sem conflito entre elas. */
   animation:
-    preloader-enche 1.25s cubic-bezier(0.62, 0, 0.3, 1) forwards,
-    preloader-vira-oliva 0.55s ease-out 1.35s forwards;
-}
-
-@keyframes preloader-enche {
-  from { background-position: 0% 0%; }
-  to   { background-position: 0% 100%; }
-}
-
-/* Os dois gradientes tem a mesma estrutura, entao o navegador interpola a cor
-   entre eles em vez de trocar de uma vez. */
-@keyframes preloader-vira-oliva {
-  from {
-    background-color: color-mix(in srgb, var(--color-gold) 22%, transparent);
-    background-image: linear-gradient(to top, var(--color-gold) 0 50%, transparent 50%);
-  }
-  to {
-    background-color: color-mix(in srgb, var(--color-olive) 14%, transparent);
-    background-image: linear-gradient(to top, var(--color-olive) 0 50%, transparent 50%);
-  }
+    preloader-enche 0.7s cubic-bezier(0.62, 0, 0.3, 1) forwards,
+    preloader-vira-oliva 0.4s ease-out 0.75s forwards;
 }
 
 /* Contorno dourado do wordmark.
-   E' uma camada dourada atras das letras, mascarada por um SVG que contem o
-   MESMO caminho, so que tracado em vez de preenchido. A espessura sai uniforme
-   por construcao.
+   E' uma camada dourada atras das letras, mascarada por um SVG com o MESMO
+   caminho, so que tracado em vez de preenchido — espessura uniforme por
+   construcao. O traco e' centrado na borda, entao as letras cobrem a metade de
+   dentro e sobra a de fora.
 
-   A tentativa anterior usava pilha de drop-shadow, e nao funciona: filter e'
-   aplicado antes da mascara, e cada sombra filtra o resultado da anterior, o
-   que soma de forma desigual — grosso onde os deslocamentos se acumulam na
-   mesma direcao, fino no resto.
-
-   O traco e' centrado na borda do desenho, entao a metade de dentro fica
-   coberta pelas letras e o que se ve e' a metade de fora. */
+   Pilha de drop-shadow foi tentada e nao serve: filter e' aplicado antes da
+   mascara, e cada sombra filtra o resultado da anterior, somando de forma
+   desigual. */
 .hero-contorno {
   background-color: var(--color-gold-logo);
   -webkit-mask: url(/images/dalami-contorno.svg) center / 97% no-repeat;
   mask: url(/images/dalami-contorno.svg) center / 97% no-repeat;
 }
 
-/* Primeira carga: o contorno so aparece depois de a cortina sumir (1,35s de
-   espera + 0,55s de fade), para nao invadir o carregamento. */
+/* So depois de a cortina ter sumido (0,75s de espera + 0,4s de fade), para o
+   contorno nao invadir o carregamento. */
 .hero-contorno-atrasado {
   opacity: 0;
-  animation: contorno-entra 0.4s ease-out 1.9s forwards;
-}
-
-@keyframes contorno-entra {
-  to { opacity: 1; }
+  animation: contorno-entra 0.35s ease-out 1.15s forwards;
 }
 
 @keyframes preloader-enche {
@@ -182,6 +163,10 @@ body {
     background-color: color-mix(in srgb, var(--color-olive) 14%, transparent);
     background-image: linear-gradient(to top, var(--color-olive) 0 50%, transparent 50%);
   }
+}
+
+@keyframes contorno-entra {
+  to { opacity: 1; }
 }
 
 @keyframes preloader-sai {
@@ -189,10 +174,10 @@ body {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .preloader { animation-delay: 0.3s; animation-duration: 0.3s; }
-  .hero-contorno-atrasado { animation-delay: 0.6s; animation-duration: 0.2s; }
+  .preloader { animation-delay: 0.25s; animation-duration: 0.3s; }
+  .hero-contorno-atrasado { animation-delay: 0.5s; animation-duration: 0.2s; }
   .hero-word-enchendo {
     background-position: 0% 100%;
-    animation: preloader-vira-oliva 0.3s ease-out 0.3s forwards;
+    animation: preloader-vira-oliva 0.3s ease-out 0.25s forwards;
   }
 }

@@ -10,8 +10,11 @@ import { SITE } from "@/lib/site";
  * cortina do Preloader. Precisa acompanhar os tempos de `.preloader` no
  * globals.css: começa um pouco antes de a cortina terminar de sumir, para o
  * hero já estar em movimento quando aparece, em vez de começar do zero.
+ *
+ * Quando a cortina sai antecipada, a entrada continua neste tempo — ela toca
+ * com o hero já visível, o que é o mesmo efeito de sempre, só que sem espera.
  */
-const ATRASO_PRELOADER = 1.45;
+const ATRASO_PRELOADER = 0.8;
 
 /**
  * Só a primeira carga tem cortina. Em navegação client-side (voltar do
