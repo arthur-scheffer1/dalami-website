@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 import Image from "next/image";
 import { gsap } from "@/lib/gsap";
+import Divisor from "./Divisor";
 
 /**
  * Seção 4 — composição visual, não galeria: fotos grandes, muito espaço vazio
@@ -95,8 +96,7 @@ export default function Composicao() {
           </p>
         </div>
 
-        {/* Espaço vazio proposital */}
-        <div className="h-28 md:h-52" />
+        <Divisor className="py-16 md:py-24" />
 
         {/* Linha 2 — frase curta à esquerda, duas fotos à direita */}
         <div className="grid items-end gap-10 md:grid-cols-12 md:gap-16">
@@ -130,7 +130,7 @@ export default function Composicao() {
           </div>
         </div>
 
-        <div className="h-28 md:h-52" />
+        <Divisor className="py-16 md:py-24" />
 
         {/* Linha 3 — foto larga centralizada com frase por cima */}
         <div className="relative">
