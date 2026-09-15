@@ -132,7 +132,9 @@ body {
    anterior, o que engrossa e suaviza a borda. Oito direcoes para o traco sair
    uniforme em curva de cursiva. Os deslocamentos sao pequenos de proposito:
    como cada drop-shadow filtra o resultado do anterior, eles se somam, e o
-   traco final sai mais grosso que o valor declarado.
+   traco final sai mais grosso que o valor declarado. Em meio pixel ele vira
+   um fio, que e' o ponto: abaixo disso o navegador arredonda e o contorno
+   comeca a falhar em pedacos da curva, sobretudo em tela nao-retina.
 
    IMPORTANTE: este filtro vai no elemento PAI do mascarado, nunca nele mesmo.
    O CSS aplica filter antes da mascara, entao no proprio elemento a sombra
@@ -145,14 +147,14 @@ body {
    interpolar entre elas. */
 :root {
   --contorno-marca:
-    drop-shadow(1px 0 0 var(--color-gold-logo))
-    drop-shadow(-1px 0 0 var(--color-gold-logo))
-    drop-shadow(0 1px 0 var(--color-gold-logo))
-    drop-shadow(0 -1px 0 var(--color-gold-logo))
-    drop-shadow(0.7px 0.7px 0 var(--color-gold-logo))
-    drop-shadow(-0.7px 0.7px 0 var(--color-gold-logo))
-    drop-shadow(0.7px -0.7px 0 var(--color-gold-logo))
-    drop-shadow(-0.7px -0.7px 0 var(--color-gold-logo));
+    drop-shadow(0.5px 0 0 var(--color-gold-logo))
+    drop-shadow(-0.5px 0 0 var(--color-gold-logo))
+    drop-shadow(0 0.5px 0 var(--color-gold-logo))
+    drop-shadow(0 -0.5px 0 var(--color-gold-logo))
+    drop-shadow(0.35px 0.35px 0 var(--color-gold-logo))
+    drop-shadow(-0.35px 0.35px 0 var(--color-gold-logo))
+    drop-shadow(0.35px -0.35px 0 var(--color-gold-logo))
+    drop-shadow(-0.35px -0.35px 0 var(--color-gold-logo));
   --contorno-nulo:
     drop-shadow(0 0 0 transparent)
     drop-shadow(0 0 0 transparent)
