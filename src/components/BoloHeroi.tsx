@@ -155,7 +155,7 @@ export default function BoloHeroi() {
 
           <Link
             href="/cardapio#classicos"
-            className="heroi-cta font-mono group inline-flex items-center gap-3 text-[11px] font-bold tracking-[0.24em] text-gold uppercase"
+            className="heroi-cta font-mono group inline-flex items-center gap-3 rounded-full border px-7 py-4 text-[11px] font-bold tracking-[0.24em] border-gold/40 text-gold uppercase transition-colors duration-300 hover:border-gold hover:bg-gold hover:text-olive-deep"
           >
             Conheça o {BOLO_HEROI.nome}
             <span className="transition-transform duration-300 group-hover:translate-x-1.5" aria-hidden>

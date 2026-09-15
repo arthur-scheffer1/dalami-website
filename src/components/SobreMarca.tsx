@@ -102,7 +102,7 @@ export default function SobreMarca() {
 
           <Link
             href="/sobre"
-            className="sobre-item font-mono group inline-flex items-center gap-3 text-[11px] font-bold tracking-[0.24em] text-olive uppercase"
+            className="sobre-item font-mono group inline-flex items-center gap-3 rounded-full border px-7 py-4 text-[11px] font-bold tracking-[0.24em] border-olive/40 text-olive uppercase transition-colors duration-300 hover:border-olive hover:bg-olive hover:text-gold"
           >
             Conheça nossa história
             <span className="transition-transform duration-300 group-hover:translate-x-1.5" aria-hidden>

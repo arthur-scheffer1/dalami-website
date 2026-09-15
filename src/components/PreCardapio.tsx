@@ -1,7 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
-import Image from "next/image";
+import { useRef } from "react";
 import Link from "next/link";
 import { gsap } from "@/lib/gsap";
 import { revelaAoEntrar } from "@/lib/anima";
@@ -18,17 +17,8 @@ const DESTAQUES = CATEGORIAS.flatMap((c) =>
   c.bolos.filter((b) => b.campeao).map((b) => ({ ...b, categoria: c.id })),
 );
 
-const FOTOS: Record<string, string> = {
-  "Morango e Nutella": "/images/fatia-nutella-morango.jpg",
-  "Bolo Dalami": "/images/bolo-chocolate.jpg",
-  "Matilda Cake": "/images/calda-chocolate.jpg",
-  "Bolo Catarina": "/images/vitrine.jpg",
-  "Bolo de Pudim": "/images/cheesecake-red-velvet.jpg",
-};
-
 export default function PreCardapio() {
   const rootRef = useRef<HTMLDivElement>(null);
-  const [ativo, setAtivo] = useState<string | null>(null);
 
   useIsoLayoutEffect(() => {
     const ctx = gsap.context(() => {
@@ -91,7 +81,7 @@ export default function PreCardapio() {
   }, []);
 
   return (
-    <section ref={rootRef} className="relative bg-cream py-24 md:py-32">
+    <section ref={rootRef} className="bg-cream py-24 md:py-32">
       <div className="mx-auto max-w-[1400px] px-6">
         <div className="mb-14 flex flex-col justify-between gap-5 md:flex-row md:items-end">
           <div>
@@ -111,7 +101,7 @@ export default function PreCardapio() {
           </div>
           <Link
             href="/cardapio"
-            className="pc-cta font-mono group inline-flex items-center gap-3 text-[11px] font-bold tracking-[0.24em] text-olive uppercase"
+            className="pc-cta font-mono group inline-flex items-center gap-3 rounded-full border px-7 py-4 text-[11px] font-bold tracking-[0.24em] border-olive/40 text-olive uppercase transition-colors duration-300 hover:border-olive hover:bg-olive hover:text-gold"
           >
             Ver cardápio completo
             <span className="transition-transform duration-300 group-hover:translate-x-1.5" aria-hidden>
@@ -120,14 +110,11 @@ export default function PreCardapio() {
           </Link>
         </div>
 
-        {/* Lista tipográfica: a foto do bolo em hover aparece flutuando ao lado. */}
-        <div className="pc-lista relative border-t border-ink/15">
+        <div className="pc-lista border-t border-ink/15">
           {DESTAQUES.map((bolo) => (
             <Link
               key={bolo.nome}
               href={`/cardapio#${bolo.categoria}`}
-              onMouseEnter={() => setAtivo(bolo.nome)}
-              onMouseLeave={() => setAtivo(null)}
               className="pc-linha group flex items-baseline justify-between gap-6 border-b border-ink/15 py-7 transition-colors duration-300 hover:bg-olive/5"
             >
               <span className="font-display text-2xl text-ink transition-transform duration-300 group-hover:translate-x-2 md:text-4xl">
@@ -139,19 +126,6 @@ export default function PreCardapio() {
             </Link>
           ))}
 
-          <div
-            aria-hidden="true"
-            /* No vão central da lista: em right-[8%] a foto cobria a coluna de
-               preços, que é alinhada à direita. O miolo entre nome e preço é a
-               única faixa realmente vazia. */
-            className={`pointer-events-none absolute top-1/2 left-1/2 hidden h-[300px] w-[230px] -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-2xl transition-all duration-500 lg:block ${
-              ativo ? "scale-100 opacity-100" : "scale-90 opacity-0"
-            }`}
-          >
-            {ativo && FOTOS[ativo] && (
-              <Image src={FOTOS[ativo]} alt="" fill sizes="230px" className="object-cover" />
-            )}
-          </div>
         </div>
       </div>
     </section>
