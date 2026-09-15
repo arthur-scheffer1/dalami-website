@@ -105,7 +105,10 @@ body {
      preenchimento, a outra troca a cor. Sem conflito entre elas. */
   animation:
     preloader-enche 1.25s cubic-bezier(0.62, 0, 0.3, 1) forwards,
-    preloader-vira-oliva 0.55s ease-out 1.35s forwards;
+    preloader-vira-oliva 0.55s ease-out 1.35s forwards,
+    /* Só depois de a cortina ter sumido por completo (1,35s + 0,55s): o
+       contorno é do hero, não do carregamento. */
+    contorno-entra 0.4s ease-out 1.9s forwards;
 }
 
 @keyframes preloader-enche {
@@ -119,14 +122,10 @@ body {
   from {
     background-color: color-mix(in srgb, var(--color-gold) 22%, transparent);
     background-image: linear-gradient(to top, var(--color-gold) 0 50%, transparent 50%);
-    /* Sem contorno durante o carregamento: ali a palavra e' o logo dourado
-       sobre o verde, e contorna-la estragaria o efeito de encher. */
-    filter: var(--contorno-nulo);
   }
   to {
     background-color: color-mix(in srgb, var(--color-olive) 14%, transparent);
     background-image: linear-gradient(to top, var(--color-olive) 0 50%, transparent 50%);
-    filter: var(--contorno-marca);
   }
 }
 
@@ -167,6 +166,11 @@ body {
 
 /* Fade, nao wipe: deslizar a cortina revelaria o hero por baixo de uma borda
    dura, e o que se quer e' o verde simplesmente se dissolvendo. */
+@keyframes contorno-entra {
+  from { filter: var(--contorno-nulo); }
+  to   { filter: var(--contorno-marca); }
+}
+
 @keyframes preloader-sai {
   to { opacity: 0; visibility: hidden; }
 }
@@ -175,6 +179,8 @@ body {
   .preloader { animation-delay: 0.3s; animation-duration: 0.3s; }
   .hero-word-enchendo {
     background-position: 0% 100%;
-    animation: preloader-vira-oliva 0.3s ease-out 0.3s forwards;
+    animation:
+      preloader-vira-oliva 0.3s ease-out 0.3s forwards,
+      contorno-entra 0.2s ease-out 0.6s forwards;
   }
 }
