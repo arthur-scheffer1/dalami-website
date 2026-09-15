@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Archivo_Black, Fraunces, Outfit, Space_Mono, Yellowtail } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
@@ -47,6 +47,13 @@ const spaceMono = Space_Mono({
   variable: "--font-space-mono",
   display: "swap",
 });
+
+/* Pinta as areas do navegador que ficam fora da pagina — atras da barra de
+   status e da barra inferior no celular. Sem isto declarado o navegador
+   escolhe a cor sozinho, e pode puxar o verde da cortina de carregamento. */
+export const viewport: Viewport = {
+  themeColor: "#f3ede2",
+};
 
 export const metadata: Metadata = {
   title: "Dalami | Confeitaria e Cafeteria",

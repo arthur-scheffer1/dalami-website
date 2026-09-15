@@ -106,7 +106,7 @@ export default function Hero() {
   return (
     <section
       ref={rootRef}
-      className="relative flex min-h-[100svh] flex-col justify-center overflow-hidden bg-cream pt-28 pb-16"
+      className="relative flex min-h-[100dvh] flex-col justify-center overflow-hidden bg-cream pt-28 pb-16"
     >
       {/* Atravessa na diagonal, do alto à esquerda para baixo à direita. Passa
           por baixo do wordmark: por cima, ela partiria o nome ao meio. */}
