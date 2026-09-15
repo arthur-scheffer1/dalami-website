@@ -126,62 +126,51 @@ body {
   }
 }
 
-/* Contorno dourado do wordmark do hero.
-   Mascara CSS nao aceita stroke, entao o contorno vem de drop-shadows sem
-   desfoque: o filtro segue o canal alfa, e cada um filtra o resultado do
-   anterior, o que engrossa e suaviza a borda. Oito direcoes para o traco sair
-   uniforme em curva de cursiva. Os deslocamentos sao pequenos de proposito:
-   como cada drop-shadow filtra o resultado do anterior, eles se somam, e o
-   traco final sai mais grosso que o valor declarado. Em meio pixel ele vira
-   um fio, que e' o ponto: abaixo disso o navegador arredonda e o contorno
-   comeca a falhar em pedacos da curva, sobretudo em tela nao-retina.
+/* Contorno dourado do wordmark.
+   E' uma camada dourada atras das letras, mascarada por um SVG que contem o
+   MESMO caminho, so que tracado em vez de preenchido. A espessura sai uniforme
+   por construcao.
 
-   IMPORTANTE: este filtro vai no elemento PAI do mascarado, nunca nele mesmo.
-   O CSS aplica filter antes da mascara, entao no proprio elemento a sombra
-   nasce da caixa e a mascara recorta em seguida tudo que fica fora do desenho
-   — ou seja, o contorno inteiro. No pai, o conteudo ja chega mascarado e a
-   sombra segue o alfa das letras.
+   A tentativa anterior usava pilha de drop-shadow, e nao funciona: filter e'
+   aplicado antes da mascara, e cada sombra filtra o resultado da anterior, o
+   que soma de forma desigual — grosso onde os deslocamentos se acumulam na
+   mesma direcao, fino no resto.
 
-   Guardado em variavel porque a animacao precisa do mesmo valor, e as duas
-   listas de filtro tem que casar funcao por funcao para o navegador
-   interpolar entre elas. */
-:root {
-  --contorno-marca:
-    drop-shadow(0.5px 0 0 var(--color-gold-logo))
-    drop-shadow(-0.5px 0 0 var(--color-gold-logo))
-    drop-shadow(0 0.5px 0 var(--color-gold-logo))
-    drop-shadow(0 -0.5px 0 var(--color-gold-logo))
-    drop-shadow(0.35px 0.35px 0 var(--color-gold-logo))
-    drop-shadow(-0.35px 0.35px 0 var(--color-gold-logo))
-    drop-shadow(0.35px -0.35px 0 var(--color-gold-logo))
-    drop-shadow(-0.35px -0.35px 0 var(--color-gold-logo));
-  --contorno-nulo:
-    drop-shadow(0 0 0 transparent)
-    drop-shadow(0 0 0 transparent)
-    drop-shadow(0 0 0 transparent)
-    drop-shadow(0 0 0 transparent)
-    drop-shadow(0 0 0 transparent)
-    drop-shadow(0 0 0 transparent)
-    drop-shadow(0 0 0 transparent)
-    drop-shadow(0 0 0 transparent);
-}
-
-/* Navegacao client-side: nao houve cortina, entao o contorno ja entra posto. */
-.hero-word-contorno {
-  filter: var(--contorno-marca);
+   O traco e' centrado na borda do desenho, entao a metade de dentro fica
+   coberta pelas letras e o que se ve e' a metade de fora. */
+.hero-contorno {
+  background-color: var(--color-gold-logo);
+  -webkit-mask: url(/images/dalami-contorno.svg) center / 97% no-repeat;
+  mask: url(/images/dalami-contorno.svg) center / 97% no-repeat;
 }
 
 /* Primeira carga: o contorno so aparece depois de a cortina sumir (1,35s de
    espera + 0,55s de fade), para nao invadir o carregamento. */
 .hero-contorno-atrasado {
+  opacity: 0;
   animation: contorno-entra 0.4s ease-out 1.9s forwards;
 }
 
-/* Fade, nao wipe: deslizar a cortina revelaria o hero por baixo de uma borda
-   dura, e o que se quer e' o verde simplesmente se dissolvendo. */
 @keyframes contorno-entra {
-  from { filter: var(--contorno-nulo); }
-  to   { filter: var(--contorno-marca); }
+  to { opacity: 1; }
+}
+
+@keyframes preloader-enche {
+  from { background-position: 0% 0%; }
+  to   { background-position: 0% 100%; }
+}
+
+/* Os dois gradientes tem a mesma estrutura, entao o navegador interpola a cor
+   entre eles em vez de trocar de uma vez. */
+@keyframes preloader-vira-oliva {
+  from {
+    background-color: color-mix(in srgb, var(--color-gold) 22%, transparent);
+    background-image: linear-gradient(to top, var(--color-gold) 0 50%, transparent 50%);
+  }
+  to {
+    background-color: color-mix(in srgb, var(--color-olive) 14%, transparent);
+    background-image: linear-gradient(to top, var(--color-olive) 0 50%, transparent 50%);
+  }
 }
 
 @keyframes preloader-sai {

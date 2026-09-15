@@ -156,26 +156,26 @@ export default function Hero() {
             className="mx-auto w-full max-w-[1185px]"
           >
             <span className="block overflow-hidden">
-              {/* O contorno mora aqui, no pai: aplicado no próprio elemento
-                  mascarado, a máscara o recortaria fora de existência. */}
+              {/* Duas camadas mascaradas pelo mesmo desenho: o contorno atrás,
+                  as letras na frente cobrindo a metade interna do traço. */}
               <span
-                className={`block ${
-                  primeiraCarga
-                    ? "hero-contorno-atrasado"
-                    : "hero-word-contorno"
-                }`}
+                className="hero-word relative block w-full"
+                style={{ aspectRatio: "557 / 130" }}
               >
                 <span
-                  className={`hero-word block w-full bg-olive ${
+                  className={`hero-contorno absolute inset-0 block ${
+                    primeiraCarga ? "hero-contorno-atrasado" : ""
+                  }`}
+                />
+                <span
+                  className={`absolute inset-0 block bg-olive ${
                     primeiraCarga ? "hero-word-enchendo" : ""
                   }`}
                   style={{
-                    aspectRatio: "557 / 130",
                     maskImage: "url(/images/dalami-wordmark.svg)",
                     WebkitMaskImage: "url(/images/dalami-wordmark.svg)",
-                    /* 97% em vez de contain: sem essa folga o desenho encosta
-                     nas bordas da caixa e o contorno dourado seria cortado
-                     pelo overflow-hidden que faz a palavra subir. */
+                    /* Os 97% precisam bater com os do contorno, senão os dois
+                       desenhos saem de registro e o traço fica torto. */
                     maskSize: "97%",
                     WebkitMaskSize: "97%",
                     maskRepeat: "no-repeat",
