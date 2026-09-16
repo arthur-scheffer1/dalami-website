@@ -88,6 +88,7 @@ export default function Hero() {
         0.9,
       )
         .from(".hero-eyebrow", { opacity: 0, y: 12, duration: 0.6 }, 0.9)
+        .from(".hero-estado", { opacity: 0, y: -10, duration: 0.6 }, 0.9)
         .from(".hero-cta", { opacity: 0, scale: 0.9, duration: 0.5 }, 1.1);
 
       // Desliza na rolagem ao longo do próprio eixo, já que esta camada mora
@@ -133,14 +134,18 @@ export default function Hero() {
         </div>
       </div>
 
-      <div className="hero-eyebrow relative z-10 mx-auto mb-10 flex max-w-4xl flex-col items-center gap-3 px-6 text-center">
+      {/* Canto superior direito: a faixa desce da esquerda para a direita, então
+          aqui em cima ela já passou. A pílula translúcida garante a leitura de
+          qualquer jeito. Fica em z-30 — abaixo da cortina, para não vazar
+          durante o carregamento. */}
+      <div className="hero-estado absolute top-28 right-5 z-30 md:right-8">
+        <EstadoLoja className="rounded-full bg-cream/80 px-4 py-2.5 text-ink/65 backdrop-blur-sm" />
+      </div>
+
+      <div className="hero-eyebrow relative z-10 mx-auto mb-10 max-w-4xl px-6 text-center">
         <span className="font-mono text-[10px] tracking-[0.34em] text-olive uppercase sm:text-[11px]">
           {SITE.slogan}
         </span>
-        {/* Logo na primeira tela: é a dúvida que leva alguém a procurar uma
-            confeitaria no celular, e no menu ela disputava espaço com os
-            links. */}
-        <EstadoLoja className="text-ink/55" />
       </div>
 
       {/* Três colunas em telas largas: texto | título | texto */}
