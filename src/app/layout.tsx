@@ -55,7 +55,14 @@ const spaceMono = Space_Mono({
    status e da barra inferior no celular. Sem isto declarado o navegador
    escolhe a cor sozinho, e pode puxar o verde da cortina de carregamento. */
 export const viewport: Viewport = {
-  themeColor: "#f3ede2",
+  /* Declarada nos dois esquemas, e nao em valor unico: com o celular em modo
+     escuro varios navegadores ignoram uma theme-color sem variante e voltam a
+     amostrar a cor da propria pagina — que durante a cortina e' o verde, e e'
+     assim que as barras do sistema ficavam verdes. */
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#f3ede2" },
+    { media: "(prefers-color-scheme: dark)", color: "#f3ede2" },
+  ],
 };
 
 const DESCRICAO =
