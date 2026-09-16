@@ -29,7 +29,9 @@ export default function EstadoLoja({ className = "" }: { className?: string }) {
     <span className={`font-mono inline-flex items-center gap-2 text-[10px] tracking-[0.18em] uppercase ${className}`}>
       <span className="relative flex h-2 w-2 shrink-0">
         {aberto && (
-          <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-olive opacity-60" />
+          /* O anel nasce maior que o ponto: partindo dos mesmos 8px o pulso
+             quase não se percebe, porque o ping dobra de tamanho e some. */
+          <span className="absolute -inset-[3px] animate-ping rounded-full bg-olive opacity-60" />
         )}
         <span
           className={`relative inline-flex h-2 w-2 rounded-full ${aberto ? "bg-olive" : "bg-alerta"}`}
