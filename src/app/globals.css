@@ -114,6 +114,12 @@ body {
   animation: preloader-sai 0.4s ease-out 0.75s forwards;
 }
 
+/* TEMPORARIO — ver Preloader.tsx. Com ?diag=1 a cortina fica azul, para
+   identificar de onde vem a cor das faixas no celular. */
+html[data-diag] .preloader {
+  background-color: #1140ff;
+}
+
 /* O wordmark do hero na primeira carga: comeca vazio e o dourado sobe dentro
    das letras ate preenche-las, sobre o verde da cortina — o logo da marca.
    Depois vira oliva no mesmo intervalo em que a cortina some, porque no hero o

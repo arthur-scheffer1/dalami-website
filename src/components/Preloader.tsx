@@ -15,6 +15,22 @@
  * descartado: trocar a animação no meio reinicia o preenchimento, e o dourado
  * volta ao zero para encher de novo. Os tempos foram encurtados em vez disso.
  */
+/*
+ * TEMPORARIO — diagnostico das faixas verdes no celular.
+ *
+ * Abrir o site com ?diag=1 pinta a cortina de azul. Se as faixas ficarem
+ * azuis, a cor vem da cortina; se continuarem verdes, vem de outro elemento.
+ * As duas causas pedem correcoes opostas, e sem essa resposta so da para
+ * chutar. Remover assim que o bug estiver resolvido.
+ */
+const DIAGNOSTICO =
+  "if(location.search.includes('diag'))document.documentElement.dataset.diag='1'";
+
 export default function Preloader() {
-  return <div className="preloader" aria-hidden="true" />;
+  return (
+    <>
+      <div className="preloader" aria-hidden="true" />
+      <script dangerouslySetInnerHTML={{ __html: DIAGNOSTICO }} />
+    </>
+  );
 }
