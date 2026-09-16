@@ -87,7 +87,6 @@ export default function Hero() {
         { opacity: 0, y: 14, duration: 0.6, stagger: 0.1 },
         0.9,
       )
-        .from(".hero-eyebrow", { opacity: 0, y: 12, duration: 0.6 }, 0.9)
         .from(".hero-estado", { opacity: 0, y: -10, duration: 0.6 }, 0.9)
         .from(".hero-cta", { opacity: 0, scale: 0.9, duration: 0.5 }, 1.1);
 
@@ -140,12 +139,6 @@ export default function Hero() {
           durante o carregamento. */}
       <div className="hero-estado absolute top-28 right-5 z-30 md:right-8">
         <EstadoLoja className="rounded-full bg-cream/80 px-4 py-2.5 text-ink/65 backdrop-blur-sm" />
-      </div>
-
-      <div className="hero-eyebrow relative z-10 mx-auto mb-10 max-w-4xl px-6 text-center">
-        <span className="font-mono text-[10px] tracking-[0.34em] text-olive uppercase sm:text-[11px]">
-          {SITE.slogan}
-        </span>
       </div>
 
       {/* Três colunas em telas largas: texto | título | texto */}
@@ -207,10 +200,7 @@ export default function Hero() {
         </p>
       </div>
 
-      <div className="relative z-30 mt-12 flex flex-col items-center gap-6 px-6">
-        <p className="font-display max-w-md text-center text-lg text-ink/70 italic">
-          {SITE.slogan2}.
-        </p>
+      <div className="relative z-30 mt-12 flex flex-col items-center px-6">
         <a
           href="#bolo-heroi"
           className="hero-cta font-display inline-flex items-center rounded-full bg-olive px-8 py-4 text-lg text-gold italic transition-colors duration-300 hover:bg-olive-deep"
