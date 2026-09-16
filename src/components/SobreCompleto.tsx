@@ -146,22 +146,25 @@ export default function SobreCompleto() {
       </section>
 
       <section className="mx-auto max-w-[1400px] px-6 py-24">
-        <div className="grid gap-5 md:grid-cols-2">
-          <div className="sobre-img relative aspect-[3/2] overflow-hidden rounded-[2rem]">
+        {/* Escalonadas em vez de lado a lado no mesmo tamanho: duas fotos
+            iguais e coladas leem como erro de diagramação. Proporções e alturas
+            diferentes dão respiro e hierarquia — a primeira manda. */}
+        <div className="grid items-end gap-8 md:grid-cols-12 md:gap-12">
+          <div className="sobre-img relative aspect-[4/5] overflow-hidden rounded-[2rem] md:col-span-7">
             <Image
               src="/images/caixa-rosa.jpg"
               alt="Caixa da Dalami com uma fatia de bolo de chocolate"
               fill
-              sizes="(max-width: 768px) 100vw, 50vw"
+              sizes="(max-width: 768px) 100vw, 58vw"
               className="object-cover"
             />
           </div>
-          <div className="sobre-img relative aspect-[3/2] overflow-hidden rounded-[2rem]">
+          <div className="sobre-img relative aspect-square overflow-hidden rounded-[2rem] md:col-span-5 md:mb-20">
             <Image
               src="/images/bolo-chocolate.jpg"
               alt="Fatia de bolo de chocolate da Dalami"
               fill
-              sizes="(max-width: 768px) 100vw, 50vw"
+              sizes="(max-width: 768px) 100vw, 40vw"
               className="object-cover"
             />
           </div>
@@ -172,7 +175,7 @@ export default function SobreCompleto() {
             className="font-poster leading-[0.95] tracking-tight text-ink uppercase"
             style={{ fontSize: "clamp(28px, 4vw, 56px)" }}
           >
-            Passa lá pra provar
+            Venha experimentar
           </p>
           <div className="flex flex-wrap gap-3">
             <Link

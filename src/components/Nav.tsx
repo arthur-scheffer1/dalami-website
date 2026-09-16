@@ -102,16 +102,6 @@ export default function Nav() {
               </li>
             );
           })}
-          <li>
-            <a
-              href={SITE.whatsapp.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="font-mono rounded-full bg-olive px-5 py-3 text-[10px] font-bold tracking-[0.22em] text-gold uppercase transition-colors duration-300 hover:bg-olive-deep"
-            >
-              Encomendar
-            </a>
-          </li>
         </ul>
 
         <button
@@ -149,14 +139,6 @@ export default function Nav() {
               {p.label}
             </Link>
           ))}
-          <a
-            href={SITE.whatsapp.href}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="font-mono mt-5 block rounded-full bg-olive px-5 py-4 text-center text-[10px] font-bold tracking-[0.22em] text-gold uppercase"
-          >
-            Encomendar no WhatsApp
-          </a>
         </div>
       </div>
     </header>

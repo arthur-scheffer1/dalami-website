@@ -5,7 +5,8 @@ import Image from "next/image";
 import { gsap, ScrollTrigger, SplitText } from "@/lib/gsap";
 import { revelaAoEntrar } from "@/lib/anima";
 import { useIsoLayoutEffect } from "@/lib/use-iso-layout-effect";
-import { AVISO_DECORACAO, BRIGADEIROS, CATEGORIAS, COMO_ENCOMENDAR, TAMANHOS } from "@/lib/menu";
+import { AVISO_DECORACAO, BRIGADEIROS, CATEGORIAS, TAMANHOS } from "@/lib/menu";
+import PassoAPasso from "./PassoAPasso";
 import { SITE } from "@/lib/site";
 import Faixa from "./Faixa";
 
@@ -118,6 +119,31 @@ export default function CardapioCompleto() {
           Receitas artesanais, recheios generosos e acabamento feito com cuidado em
           cada detalhe. {CATEGORIAS.reduce((n, c) => n + c.bolos.length, 0)} sabores, quatro tamanhos.
         </p>
+
+        {/* Atalho para quem quer comer hoje: o cardápio desta página é de bolo
+            inteiro por encomenda, com 2 dias de antecedência. A linha abaixo do
+            botão existe para a pessoa não confundir as duas coisas. */}
+        <div className="card-sub mt-9 flex flex-col items-start gap-3">
+          <a
+            href={SITE.ifood}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group inline-flex items-center gap-3 rounded-full bg-[#EA1D2C] px-7 py-4 text-white shadow-sm transition-transform duration-300 hover:-translate-y-0.5"
+          >
+            <svg viewBox="0 0 24 24" className="h-5 w-5 shrink-0" fill="currentColor" aria-hidden>
+              <path d="M7 4h10a1 1 0 0 1 .97.76L18.3 7H21a1 1 0 1 1 0 2h-.3l-1.2 9.25A3 3 0 0 1 16.53 21H7.47a3 3 0 0 1-2.97-2.75L3.3 9H3a1 1 0 1 1 0-2h2.7l.33-2.24A1 1 0 0 1 7 4zm.87 3h8.26l-.2-1H8.07l-.2 1zM5.32 9l1.16 9a1 1 0 0 0 .99.88h9.06a1 1 0 0 0 .99-.88L18.68 9H5.32zm3.43 2.5a1 1 0 1 1 2 0v4a1 1 0 1 1-2 0v-4zm4.5 0a1 1 0 1 1 2 0v4a1 1 0 1 1-2 0v-4z" />
+            </svg>
+            <span className="font-mono text-[11px] font-bold tracking-[0.2em] uppercase">
+              Pedir no iFood
+            </span>
+            <span className="transition-transform duration-300 group-hover:translate-x-1" aria-hidden>
+              &rarr;
+            </span>
+          </a>
+          <span className="font-mono max-w-sm text-[10px] leading-relaxed tracking-[0.16em] text-ink/45 uppercase">
+            Fatias e doces com entrega hoje &middot; os bolos inteiros abaixo s&atilde;o por encomenda
+          </span>
+        </div>
       </header>
 
       <Faixa
@@ -297,19 +323,7 @@ export default function CardapioCompleto() {
       <section className="bg-cream py-20 md:py-28">
         <div className="mx-auto grid max-w-[1400px] gap-14 px-6 md:grid-cols-2 md:gap-20">
           <div>
-            <h2 className="font-mono mb-8 text-[10px] tracking-[0.3em] text-olive uppercase">
-              Como fazer sua encomenda
-            </h2>
-            <ol className="border-t border-ink/15">
-              {COMO_ENCOMENDAR.map((passo, i) => (
-                <li key={passo} className="flex items-baseline gap-5 border-b border-ink/15 py-5">
-                  <span className="font-mono text-[10px] tracking-[0.2em] text-olive">
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                  <span className="font-body text-[15px] leading-relaxed text-ink/75">{passo}</span>
-                </li>
-              ))}
-            </ol>
+            <PassoAPasso nivel="h2" />
             <a
               href={SITE.whatsapp.href}
               target="_blank"

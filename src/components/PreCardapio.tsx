@@ -113,12 +113,15 @@ export default function PreCardapio() {
             <Link
               key={bolo.nome}
               href={`/cardapio#${bolo.categoria}`}
-              className="pc-linha group flex items-baseline justify-between gap-6 border-b border-ink/15 py-7 transition-colors duration-300 hover:bg-olive/5"
+              /* No celular nome e preço empilham: lado a lado a coluna do
+                 nome fica estreita e "Morango e Nutella" quebrava deixando a
+                 última palavra sozinha na linha. */
+              className="pc-linha group flex flex-col items-start gap-1 border-b border-ink/15 py-5 transition-colors duration-300 hover:bg-olive/5 sm:flex-row sm:items-baseline sm:justify-between sm:gap-6 sm:py-7"
             >
               <span className="font-display text-2xl text-ink transition-transform duration-300 group-hover:translate-x-2 md:text-4xl">
                 {bolo.nome}
               </span>
-              <span className="font-mono shrink-0 text-[10px] tracking-[0.16em] text-olive uppercase md:text-xs">
+              <span className="font-mono text-[10px] tracking-[0.16em] text-olive uppercase sm:shrink-0 md:text-xs">
                 a partir de R$ {bolo.precos.P}
               </span>
             </Link>

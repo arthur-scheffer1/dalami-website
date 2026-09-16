@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import Image from "next/image";
 import { gsap } from "@/lib/gsap";
 import { SITE } from "@/lib/site";
 import EstadoLoja from "./EstadoLoja";
@@ -25,13 +24,7 @@ const ATRASO_PRELOADER = 0.8;
 let jaMostrouCortina = false;
 
 /**
- * Hero: tipografia gigante sobre fundo creme, atravessada na diagonal por uma
- * faixa de ganache que desce do canto superior esquerdo.
- *
- * Cada faixa mora em três camadas encaixadas, e isso é proposital: a rotação
- * fica no CSS da camada de fora, o parallax numa camada do meio e a entrada na
- * de dentro. Num elemento só, o GSAP reescreveria o `transform` inteiro e
- * apagaria a rotação no primeiro quadro da animação.
+ * Hero: tipografia gigante sobre fundo creme.
  *
  * Os textos laterais moram em colunas próprias do grid, nunca sobrepostos em
  * position: absolute, para não colidirem com o título.
@@ -65,12 +58,6 @@ export default function Hero() {
         defaults: { ease: "power4.out" },
       });
 
-      tl.from(
-        ".hero-faixa",
-        { xPercent: -7, opacity: 0, duration: 1.5, ease: "power3.out" },
-        0,
-      );
-
       // Só quando não houve cortina: aí a palavra sobe por trás da máscara. Com
       // cortina ela já apareceu preenchendo, e animá-la de novo seria um
       // segundo movimento no mesmo elemento.
@@ -89,19 +76,6 @@ export default function Hero() {
       )
         .from(".hero-estado", { opacity: 0, duration: 0.6 }, 0.9)
         .from(".hero-cta", { opacity: 0, scale: 0.9, duration: 0.5 }, 1.1);
-
-      // Desliza na rolagem ao longo do próprio eixo, já que esta camada mora
-      // dentro do elemento rotacionado.
-      gsap.to(".faixa-parallax", {
-        xPercent: 6,
-        ease: "none",
-        scrollTrigger: {
-          trigger: rootRef.current,
-          start: "top top",
-          end: "bottom top",
-          scrub: true,
-        },
-      });
     }, rootRef);
 
     return () => ctx.revert();
@@ -112,27 +86,6 @@ export default function Hero() {
       ref={rootRef}
       className="relative flex min-h-[100dvh] flex-col justify-center overflow-hidden bg-cream pt-28 pb-16"
     >
-      {/* Atravessa na diagonal, do alto à esquerda para baixo à direita. Passa
-          por baixo do wordmark: por cima, ela partiria o nome ao meio. */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-x-0 top-[12%] z-0"
-        style={{ transform: "rotate(20deg)" }}
-      >
-        <div className="faixa-parallax">
-          <div className="hero-faixa">
-            <Image
-              src="/images/ganache-escura.webp"
-              alt=""
-              width={2079}
-              height={507}
-              priority
-              className="-ml-[26%] w-[152%] max-w-none"
-            />
-          </div>
-        </div>
-      </div>
-
       {/* No celular vai para o canto inferior direito, perto do polegar e longe
           do menu; no desktop fica em cima, onde a faixa de ganache já passou,
           porque ela desce da esquerda para a direita.

@@ -85,7 +85,7 @@ export default function Depoimentos() {
   }, []);
 
   return (
-    <section ref={rootRef} className="bg-cream py-24 md:py-32">
+    <section ref={rootRef} className="bg-cream pt-14 pb-20 md:py-32">
       <div className="mx-auto max-w-[1400px] px-6">
         <div className="mb-14 text-center">
           <span className="font-mono mb-4 block text-[10px] tracking-[0.3em] text-olive uppercase">

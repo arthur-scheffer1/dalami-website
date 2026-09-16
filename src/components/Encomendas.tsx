@@ -4,7 +4,8 @@ import { useRef } from "react";
 import { gsap } from "@/lib/gsap";
 import { revelaAoEntrar } from "@/lib/anima";
 import { useIsoLayoutEffect } from "@/lib/use-iso-layout-effect";
-import { AVISO_DECORACAO, COMO_ENCOMENDAR, TAMANHOS } from "@/lib/menu";
+import { AVISO_DECORACAO, TAMANHOS } from "@/lib/menu";
+import PassoAPasso from "./PassoAPasso";
 import { SITE } from "@/lib/site";
 
 /** Seção 6 — encomendas: tamanhos, regras e o caminho pro WhatsApp. */
@@ -87,7 +88,7 @@ export default function Encomendas() {
   }, []);
 
   return (
-    <section id="encomendas" ref={rootRef} className="bg-cream py-24 md:py-32">
+    <section id="encomendas" ref={rootRef} className="bg-cream pt-20 pb-14 md:py-32">
       <div className="mx-auto max-w-[1400px] px-6">
         <div className="mb-16 max-w-2xl">
           <div className="enc-eyebrow mb-4">
@@ -109,7 +110,7 @@ export default function Encomendas() {
           </p>
         </div>
 
-        <div className="enc-tamanhos mb-20 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="enc-tamanhos mb-12 grid md:mb-20 gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {TAMANHOS.map((t) => (
             <div
               key={t.sigla}
@@ -126,22 +127,7 @@ export default function Encomendas() {
 
         <div className="grid gap-14 md:grid-cols-2 md:gap-20">
           <div className="enc-passos">
-            <h3 className="font-mono mb-8 text-[10px] tracking-[0.3em] text-olive uppercase">
-              Como fazer sua encomenda
-            </h3>
-            <ol className="border-t border-ink/15">
-              {COMO_ENCOMENDAR.map((passo, i) => (
-                <li
-                  key={passo}
-                  className="enc-passo flex items-baseline gap-5 border-b border-ink/15 py-5"
-                >
-                  <span className="font-mono text-[10px] tracking-[0.2em] text-olive">
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                  <span className="font-body text-[15px] leading-relaxed text-ink/75">{passo}</span>
-                </li>
-              ))}
-            </ol>
+            <PassoAPasso classeItem="enc-passo" />
 
             <a
               href={SITE.whatsapp.href}
@@ -152,9 +138,6 @@ export default function Encomendas() {
               Encomendar no WhatsApp
               <span aria-hidden>→</span>
             </a>
-            <p className="font-mono mt-4 text-[10px] tracking-[0.18em] text-ink/40 uppercase">
-              {SITE.whatsapp.display}
-            </p>
           </div>
 
           <div className="rounded-[2rem] bg-olive-deep p-9 md:p-11">
