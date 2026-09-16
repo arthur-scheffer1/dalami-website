@@ -24,9 +24,6 @@ export default function EstadoLoja({ className = "" }: { className?: string }) {
   if (!estado) return null;
 
   const { aberto, hora, outroDia } = estado;
-  const texto = aberto
-    ? `Aberto até ${hora}h`
-    : `Fechado · abre ${outroDia ? "amanhã " : ""}${hora}h`;
 
   return (
     <span className={`font-mono inline-flex items-center gap-2 text-[10px] tracking-[0.18em] uppercase ${className}`}>
@@ -35,10 +32,19 @@ export default function EstadoLoja({ className = "" }: { className?: string }) {
           <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-olive opacity-60" />
         )}
         <span
-          className={`relative inline-flex h-2 w-2 rounded-full ${aberto ? "bg-olive" : "bg-ink/30"}`}
+          className={`relative inline-flex h-2 w-2 rounded-full ${aberto ? "bg-olive" : "bg-alerta"}`}
         />
       </span>
-      {texto}
+      {aberto ? (
+        `Aberto até ${hora}h`
+      ) : (
+        <>
+          {/* Só a palavra fica vermelha: pintar a frase inteira transformaria
+              o horário de abertura, que é a informação útil, em alarme. */}
+          <span className="text-alerta">Fechado</span>
+          <span> · abre {outroDia ? "amanhã " : ""}{hora}h</span>
+        </>
+      )}
     </span>
   );
 }

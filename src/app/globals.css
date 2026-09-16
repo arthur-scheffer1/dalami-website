@@ -32,6 +32,10 @@
   /* Marrom claro das formas impressas na caixa das fatias */
   --color-tan: #9a6a3c;
 
+  /* Vermelho de aviso — terracota, nao vermelho puro: ao lado do oliva e do
+     creme um vermelho saturado grita e briga com a paleta. */
+  --color-alerta: #b0392f;
+
   /* Dourado exato do lettering, medido nos ~19 mil pixels das letras do
      arquivo do logo (mediana). O --color-gold acima e' a versao da paleta,
      2% mais clara; este e' o valor literal da marca. */
