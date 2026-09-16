@@ -1,36 +1,35 @@
 /**
- * Cortina de carregamento: um véu no verde da marca sobre a página, e nada mais.
+ * Cortina de carregamento: um véu no verde da marca sobre a página inteira.
  *
  * O logo do carregamento é o próprio wordmark do hero, que enche de dourado no
- * lugar onde já vai ficar (ver `.hero-word-enchendo` no globals.css). Antes
- * havia um segundo logo aqui no meio da tela, e a troca entre os dois era
- * visível como um salto: um sumia, outro aparecia noutro tamanho e posição.
- * Com um só, o logo não se move e a transição vira apenas o fundo saindo.
+ * lugar onde já vai ficar (ver `.hero-word-enchendo` no globals.css). Com um
+ * logo só, ele não se move e a transição vira apenas o fundo saindo.
  *
- * É CSS puro, sem JavaScript, e isso é deliberado: uma cortina que depende de
- * JS para sumir cobre o site inteiro se o script falhar. Em CSS a animação se
- * completa sozinha, aconteça o que acontecer com o bundle.
+ * A animação é CSS puro, e isso é deliberado: uma cortina que dependa de JS
+ * para sumir cobre o site inteiro se o script falhar.
  *
- * Antecipar a saída por JS quando a página termina de pintar foi tentado e
- * descartado: trocar a animação no meio reinicia o preenchimento, e o dourado
- * volta ao zero para encher de novo. Os tempos foram encurtados em vez disso.
+ * O script abaixo não mexe na cortina — ele cuida das barras do SISTEMA. O
+ * Safari no iPhone pinta a barra de status e a barra inferior com a cor da
+ * página, e ignora uma `theme-color` que discorde do que ele vê na tela. Em
+ * vez de brigar com isso, a página começa declarando o verde: as barras ficam
+ * verdes junto com a cortina, a tela inteira vira uma peça só, e quando a
+ * cortina sai elas voltam ao creme junto com ela.
+ *
+ * Se o script não rodar, as barras ficam verdes num site creme — feio, porém
+ * inofensivo. É o único caminho aqui que não depende do navegador obedecer.
  */
-/*
- * TEMPORARIO — diagnostico das faixas verdes no celular.
- *
- * Abrir o site com ?diag=1 pinta a cortina de azul. Se as faixas ficarem
- * azuis, a cor vem da cortina; se continuarem verdes, vem de outro elemento.
- * As duas causas pedem correcoes opostas, e sem essa resposta so da para
- * chutar. Remover assim que o bug estiver resolvido.
- */
-const DIAGNOSTICO =
-  "if(location.search.includes('diag'))document.documentElement.dataset.diag='1'";
+const TROCA_COR_DAS_BARRAS = `
+setTimeout(function () {
+  var metas = document.querySelectorAll('meta[name="theme-color"]');
+  for (var i = 0; i < metas.length; i++) metas[i].setAttribute("content", "#f3ede2");
+}, 750);
+`;
 
 export default function Preloader() {
   return (
     <>
       <div className="preloader" aria-hidden="true" />
-      <script dangerouslySetInnerHTML={{ __html: DIAGNOSTICO }} />
+      <script dangerouslySetInnerHTML={{ __html: TROCA_COR_DAS_BARRAS }} />
     </>
   );
 }
