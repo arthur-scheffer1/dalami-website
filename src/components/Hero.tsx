@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { gsap } from "@/lib/gsap";
 import { SITE } from "@/lib/site";
+import EstadoLoja from "./EstadoLoja";
 
 /**
  * Quanto a entrada do hero espera, em segundos, para coincidir com a saída da
@@ -132,10 +133,14 @@ export default function Hero() {
         </div>
       </div>
 
-      <div className="hero-eyebrow relative z-10 mx-auto mb-10 max-w-4xl px-6 text-center">
+      <div className="hero-eyebrow relative z-10 mx-auto mb-10 flex max-w-4xl flex-col items-center gap-3 px-6 text-center">
         <span className="font-mono text-[10px] tracking-[0.34em] text-olive uppercase sm:text-[11px]">
           {SITE.slogan}
         </span>
+        {/* Logo na primeira tela: é a dúvida que leva alguém a procurar uma
+            confeitaria no celular, e no menu ela disputava espaço com os
+            links. */}
+        <EstadoLoja className="text-ink/55" />
       </div>
 
       {/* Três colunas em telas largas: texto | título | texto */}

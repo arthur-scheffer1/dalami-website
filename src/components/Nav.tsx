@@ -5,7 +5,6 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { PAGINAS, SITE } from "@/lib/site";
-import EstadoLoja from "./EstadoLoja";
 
 export default function Nav() {
   const [open, setOpen] = useState(false);
@@ -103,11 +102,6 @@ export default function Nav() {
               </li>
             );
           })}
-          {/* Responde a duvida numero um de quem procura confeitaria: esta
-              aberto agora? Some abaixo de lg para nao espremer o menu. */}
-          <li className="hidden lg:block">
-            <EstadoLoja className="text-ink/60" />
-          </li>
           <li>
             <a
               href={SITE.whatsapp.href}
@@ -155,13 +149,11 @@ export default function Nav() {
               {p.label}
             </Link>
           ))}
-          <EstadoLoja className="mt-5 text-ink/60" />
-
           <a
             href={SITE.whatsapp.href}
             target="_blank"
             rel="noopener noreferrer"
-            className="font-mono mt-4 block rounded-full bg-olive px-5 py-4 text-center text-[10px] font-bold tracking-[0.22em] text-gold uppercase"
+            className="font-mono mt-5 block rounded-full bg-olive px-5 py-4 text-center text-[10px] font-bold tracking-[0.22em] text-gold uppercase"
           >
             Encomendar no WhatsApp
           </a>
