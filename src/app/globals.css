@@ -104,14 +104,32 @@ body {
    reinicia o preenchimento, e o dourado volta ao zero para encher de novo. */
 .preloader {
   position: fixed;
-  /* Cobre muito alem da tela em vez de parar na borda. No celular a barra do
-     navegador se recolhe e o viewport muda de tamanho com atraso; um elemento
-     fixed fica momentaneamente menor que a area visivel, e isso descobre tiras
-     no topo e na base. A folga de 30vh torna esse descompasso invisivel. */
-  inset: -30vh -5vw;
+  inset: 0;
   z-index: 90;
-  background-color: var(--color-olive);
+  /* CREME nas bordas, de proposito. O Safari no iPhone pinta a barra de status
+     e a barra inferior copiando a cor que ve nas beiradas da pagina, e faz
+     essa troca com transicao animada — e' dai que vinham as faixas verdes que
+     demoravam a sumir. A theme-color deveria sobrepor isso e o Safari a
+     ignora, entao a saida foi tirar o verde do alcance dele. */
+  background-color: var(--color-cream);
   animation: preloader-sai 0.4s ease-out 0.75s forwards;
+}
+
+/* O verde vira um painel com respiro em volta, no lugar de tomar a tela
+   inteira. Mesmo desenho da caixa das fatias da secao de localizacao. */
+.preloader::before {
+  content: "";
+  position: absolute;
+  inset: 14px;
+  border-radius: 1.75rem;
+  background-color: var(--color-olive);
+}
+
+@media (min-width: 768px) {
+  .preloader::before {
+    inset: 22px;
+    border-radius: 2.5rem;
+  }
 }
 
 /* TEMPORARIO — ver Preloader.tsx. Com ?diag=1 a cortina fica azul, para
