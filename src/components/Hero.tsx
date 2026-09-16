@@ -87,7 +87,7 @@ export default function Hero() {
         { opacity: 0, y: 14, duration: 0.6, stagger: 0.1 },
         0.9,
       )
-        .from(".hero-estado", { opacity: 0, y: -10, duration: 0.6 }, 0.9)
+        .from(".hero-estado", { opacity: 0, duration: 0.6 }, 0.9)
         .from(".hero-cta", { opacity: 0, scale: 0.9, duration: 0.5 }, 1.1);
 
       // Desliza na rolagem ao longo do próprio eixo, já que esta camada mora
@@ -133,11 +133,16 @@ export default function Hero() {
         </div>
       </div>
 
-      {/* Canto superior direito: a faixa desce da esquerda para a direita, então
-          aqui em cima ela já passou. A pílula translúcida garante a leitura de
-          qualquer jeito. Fica em z-30 — abaixo da cortina, para não vazar
-          durante o carregamento. */}
-      <div className="hero-estado absolute top-28 right-5 z-30 md:right-8">
+      {/* No celular vai para o canto inferior direito, perto do polegar e longe
+          do menu; no desktop fica em cima, onde a faixa de ganache já passou,
+          porque ela desce da esquerda para a direita.
+
+          Encolhe por escala, não por tamanho de fonte: a classe de tamanho
+          mora dentro do componente, e sobrepô-la com outra classe arbitrária
+          dá resultado imprevisível — quem vence é a ordem no CSS gerado.
+
+          Fica em z-30, abaixo da cortina, para não vazar no carregamento. */}
+      <div className="hero-estado absolute right-4 bottom-6 z-30 origin-bottom-right scale-90 md:top-28 md:right-8 md:bottom-auto md:origin-top-right md:scale-100">
         <EstadoLoja className="rounded-full bg-cream/80 px-4 py-2.5 text-ink/65 backdrop-blur-sm" />
       </div>
 
