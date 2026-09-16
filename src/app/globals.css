@@ -104,9 +104,11 @@ body {
    reinicia o preenchimento, e o dourado volta ao zero para encher de novo. */
 .preloader {
   position: fixed;
-  /* Negativo porque inset: 0 para no limite do viewport, e no celular a barra
-     do navegador se recolhe durante a rolagem, descobrindo uma faixa. */
-  inset: -1px;
+  /* Cobre muito alem da tela em vez de parar na borda. No celular a barra do
+     navegador se recolhe e o viewport muda de tamanho com atraso; um elemento
+     fixed fica momentaneamente menor que a area visivel, e isso descobre tiras
+     no topo e na base. A folga de 30vh torna esse descompasso invisivel. */
+  inset: -30vh -5vw;
   z-index: 90;
   background-color: var(--color-olive);
   animation: preloader-sai 0.4s ease-out 0.75s forwards;
