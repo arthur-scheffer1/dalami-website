@@ -108,19 +108,65 @@ body {
   inset: 0;
   z-index: 90;
   background-color: var(--color-cream);
-  animation: preloader-sai 0.4s ease-out 0.75s forwards;
+  animation: preloader-sai 0.45s ease-out 0.95s forwards;
 }
 
-/* O wordmark do hero na primeira carga: comeca quase apagado e o oliva sobe
-   dentro das letras ate preenche-las. Enche direto na cor final — sobre creme
-   o dourado quase nao se le, entao nao ha troca de cor depois. */
+/* O wordmark do hero na primeira carga: a palavra aparece da ESQUERDA PARA A
+   DIREITA, como se estivesse sendo escrita.
+ *
+ * O gradiente e' horizontal e corre por cima da mascara do logo. Escrever de
+ * verdade exigiria o SVG inline para animar o traco, e sao 21KB de caminho no
+ * HTML de toda visita — a varredura da o mesmo efeito de graca, porque o olho
+ * le "apareceu da esquerda para a direita" como escrita.
+ *
+ * Enche direto em oliva: sobre creme o dourado quase nao se le. */
 .hero-word-enchendo {
   background-color: color-mix(in srgb, var(--color-olive) 12%, transparent);
-  background-image: linear-gradient(to top, var(--color-olive) 0 50%, transparent 50%);
-  background-size: 100% 200%;
-  background-position: 0% 0%;
+  background-image: linear-gradient(to right, var(--color-olive) 0 50%, transparent 50%);
+  background-size: 200% 100%;
+  background-position: 100% 0;
   background-repeat: no-repeat;
-  animation: preloader-enche 0.7s cubic-bezier(0.62, 0, 0.3, 1) forwards;
+  animation: preloader-escreve 0.9s cubic-bezier(0.55, 0, 0.3, 1) forwards;
+}
+
+/* Barra de progresso, embaixo. Enche junto com a palavra, entao o tempo de
+   espera fica visivel em vez de silencioso. */
+.preloader-barra {
+  position: absolute;
+  bottom: 20%;
+  left: 50%;
+  width: min(200px, 46vw);
+  height: 2px;
+  transform: translateX(-50%);
+  border-radius: 999px;
+  overflow: hidden;
+  background-color: color-mix(in srgb, var(--color-olive) 16%, transparent);
+}
+
+.preloader-barra::after {
+  content: "";
+  display: block;
+  height: 100%;
+  background-color: var(--color-olive);
+  /* scaleX em vez de width: a largura recalcula layout a cada quadro. */
+  transform: scaleX(0);
+  transform-origin: left;
+  animation: preloader-progresso 0.9s cubic-bezier(0.55, 0, 0.3, 1) forwards;
+}
+
+.preloader-legenda {
+  position: absolute;
+  bottom: calc(20% - 30px);
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--font-space-mono), monospace;
+  font-size: 9px;
+  letter-spacing: 0.42em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: color-mix(in srgb, var(--color-olive) 55%, transparent);
+  opacity: 0;
+  animation: preloader-legenda 0.5s ease-out 0.4s forwards;
 }
 
 /* Contorno dourado do wordmark.
@@ -141,12 +187,20 @@ body {
 /* So depois de a cortina ter sumido (0,75s de espera + 0,4s de fade). */
 .hero-contorno-atrasado {
   opacity: 0;
-  animation: contorno-entra 0.35s ease-out 1.15s forwards;
+  animation: contorno-entra 0.35s ease-out 1.4s forwards;
 }
 
-@keyframes preloader-enche {
-  from { background-position: 0% 0%; }
-  to   { background-position: 0% 100%; }
+@keyframes preloader-escreve {
+  from { background-position: 100% 0; }
+  to   { background-position: 0 0; }
+}
+
+@keyframes preloader-progresso {
+  to { transform: scaleX(1); }
+}
+
+@keyframes preloader-legenda {
+  to { opacity: 1; }
 }
 
 @keyframes contorno-entra {
@@ -160,5 +214,7 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .preloader { animation-delay: 0.25s; animation-duration: 0.3s; }
   .hero-contorno-atrasado { animation-delay: 0.5s; animation-duration: 0.2s; }
-  .hero-word-enchendo { animation: none; background-position: 0% 100%; }
+  .hero-word-enchendo { animation: none; background-position: 0 0; }
+  .preloader-barra::after { animation-duration: 0.3s; }
+  .preloader-legenda { animation-delay: 0.1s; }
 }
