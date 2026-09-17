@@ -1,35 +1,19 @@
 /**
- * Cortina de carregamento: um véu no verde da marca sobre a página inteira.
+ * Cortina de carregamento: um véu creme sobre a página, na mesma cor do hero.
  *
- * O logo do carregamento é o próprio wordmark do hero, que enche de dourado no
+ * O logo do carregamento é o próprio wordmark do hero, que enche de oliva no
  * lugar onde já vai ficar (ver `.hero-word-enchendo` no globals.css). Com um
  * logo só, ele não se move e a transição vira apenas o fundo saindo.
  *
- * A animação é CSS puro, e isso é deliberado: uma cortina que dependa de JS
- * para sumir cobre o site inteiro se o script falhar.
+ * A cortina já foi verde. Não deu: o Safari no iPhone pinta a barra de status
+ * e a barra inferior copiando a cor das beiradas da página, ignora a
+ * `theme-color` e faz a troca com transição animada — as barras seguiam verdes
+ * depois de a página já estar creme, e isso aparecia como faixa. Na cor do
+ * site não existe diferença para ele copiar.
  *
- * O script abaixo não mexe na cortina — ele cuida das barras do SISTEMA. O
- * Safari no iPhone pinta a barra de status e a barra inferior com a cor da
- * página, e ignora uma `theme-color` que discorde do que ele vê na tela. Em
- * vez de brigar com isso, a página começa declarando o verde: as barras ficam
- * verdes junto com a cortina, a tela inteira vira uma peça só, e quando a
- * cortina sai elas voltam ao creme junto com ela.
- *
- * Se o script não rodar, as barras ficam verdes num site creme — feio, porém
- * inofensivo. É o único caminho aqui que não depende do navegador obedecer.
+ * É CSS puro, sem JavaScript, e isso é deliberado: uma cortina que depende de
+ * JS para sumir cobre o site inteiro se o script falhar.
  */
-const TROCA_COR_DAS_BARRAS = `
-setTimeout(function () {
-  var metas = document.querySelectorAll('meta[name="theme-color"]');
-  for (var i = 0; i < metas.length; i++) metas[i].setAttribute("content", "#f3ede2");
-}, 750);
-`;
-
 export default function Preloader() {
-  return (
-    <>
-      <div className="preloader" aria-hidden="true" />
-      <script dangerouslySetInnerHTML={{ __html: TROCA_COR_DAS_BARRAS }} />
-    </>
-  );
+  return <div className="preloader" aria-hidden="true" />;
 }

@@ -92,68 +92,35 @@ body {
 }
 
 /* ── Tela de carregamento ────────────────────────────────────────────────────
-   A cortina e' o verde do logo; quem faz o papel de marca e' o wordmark do
-   proprio hero, em dourado, logo abaixo.
+   Creme, a mesma cor do hero.
 
-   Tudo em CSS de proposito: uma cortina que dependa de JS para sumir cobre o
-   site inteiro se o script falhar. Os tempos sao curtos porque a espera era o
-   problema — num celular rapido a pagina pinta em poucas centenas de
-   milissegundos, e o que sobrava era verde a toa.
+   Verde foi tentado e nao deu. O Safari no iPhone pinta a barra de status e a
+   barra inferior copiando a cor das beiradas da pagina, ignora a theme-color
+   (comprovado trocando o valor sem nenhum efeito) e faz essa troca com
+   transicao animada — as barras seguiam verdes depois de a pagina ja estar
+   creme, e era isso que aparecia como faixa que demorava a sumir. Com a
+   cortina na cor do site nao existe diferenca para ele copiar.
 
-   Antecipar a saida por JS foi tentado e descartado: trocar a animacao no meio
-   reinicia o preenchimento, e o dourado volta ao zero para encher de novo. */
+   A animacao e' CSS puro: uma cortina que dependa de JS para sumir cobre o
+   site inteiro se o script falhar. */
 .preloader {
   position: fixed;
   inset: 0;
   z-index: 90;
-  /* Creme por baixo. O verde e' o painel do ::before, que comeca cobrindo tudo
-     e se recolhe pouco antes do fim. */
   background-color: var(--color-cream);
   animation: preloader-sai 0.4s ease-out 0.75s forwards;
 }
 
-/* O verde cobre a tela inteira e, a 0,55s, recua alguns pixels das bordas.
- *
- * Esse recuo e' o ponto do arranjo. O Safari no iPhone pinta a barra de status
- * e a barra inferior copiando a cor que ve nas beiradas da pagina, e faz isso
- * com transicao animada — ele ignora a theme-color, o que foi comprovado
- * trocando o valor dela sem nenhum efeito. O problema nunca foi a cor em si, e
- * sim o atraso: quando a cortina sumia de uma vez, as barras ficavam verdes
- * depois que a pagina ja estava creme, e era isso que se via como faixa.
- *
- * Entregando o creme nas beiradas 200ms antes da revelacao, o Safari tem tempo
- * de acompanhar, e o recuo e' sutil o bastante para ler como o painel se
- * fechando em vez de uma borda. */
-.preloader::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background-color: var(--color-olive);
-  /* clip-path em vez de animar inset: inset recalcula layout a cada quadro e
-     engasga no celular; clip-path e' composto pela GPU. */
-  clip-path: inset(0 round 0);
-  animation: preloader-recolhe 0.22s ease-in 0.55s forwards;
-}
-
-@keyframes preloader-recolhe {
-  to { clip-path: inset(16px round 2rem); }
-}
-
-/* O wordmark do hero na primeira carga: comeca vazio e o dourado sobe dentro
-   das letras ate preenche-las, sobre o verde da cortina — o logo da marca.
-   Depois vira oliva no mesmo intervalo em que a cortina some, porque no hero o
-   fundo e' creme e dourado sobre creme quase nao se le. */
+/* O wordmark do hero na primeira carga: comeca quase apagado e o oliva sobe
+   dentro das letras ate preenche-las. Enche direto na cor final — sobre creme
+   o dourado quase nao se le, entao nao ha troca de cor depois. */
 .hero-word-enchendo {
-  background-color: color-mix(in srgb, var(--color-gold) 22%, transparent);
-  background-image: linear-gradient(to top, var(--color-gold) 0 50%, transparent 50%);
+  background-color: color-mix(in srgb, var(--color-olive) 12%, transparent);
+  background-image: linear-gradient(to top, var(--color-olive) 0 50%, transparent 50%);
   background-size: 100% 200%;
   background-position: 0% 0%;
   background-repeat: no-repeat;
-  /* Duas animacoes mexendo em propriedades diferentes: uma sobe o
-     preenchimento, a outra troca a cor. Sem conflito entre elas. */
-  animation:
-    preloader-enche 0.7s cubic-bezier(0.62, 0, 0.3, 1) forwards,
-    preloader-vira-oliva 0.4s ease-out 0.75s forwards;
+  animation: preloader-enche 0.7s cubic-bezier(0.62, 0, 0.3, 1) forwards;
 }
 
 /* Contorno dourado do wordmark.
@@ -171,8 +138,7 @@ body {
   mask: url(/images/dalami-contorno.svg) center / 97% no-repeat;
 }
 
-/* So depois de a cortina ter sumido (0,75s de espera + 0,4s de fade), para o
-   contorno nao invadir o carregamento. */
+/* So depois de a cortina ter sumido (0,75s de espera + 0,4s de fade). */
 .hero-contorno-atrasado {
   opacity: 0;
   animation: contorno-entra 0.35s ease-out 1.15s forwards;
@@ -181,19 +147,6 @@ body {
 @keyframes preloader-enche {
   from { background-position: 0% 0%; }
   to   { background-position: 0% 100%; }
-}
-
-/* Os dois gradientes tem a mesma estrutura, entao o navegador interpola a cor
-   entre eles em vez de trocar de uma vez. */
-@keyframes preloader-vira-oliva {
-  from {
-    background-color: color-mix(in srgb, var(--color-gold) 22%, transparent);
-    background-image: linear-gradient(to top, var(--color-gold) 0 50%, transparent 50%);
-  }
-  to {
-    background-color: color-mix(in srgb, var(--color-olive) 14%, transparent);
-    background-image: linear-gradient(to top, var(--color-olive) 0 50%, transparent 50%);
-  }
 }
 
 @keyframes contorno-entra {
@@ -207,8 +160,5 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .preloader { animation-delay: 0.25s; animation-duration: 0.3s; }
   .hero-contorno-atrasado { animation-delay: 0.5s; animation-duration: 0.2s; }
-  .hero-word-enchendo {
-    background-position: 0% 100%;
-    animation: preloader-vira-oliva 0.3s ease-out 0.25s forwards;
-  }
+  .hero-word-enchendo { animation: none; background-position: 0% 100%; }
 }
