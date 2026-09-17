@@ -12,7 +12,7 @@ import Faixa from "./Faixa";
 
 const ORDEM_TAMANHOS = ["P", "M", "G", "GG"] as const;
 
-/** Nem todo bolo tem foto; os que têm ganham a prévia flutuante no hover. */
+/** Nem todo bolo tem foto; os que têm acendem a foto atrás da própria linha. */
 const FOTOS: Record<string, string> = {
   "Morango e Nutella": "/images/fatia-nutella-morango.jpg",
   "Bolo Dalami": "/images/bolo-chocolate.jpg",
@@ -26,7 +26,6 @@ const FOTOS: Record<string, string> = {
 export default function CardapioCompleto() {
   const rootRef = useRef<HTMLDivElement>(null);
   const [ativa, setAtiva] = useState<string>(CATEGORIAS[0].id);
-  const [previa, setPrevia] = useState<string | null>(null);
 
   useIsoLayoutEffect(() => {
     const ctx = gsap.context(() => {
@@ -229,11 +228,54 @@ export default function CardapioCompleto() {
                   {cat.bolos.map((bolo) => (
                     <article
                       key={bolo.nome}
-                      onMouseEnter={() => setPrevia(FOTOS[bolo.nome] ?? null)}
-                      onMouseLeave={() => setPrevia(null)}
-                      className="cat-bolo group grid gap-4 border-b border-ink/15 py-8 transition-colors duration-300 md:grid-cols-12 md:gap-8 md:px-4 md:hover:bg-olive/5"
+                      className="cat-bolo group relative isolate grid gap-4 border-b border-ink/15 py-8 transition-colors duration-300 md:grid-cols-12 md:gap-8 md:px-4 md:hover:bg-olive/5"
                     >
-                      <div className="md:col-span-5">
+                      {/* A foto do bolo acende atrás da própria linha, sem
+                          empurrar nada: quem entra e sai é só opacidade.
+
+                          O véu de creme por cima é o que mantém o nome, a
+                          descrição e os preços legíveis — sem ele o texto
+                          escuro cai em cima de bolo de chocolate. Vai da
+                          esquerda mais fechada para a direita mais aberta:
+                          à esquerda mora o nome, em corpo grande; à direita
+                          só os preços, em caixas com fundo próprio.
+
+                          Só no desktop. No celular não existe passar o mouse,
+                          e uma foto que só aparece no toque é uma foto que
+                          ninguém vê. */}
+                      {FOTOS[bolo.nome] && (
+                        <span
+                          aria-hidden="true"
+                          className="pointer-events-none absolute inset-0 -z-10 hidden overflow-hidden rounded-xl opacity-0 transition-opacity duration-500 group-hover:opacity-100 md:block"
+                        >
+                          <Image
+                            src={FOTOS[bolo.nome]}
+                            alt=""
+                            fill
+                            sizes="(max-width: 768px) 0px, 1100px"
+                            className="scale-105 object-cover transition-transform duration-[900ms] ease-out group-hover:scale-100"
+                          />
+                          <span className="absolute inset-0 block bg-gradient-to-r from-cream/92 via-cream/82 to-cream/70" />
+                        </span>
+                      )}
+
+                      <div className="flex items-center gap-4 md:col-span-5">
+                        {/* No celular não existe hover, então a foto que no
+                            desktop acende atrás da linha aqui vai direto: uma
+                            miniatura fixa ao lado do nome, sempre visível. Sem
+                            ela o celular — que é a maioria do tráfego — nunca
+                            veria foto nenhuma neste cardápio. */}
+                        {FOTOS[bolo.nome] && (
+                          <span className="relative block h-16 w-16 shrink-0 overflow-hidden rounded-xl md:hidden">
+                            <Image
+                              src={FOTOS[bolo.nome]}
+                              alt=""
+                              fill
+                              sizes="64px"
+                              className="object-cover"
+                            />
+                          </span>
+                        )}
                         <h3 className="font-display flex flex-wrap items-center gap-3 text-2xl text-ink transition-transform duration-300 md:text-3xl md:group-hover:translate-x-1.5">
                           {bolo.nome}
                           {bolo.campeao && (
@@ -273,16 +315,6 @@ export default function CardapioCompleto() {
             ))}
           </div>
         </div>
-      </div>
-
-      {/* Prévia flutuante: só no desktop, presa ao canto, fora do fluxo do texto */}
-      <div
-        aria-hidden="true"
-        className={`pointer-events-none fixed right-8 bottom-8 z-40 hidden h-[260px] w-[200px] overflow-hidden rounded-2xl shadow-2xl transition-all duration-500 lg:block ${
-          previa ? "translate-y-0 scale-100 opacity-100" : "translate-y-4 scale-95 opacity-0"
-        }`}
-      >
-        {previa && <Image src={previa} alt="" fill sizes="200px" className="object-cover" />}
       </div>
 
       {/* Brigadeiros */}
