@@ -106,8 +106,37 @@ body {
   position: fixed;
   inset: 0;
   z-index: 90;
-  background-color: var(--color-olive);
+  /* Creme por baixo. O verde e' o painel do ::before, que comeca cobrindo tudo
+     e se recolhe pouco antes do fim. */
+  background-color: var(--color-cream);
   animation: preloader-sai 0.4s ease-out 0.75s forwards;
+}
+
+/* O verde cobre a tela inteira e, a 0,55s, recua alguns pixels das bordas.
+ *
+ * Esse recuo e' o ponto do arranjo. O Safari no iPhone pinta a barra de status
+ * e a barra inferior copiando a cor que ve nas beiradas da pagina, e faz isso
+ * com transicao animada — ele ignora a theme-color, o que foi comprovado
+ * trocando o valor dela sem nenhum efeito. O problema nunca foi a cor em si, e
+ * sim o atraso: quando a cortina sumia de uma vez, as barras ficavam verdes
+ * depois que a pagina ja estava creme, e era isso que se via como faixa.
+ *
+ * Entregando o creme nas beiradas 200ms antes da revelacao, o Safari tem tempo
+ * de acompanhar, e o recuo e' sutil o bastante para ler como o painel se
+ * fechando em vez de uma borda. */
+.preloader::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-color: var(--color-olive);
+  /* clip-path em vez de animar inset: inset recalcula layout a cada quadro e
+     engasga no celular; clip-path e' composto pela GPU. */
+  clip-path: inset(0 round 0);
+  animation: preloader-recolhe 0.22s ease-in 0.55s forwards;
+}
+
+@keyframes preloader-recolhe {
+  to { clip-path: inset(16px round 2rem); }
 }
 
 /* O wordmark do hero na primeira carga: comeca vazio e o dourado sobe dentro

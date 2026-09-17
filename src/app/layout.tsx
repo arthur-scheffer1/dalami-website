@@ -51,17 +51,14 @@ const spaceMono = Space_Mono({
   display: "swap",
 });
 
-/* Pinta as barras do navegador no celular — atras da barra de status e da
-   barra inferior.
- *
- * Comeca no VERDE da cortina, de proposito. O Safari ignora uma theme-color
- * que discorde do que ele ve na tela e copia a cor da pagina; declarando o
- * verde, as barras acompanham a cortina e a tela vira uma peca so, sem faixa
- * nenhuma. O Preloader troca para creme quando a cortina sai. */
+/* Pinta as barras do navegador no celular. Vale para quem respeita a
+   declaracao — o Safari no iPhone nao respeita: ele copia a cor que ve nas
+   beiradas da pagina, e por isso quem resolve o caso dele e' o recuo da
+   cortina no globals.css, nao este valor. */
 export const viewport: Viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#58763e" },
-    { media: "(prefers-color-scheme: dark)", color: "#58763e" },
+    { media: "(prefers-color-scheme: light)", color: "#f3ede2" },
+    { media: "(prefers-color-scheme: dark)", color: "#f3ede2" },
   ],
 };
 
