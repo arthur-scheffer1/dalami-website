@@ -123,8 +123,8 @@ export default function Composicao() {
           <div className="comp-foto relative aspect-square overflow-hidden rounded-[2rem] md:col-span-5">
             <div className="comp-img relative h-[116%] w-full">
               <Image
-                src="/images/cheesecake-red-velvet.jpg"
-                alt="Fatia de cheesecake de frutas vermelhas ao lado de uma fatia de red velvet"
+                src="/images/mil-folhas-morango.jpg"
+                alt="Fatia de mil-folhas com creme e morangos frescos"
                 fill
                 sizes="(max-width: 768px) 100vw, 42vw"
                 className="object-cover"

@@ -72,8 +72,8 @@ export default function SobreMarca() {
       <div className="mx-auto grid max-w-[1400px] items-center gap-14 px-6 md:grid-cols-2 md:gap-20">
         <div className="sobre-foto relative aspect-[4/5] overflow-hidden rounded-[2rem]">
           <Image
-            src="/images/bolo-chocolate.jpg"
-            alt="Fatia de bolo de chocolate da Dalami, servida no prato da casa"
+            src="/images/salao-dalami.jpg"
+            alt="Salão da Dalami nos Ingleses, com o mural colorido e as mesas de madeira clara"
             fill
             sizes="(max-width: 768px) 100vw, 50vw"
             className="object-cover"

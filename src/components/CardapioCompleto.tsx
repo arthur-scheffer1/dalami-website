@@ -12,15 +12,26 @@ import Faixa from "./Faixa";
 
 const ORDEM_TAMANHOS = ["P", "M", "G", "GG"] as const;
 
-/** Nem todo bolo tem foto; só esses aparecem na aba "Fotos" de cada categoria. */
+/** Nem todo bolo tem foto; só esses aparecem na aba "Fotos" de cada categoria.
+ *
+ * As fotos vieram dos posts da própria Dalami, recortadas para tirar a
+ * marca-d'água, as setas de carrossel e as legendas do Instagram — a página
+ * já tem a marca dela, e um logo dentro da foto vira marca repetida.
+ *
+ * O sabor de cada uma foi lido da foto contra a descrição do cardápio: a
+ * cereja e o cream cheese do Red Velvet, a trufa por cima da Matilda, o
+ * damasco amarelo com amêndoa em farofa, a ameixa escura do bolo de coco. */
 const FOTOS: Record<string, string> = {
-  "Morango e Nutella": "/images/fatia-nutella-morango.jpg",
-  "Bolo Dalami": "/images/bolo-chocolate.jpg",
-  "Matilda Cake": "/images/calda-chocolate.jpg",
+  "Bolo Dalami": "/images/bolo-dalami.jpg",
+  "Morango e Nutella": "/images/morango-nutella.jpg",
+  "Matilda Cake": "/images/matilda-cake.jpg",
   "Bolo Catarina": "/images/vitrine.jpg",
-  "Bolo de Pudim": "/images/cheesecake-red-velvet.jpg",
-  "Red Velvet": "/images/cheesecake-red-velvet.jpg",
-  "Torta Mineira": "/images/vitrine.jpg",
+  "Ninho e Nutella": "/images/ninho-nutella.jpg",
+  "Red Velvet": "/images/red-velvet.jpg",
+  "Cheesecake de frutas vermelhas": "/images/cheesecake-red-velvet.jpg",
+  "Limão siciliano e frutas vermelhas": "/images/frutas-vermelhas.jpg",
+  "Damasco e doce de leite": "/images/damasco-doce-de-leite.jpg",
+  "Ameixa, coco e doce de leite": "/images/ameixa-coco.jpg",
 };
 
 export default function CardapioCompleto() {

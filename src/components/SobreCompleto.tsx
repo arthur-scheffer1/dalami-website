@@ -3,7 +3,7 @@
 import { useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { gsap, SplitText } from "@/lib/gsap";
+import { gsap } from "@/lib/gsap";
 import { revelaAoEntrar } from "@/lib/anima";
 import { useIsoLayoutEffect } from "@/lib/use-iso-layout-effect";
 import { SITE } from "@/lib/site";
@@ -34,15 +34,11 @@ export default function SobreCompleto() {
 
   useIsoLayoutEffect(() => {
     const ctx = gsap.context(() => {
-      const split = new SplitText(".sobre-titulo", { type: "chars" });
       const mm = gsap.matchMedia();
-      gsap.from(split.chars, {
-        yPercent: 110,
-        opacity: 0,
-        duration: 1,
-        ease: "power4.out",
-        stagger: 0.035,
-      });
+      // A palavra sobe inteira, nunca letra a letra: é o desenho do logo, e
+      // separá-lo em caracteres quebraria as ligações da cursiva.
+      gsap.from(".sobre-word", { yPercent: 108, duration: 1.1, ease: "power4.out" });
+      gsap.from(".sobre-artigo", { opacity: 0, y: 18, duration: 0.8, delay: 0.15, ease: "power3.out" });
 
       gsap.fromTo(
         ".sobre-p",
@@ -92,7 +88,6 @@ export default function SobreCompleto() {
         });
       });
 
-      return () => split.revert();
     }, rootRef);
     return () => ctx.revert();
   }, []);
@@ -103,11 +98,35 @@ export default function SobreCompleto() {
         <span className="font-mono mb-5 block text-[10px] tracking-[0.3em] text-olive uppercase">
           Sobre nós
         </span>
-        <h1
-          className="sobre-titulo font-poster leading-[0.88] tracking-tight text-ink uppercase"
-          style={{ fontSize: "clamp(48px, 9vw, 150px)" }}
-        >
-          A Dalami
+        {/* "Dalami" é o logo real vetorizado, não uma fonte parecida — entra
+            como máscara CSS, do mesmo jeito que no hero da home, então o
+            arquivo fica cacheado à parte e a cor continua vindo do CSS.
+            O "A" fica na cursiva do cardápio: o vetor só tem a palavra
+            Dalami, e é a fonte mais próxima do lettering dela. */}
+        <h1 aria-label="A Dalami" className="flex items-end gap-3 md:gap-5">
+          <span
+            aria-hidden
+            className="sobre-artigo font-script leading-none text-olive"
+            style={{ fontSize: "clamp(34px, 5vw, 86px)" }}
+          >
+            A
+          </span>
+          <span className="block flex-1 overflow-hidden">
+            <span
+              className="sobre-word block w-full max-w-[980px] bg-olive"
+              style={{
+                aspectRatio: "557 / 130",
+                maskImage: "url(/images/dalami-wordmark.svg)",
+                WebkitMaskImage: "url(/images/dalami-wordmark.svg)",
+                maskSize: "contain",
+                WebkitMaskSize: "contain",
+                maskRepeat: "no-repeat",
+                WebkitMaskRepeat: "no-repeat",
+                maskPosition: "left bottom",
+                WebkitMaskPosition: "left bottom",
+              }}
+            />
+          </span>
         </h1>
       </header>
 
@@ -161,8 +180,8 @@ export default function SobreCompleto() {
           </div>
           <div className="sobre-img relative aspect-square overflow-hidden rounded-[2rem] md:col-span-5 md:mb-20">
             <Image
-              src="/images/bolo-chocolate.jpg"
-              alt="Fatia de bolo de chocolate da Dalami"
+              src="/images/bolo-chocolate-inteiro.jpg"
+              alt="Bolo de chocolate inteiro da Dalami, coberto de ganache e brigadeiros"
               fill
               sizes="(max-width: 768px) 100vw, 40vw"
               className="object-cover"
