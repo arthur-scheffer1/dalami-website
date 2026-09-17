@@ -12,7 +12,7 @@ import Faixa from "./Faixa";
 
 const ORDEM_TAMANHOS = ["P", "M", "G", "GG"] as const;
 
-/** Nem todo bolo tem foto; os que têm acendem a foto atrás da própria linha. */
+/** Nem todo bolo tem foto; só esses aparecem na aba "Fotos" de cada categoria. */
 const FOTOS: Record<string, string> = {
   "Morango e Nutella": "/images/fatia-nutella-morango.jpg",
   "Bolo Dalami": "/images/bolo-chocolate.jpg",
@@ -26,6 +26,8 @@ const FOTOS: Record<string, string> = {
 export default function CardapioCompleto() {
   const rootRef = useRef<HTMLDivElement>(null);
   const [ativa, setAtiva] = useState<string>(CATEGORIAS[0].id);
+  // Cada categoria alterna sozinha entre lista de texto e grade de fotos.
+  const [modoFotos, setModoFotos] = useState<Record<string, boolean>>({});
 
   useIsoLayoutEffect(() => {
     const ctx = gsap.context(() => {
@@ -88,15 +90,6 @@ export default function CardapioCompleto() {
         });
         gsap.utils.toArray<HTMLElement>(".cat-bolo").forEach((linha) => {
           revelaAoEntrar(linha, { opacity: 0.05, y: 16 }, { trigger: linha, start: "top 94%", duration: 0.5 });
-
-          const foto = linha.querySelector(".cat-bolo-foto");
-          if (foto) {
-            revelaAoEntrar(
-              foto,
-              { xPercent: 55, opacity: 0.2 },
-              { trigger: linha, start: "top 94%", duration: 0.6, xPercent: 0, ease: "power2.out" },
-            );
-          }
         });
       });
 
@@ -233,53 +226,84 @@ export default function CardapioCompleto() {
                   </div>
                 </div>
 
+                {/* Abas Lista / Fotos: quem só quer o preço fica na lista de
+                    sempre; quem quer decidir pela foto troca de aba. Nenhuma
+                    foto mora dentro da linha, então nada de hover simulado
+                    nem miniatura espremida — o texto e a foto vivem em dois
+                    modos separados, cada um por inteiro. */}
+                <div className="mb-8 inline-flex gap-1 rounded-full border border-ink/15 bg-cream p-1">
+                  <button
+                    type="button"
+                    onClick={() => setModoFotos((m) => ({ ...m, [cat.id]: false }))}
+                    className={`font-mono rounded-full px-5 py-2.5 text-[10px] font-bold tracking-[0.18em] uppercase transition-colors duration-300 ${
+                      !modoFotos[cat.id] ? "bg-olive text-gold" : "text-ink/45 hover:text-ink/75"
+                    }`}
+                  >
+                    Lista
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setModoFotos((m) => ({ ...m, [cat.id]: true }))}
+                    className={`font-mono rounded-full px-5 py-2.5 text-[10px] font-bold tracking-[0.18em] uppercase transition-colors duration-300 ${
+                      modoFotos[cat.id] ? "bg-olive text-gold" : "text-ink/45 hover:text-ink/75"
+                    }`}
+                  >
+                    Fotos
+                  </button>
+                </div>
+
+                {modoFotos[cat.id] ? (
+                  <div className="cat-fotos grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
+                    {cat.bolos
+                      .filter((bolo) => FOTOS[bolo.nome])
+                      .map((bolo) => {
+                        const precos = Object.values(bolo.precos).filter(
+                          (v): v is number => v != null,
+                        );
+                        const menorPreco = precos.length ? Math.min(...precos) : null;
+                        return (
+                          <div
+                            key={bolo.nome}
+                            className="group relative isolate aspect-square overflow-hidden rounded-2xl"
+                          >
+                            <Image
+                              src={FOTOS[bolo.nome]}
+                              alt={bolo.nome}
+                              fill
+                              sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                              className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
+                            />
+                            <span className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink/85 via-ink/25 to-transparent pt-10 pb-3.5 px-4">
+                              <span className="font-display block text-[15px] leading-tight text-cream">
+                                {bolo.nome}
+                              </span>
+                              {menorPreco != null && (
+                                <span className="font-mono mt-1 block text-[10px] tracking-[0.1em] text-cream/75 uppercase">
+                                  A partir de R$ {menorPreco}
+                                </span>
+                              )}
+                            </span>
+                            {bolo.campeao && (
+                              <span className="font-mono absolute top-3 left-3 rounded-full bg-olive px-2.5 py-1 text-[7px] font-bold tracking-[0.14em] text-gold uppercase">
+                                Campeão
+                              </span>
+                            )}
+                          </div>
+                        );
+                      })}
+                    {cat.bolos.every((bolo) => !FOTOS[bolo.nome]) && (
+                      <p className="font-mono col-span-full py-10 text-center text-[11px] tracking-[0.14em] text-ink/40 uppercase">
+                        Fotos desta categoria em breve
+                      </p>
+                    )}
+                  </div>
+                ) : (
                 <div className="relative border-t border-ink/15">
                   {cat.bolos.map((bolo) => (
                     <article
                       key={bolo.nome}
-                      className="cat-bolo group relative isolate grid gap-4 border-b border-ink/15 py-8 pr-24 transition-colors duration-300 md:grid-cols-12 md:gap-8 md:px-4 md:pr-4 md:hover:bg-olive/5"
+                      className="cat-bolo group relative isolate grid gap-4 border-b border-ink/15 py-8 transition-colors duration-300 md:grid-cols-12 md:gap-8 md:px-4 md:hover:bg-olive/5"
                     >
-                      {/* Desktop: a foto acende atrás da própria linha, sem
-                          empurrar nada — quem entra e sai é só opacidade. O
-                          véu de creme por cima mantém o texto legível. */}
-                      {FOTOS[bolo.nome] && (
-                        <span
-                          aria-hidden="true"
-                          className="pointer-events-none absolute inset-0 -z-10 hidden overflow-hidden rounded-xl opacity-0 transition-opacity duration-500 group-hover:opacity-100 md:block"
-                        >
-                          <Image
-                            src={FOTOS[bolo.nome]}
-                            alt=""
-                            fill
-                            sizes="(max-width: 768px) 0px, 1100px"
-                            className="scale-105 object-cover transition-transform duration-[900ms] ease-out group-hover:scale-100"
-                          />
-                          <span className="absolute inset-0 block bg-gradient-to-r from-cream/92 via-cream/82 to-cream/70" />
-                        </span>
-                      )}
-
-                      {/* Celular: não existe hover, então a miniatura entra
-                          sozinha, presa na borda direita da linha e contida
-                          na sua altura — discreta, sem empurrar o texto (o
-                          espaço já está reservado pelo pr-24 do <article>) e
-                          grande o bastante para acertar com o dedo. Desliza
-                          de dentro da própria borda quando a linha entra na
-                          tela (ver ScrollTrigger abaixo). */}
-                      {FOTOS[bolo.nome] && (
-                        <span
-                          aria-hidden="true"
-                          className="cat-bolo-foto pointer-events-none absolute top-1/2 right-4 h-20 w-20 -translate-y-1/2 overflow-hidden rounded-xl shadow-sm md:hidden"
-                        >
-                          <Image
-                            src={FOTOS[bolo.nome]}
-                            alt=""
-                            fill
-                            sizes="80px"
-                            className="object-cover"
-                          />
-                        </span>
-                      )}
-
                       <div className="md:col-span-5">
                         <h3 className="font-display flex flex-wrap items-center gap-3 text-2xl text-ink transition-transform duration-300 md:text-3xl md:group-hover:translate-x-1.5">
                           {bolo.nome}
@@ -316,6 +340,7 @@ export default function CardapioCompleto() {
                     </article>
                   ))}
                 </div>
+                )}
               </section>
             ))}
           </div>
