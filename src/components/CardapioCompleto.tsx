@@ -88,6 +88,15 @@ export default function CardapioCompleto() {
         });
         gsap.utils.toArray<HTMLElement>(".cat-bolo").forEach((linha) => {
           revelaAoEntrar(linha, { opacity: 0.05, y: 16 }, { trigger: linha, start: "top 94%", duration: 0.5 });
+
+          const foto = linha.querySelector(".cat-bolo-foto");
+          if (foto) {
+            revelaAoEntrar(
+              foto,
+              { xPercent: 55, opacity: 0.2 },
+              { trigger: linha, start: "top 94%", duration: 0.6, xPercent: 0, ease: "power2.out" },
+            );
+          }
         });
       });
 
@@ -228,21 +237,11 @@ export default function CardapioCompleto() {
                   {cat.bolos.map((bolo) => (
                     <article
                       key={bolo.nome}
-                      className="cat-bolo group relative isolate grid gap-4 border-b border-ink/15 py-8 transition-colors duration-300 md:grid-cols-12 md:gap-8 md:px-4 md:hover:bg-olive/5"
+                      className="cat-bolo group relative isolate grid gap-4 border-b border-ink/15 py-8 pr-24 transition-colors duration-300 md:grid-cols-12 md:gap-8 md:px-4 md:pr-4 md:hover:bg-olive/5"
                     >
-                      {/* A foto do bolo acende atrás da própria linha, sem
-                          empurrar nada: quem entra e sai é só opacidade.
-
-                          O véu de creme por cima é o que mantém o nome, a
-                          descrição e os preços legíveis — sem ele o texto
-                          escuro cai em cima de bolo de chocolate. Vai da
-                          esquerda mais fechada para a direita mais aberta:
-                          à esquerda mora o nome, em corpo grande; à direita
-                          só os preços, em caixas com fundo próprio.
-
-                          Só no desktop. No celular não existe passar o mouse,
-                          e uma foto que só aparece no toque é uma foto que
-                          ninguém vê. */}
+                      {/* Desktop: a foto acende atrás da própria linha, sem
+                          empurrar nada — quem entra e sai é só opacidade. O
+                          véu de creme por cima mantém o texto legível. */}
                       {FOTOS[bolo.nome] && (
                         <span
                           aria-hidden="true"
@@ -259,23 +258,29 @@ export default function CardapioCompleto() {
                         </span>
                       )}
 
-                      <div className="flex items-center gap-4 md:col-span-5">
-                        {/* No celular não existe hover, então a foto que no
-                            desktop acende atrás da linha aqui vai direto: uma
-                            miniatura fixa ao lado do nome, sempre visível. Sem
-                            ela o celular — que é a maioria do tráfego — nunca
-                            veria foto nenhuma neste cardápio. */}
-                        {FOTOS[bolo.nome] && (
-                          <span className="relative block h-16 w-16 shrink-0 overflow-hidden rounded-xl md:hidden">
-                            <Image
-                              src={FOTOS[bolo.nome]}
-                              alt=""
-                              fill
-                              sizes="64px"
-                              className="object-cover"
-                            />
-                          </span>
-                        )}
+                      {/* Celular: não existe hover, então a miniatura entra
+                          sozinha, presa na borda direita da linha e contida
+                          na sua altura — discreta, sem empurrar o texto (o
+                          espaço já está reservado pelo pr-24 do <article>) e
+                          grande o bastante para acertar com o dedo. Desliza
+                          de dentro da própria borda quando a linha entra na
+                          tela (ver ScrollTrigger abaixo). */}
+                      {FOTOS[bolo.nome] && (
+                        <span
+                          aria-hidden="true"
+                          className="cat-bolo-foto pointer-events-none absolute top-1/2 right-4 h-20 w-20 -translate-y-1/2 overflow-hidden rounded-xl shadow-sm md:hidden"
+                        >
+                          <Image
+                            src={FOTOS[bolo.nome]}
+                            alt=""
+                            fill
+                            sizes="80px"
+                            className="object-cover"
+                          />
+                        </span>
+                      )}
+
+                      <div className="md:col-span-5">
                         <h3 className="font-display flex flex-wrap items-center gap-3 text-2xl text-ink transition-transform duration-300 md:text-3xl md:group-hover:translate-x-1.5">
                           {bolo.nome}
                           {bolo.campeao && (
