@@ -60,9 +60,14 @@ export default function SmoothScroll({ children }: { children: React.ReactNode }
       });
     }
 
-    gsap.ticker.add((time) => {
+    // Guardado numa const: `gsap.ticker.remove(lenis.raf)` na limpeza tentava
+    // remover uma funcao diferente da que entrou — o que foi adicionado e' esta
+    // arrow, nao o metodo. O callback nunca saia, e cada remontagem empilhava
+    // mais um rodando contra uma instancia ja destruida.
+    const aoQuadro = (time: number) => {
       lenis.raf(time * 1000);
-    });
+    };
+    gsap.ticker.add(aoQuadro);
     gsap.ticker.lagSmoothing(0);
 
     // Web fonts swapping in (next/font `display: swap`) reflow the page after
@@ -77,7 +82,7 @@ export default function SmoothScroll({ children }: { children: React.ReactNode }
 
     return () => {
       lenis.destroy();
-      gsap.ticker.remove(lenis.raf);
+      gsap.ticker.remove(aoQuadro);
       sharedLenisRef.current = null;
     };
   }, []);

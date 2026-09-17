@@ -139,14 +139,30 @@ body {
   height: 2px;
   transform: translateX(-50%);
   border-radius: 999px;
-  overflow: hidden;
   background-color: color-mix(in srgb, var(--color-olive) 16%, transparent);
+}
+
+/* A ponta que corre na frente do preenchimento, como a pena escrevendo.
+   Anda por translateX com a MESMA expressao da largura da barra, entao nao
+   precisa de JS para saber a distancia e nao recalcula layout por quadro. */
+.preloader-barra::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 8px;
+  height: 8px;
+  margin: -4px 0 0 -4px;
+  border-radius: 999px;
+  background-color: var(--color-olive);
+  animation: preloader-ponta 0.9s cubic-bezier(0.55, 0, 0.3, 1) forwards;
 }
 
 .preloader-barra::after {
   content: "";
   display: block;
   height: 100%;
+  border-radius: 999px;
   background-color: var(--color-olive);
   /* scaleX em vez de width: a largura recalcula layout a cada quadro. */
   transform: scaleX(0);
@@ -199,6 +215,10 @@ body {
   to { transform: scaleX(1); }
 }
 
+@keyframes preloader-ponta {
+  to { transform: translateX(min(200px, 46vw)); }
+}
+
 @keyframes preloader-legenda {
   to { opacity: 1; }
 }
@@ -208,13 +228,18 @@ body {
 }
 
 @keyframes preloader-sai {
-  to { opacity: 0; visibility: hidden; }
+  /* pointer-events junto do visibility, de proposito. Se por qualquer motivo o
+     visibility nao aplicar, a cortina fica invisivel mas segue engolindo todo
+     clique da pagina — e um site inteiro sem botao e' caro demais para
+     depender de uma propriedade so. */
+  to { opacity: 0; visibility: hidden; pointer-events: none; }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .preloader { animation-delay: 0.25s; animation-duration: 0.3s; }
   .hero-contorno-atrasado { animation-delay: 0.5s; animation-duration: 0.2s; }
   .hero-word-enchendo { animation: none; background-position: 0 0; }
-  .preloader-barra::after { animation-duration: 0.3s; }
+  .preloader-barra::after,
+  .preloader-barra::before { animation-duration: 0.3s; }
   .preloader-legenda { animation-delay: 0.1s; }
 }

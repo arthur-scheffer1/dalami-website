@@ -74,8 +74,12 @@ export default function Hero() {
         { opacity: 0, y: 14, duration: 0.6, stagger: 0.1 },
         0.9,
       )
-        .from(".hero-estado", { opacity: 0, duration: 0.6 }, 0.9)
-        .from(".hero-cta", { opacity: 0, scale: 0.9, duration: 0.5 }, 1.1);
+        .from(".hero-estado", { opacity: 0, duration: 0.6 }, 0.9);
+
+      // O botao "Ver os bolos" nao entra por animacao de proposito. Um `from`
+      // com opacity 0 aplica o estado inicial na hora, entao qualquer falha na
+      // timeline deixaria o botao invisivel — e invisivel aqui significa
+      // inclicavel.
     }, rootRef);
 
     return () => ctx.revert();
@@ -102,7 +106,7 @@ export default function Hero() {
       {/* Três colunas em telas largas: texto | título | texto */}
       <div
         className={`relative mx-auto grid w-full max-w-[1500px] items-center ${
-          primeiraCarga ? "z-[95]" : "z-10"
+          primeiraCarga ? "pointer-events-none z-[95]" : "z-10"
         } gap-8 px-6 lg:grid-cols-[minmax(130px,180px)_minmax(0,1fr)_minmax(130px,180px)] lg:gap-10`}
       >
         <p className="hero-side font-mono hidden text-[10px] leading-relaxed tracking-[0.12em] text-ink/55 uppercase lg:block">
