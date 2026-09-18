@@ -77,20 +77,25 @@ export default function BoloHeroi() {
 
       // Mesma regra da Composicao: a imagem tem 114% de altura alinhada ao topo,
       // então deslizar para baixo abriria fresta. Só para cima.
-      gsap.fromTo(
-        ".heroi-foto-img",
-        { yPercent: 0 },
-        {
-          yPercent: -12,
-          ease: "none",
-          scrollTrigger: {
-            trigger: ".heroi-foto-wrap",
-            start: "top bottom",
-            end: "bottom top",
-            scrub: true,
+      //
+      // E, pelo mesmo motivo dela, só no desktop: preso à rolagem, repinta a
+      // foto a cada quadro e trava a rolagem no celular.
+      mm.add("(min-width: 768px)", () => {
+        gsap.fromTo(
+          ".heroi-foto-img",
+          { yPercent: 0 },
+          {
+            yPercent: -12,
+            ease: "none",
+            scrollTrigger: {
+              trigger: ".heroi-foto-wrap",
+              start: "top bottom",
+              end: "bottom top",
+              scrub: true,
+            },
           },
-        },
-      );
+        );
+      });
 
       return () => split.revert();
     }, rootRef);

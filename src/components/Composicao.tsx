@@ -14,6 +14,8 @@ export default function Composicao() {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
+      const mm = gsap.matchMedia();
+
       gsap.utils.toArray<HTMLElement>(".comp-foto").forEach((el, i) => {
         const img = el.querySelector(".comp-img");
 
@@ -31,20 +33,26 @@ export default function Composicao() {
         // Só para cima: a imagem interna tem 116% de altura e começa alinhada ao
         // topo da moldura, então qualquer deslocamento positivo abriria uma
         // fresta de fundo no topo. O limite de -13% consome exatamente a sobra.
-        gsap.fromTo(
-          img,
-          { yPercent: 0 },
-          {
-            yPercent: -13,
-            ease: "none",
-            scrollTrigger: {
-              trigger: el,
-              start: "top bottom",
-              end: "bottom top",
-              scrub: true,
+        //
+        // Só no desktop. Preso à rolagem, este tween repinta uma foto grande a
+        // cada quadro — no celular é o que fazia a rolagem travar, e a
+        // profundidade que ele dá numa tela de 6 polegadas é quase nula.
+        mm.add("(min-width: 768px)", () => {
+          gsap.fromTo(
+            img,
+            { yPercent: 0 },
+            {
+              yPercent: -13,
+              ease: "none",
+              scrollTrigger: {
+                trigger: el,
+                start: "top bottom",
+                end: "bottom top",
+                scrub: true,
+              },
             },
-          },
-        );
+          );
+        });
 
         // Alterna o sentido da deriva horizontal para a composição não ficar
         // rígida. Sem scrub: isto é revelação, não profundidade — presa à

@@ -201,13 +201,24 @@ export default function CardapioCompleto() {
                     <li key={cat.id}>
                       <a
                         href={`#${cat.id}`}
-                        className={`-ml-px flex items-baseline gap-3 border-l-2 py-2 pl-4 transition-all duration-300 ${
+                        aria-current={atual ? "true" : undefined}
+                        /* Marca no clique, sem esperar a rolagem chegar: a
+                           viagem suave leva mais de um segundo, e o menu
+                           ficava apontando a categoria antiga esse tempo
+                           todo. O ScrollTrigger continua mandando em quem
+                           rola com o dedo. */
+                        onClick={() => setAtiva(cat.id)}
+                        className={`-ml-px flex items-baseline gap-3 rounded-r-lg border-l-2 py-2.5 pl-4 transition-all duration-300 ${
                           atual
-                            ? "border-olive text-olive"
-                            : "border-transparent text-ink/45 hover:text-ink/80"
+                            ? "border-olive bg-olive/8 font-semibold text-olive"
+                            : "border-transparent text-ink/60 hover:border-olive/30 hover:bg-ink/4 hover:text-ink"
                         }`}
                       >
-                        <span className="font-mono text-[9px] tracking-[0.2em]">
+                        <span
+                          className={`font-mono text-[9px] tracking-[0.2em] transition-colors duration-300 ${
+                            atual ? "text-olive" : "text-ink/40"
+                          }`}
+                        >
                           {String(i + 1).padStart(2, "0")}
                         </span>
                         <span className="font-body text-[13px] leading-snug">{cat.titulo}</span>
