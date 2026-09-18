@@ -309,7 +309,7 @@ export default function CardapioCompleto() {
                               )}
                             </span>
                             {bolo.campeao && (
-                              <span className="font-mono absolute top-3 left-3 rounded-full bg-olive px-2.5 py-1 text-[7px] font-bold tracking-[0.14em] text-gold uppercase">
+                              <span className="font-mono absolute top-3 left-3 rounded-full bg-olive-deep px-2.5 py-1 text-[7px] font-bold tracking-[0.14em] text-gold-deep uppercase">
                                 Campeão
                               </span>
                             )}
@@ -333,7 +333,11 @@ export default function CardapioCompleto() {
                         <h3 className="font-display flex flex-wrap items-center gap-3 text-2xl text-ink transition-transform duration-300 md:text-3xl md:group-hover:translate-x-1.5">
                           {bolo.nome}
                           {bolo.campeao && (
-                            <span className="font-mono rounded-full bg-olive px-3 py-1.5 text-[8px] font-bold tracking-[0.18em] text-gold uppercase">
+                            /* Dourado de verdade pede fundo escuro: sobre o
+                               oliva claro ele cai para 2,3:1 e o olho lê
+                               amarelo, não ouro. No oliva profundo o mesmo
+                               dourado dá 4,3:1 e vira medalha. */
+                            <span className="font-mono rounded-full bg-olive-deep px-3 py-1.5 text-[8px] font-bold tracking-[0.18em] text-gold-deep uppercase">
                               Campeão de vendas
                             </span>
                           )}

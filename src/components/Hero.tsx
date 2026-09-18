@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
 import { gsap } from "@/lib/gsap";
 import { SITE } from "@/lib/site";
 import EstadoLoja from "./EstadoLoja";
@@ -163,12 +164,12 @@ export default function Hero() {
       </div>
 
       <div className="relative z-30 mt-12 flex flex-col items-center px-6">
-        <a
-          href="#bolo-heroi"
+        <Link
+          href="/cardapio"
           className="hero-cta font-display inline-flex items-center rounded-full bg-olive px-8 py-4 text-lg text-gold italic transition-colors duration-300 hover:bg-olive-deep"
         >
           Ver os bolos
-        </a>
+        </Link>
       </div>
     </section>
   );
