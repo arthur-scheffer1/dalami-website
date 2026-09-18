@@ -10,7 +10,7 @@ const SOCIAIS = [
 
 export default function Footer() {
   return (
-    <footer className="border-t border-ink/10 bg-cream py-14">
+    <footer className="area-segura-base border-t border-ink/10 bg-cream py-14">
       <div className="mx-auto flex max-w-[1400px] flex-col gap-10 px-6">
         {/* Marca e emblema numa linha própria: dentro da linha dos links, o
             emblema virava só mais uma coluna e despencava para o fim da pilha

@@ -30,15 +30,25 @@ const yellowtail = Yellowtail({
 
 // Serif de apoio para os nomes dos bolos — dá o tom de confeitaria que um
 // grotesco sozinho não dá.
+// `preload: false`: a Fraunces vem em dois arquivos (normal e itálico) e é
+// a mais pesada do conjunto. Sendo pré-carregada, ela disputava a banda com
+// a Yellowtail — que é a fonte do título "Cardápio", no alto da página, onde
+// a demora aparecia. Sem o pré-carregamento ela continua chegando, só que
+// depois de quem está acima da dobra.
 const fraunces = Fraunces({
   subsets: ["latin"],
   style: ["normal", "italic"],
   variable: "--font-fraunces",
   display: "swap",
+  preload: false,
 });
 
+// Sem lista de pesos: o Outfit e' variavel, e pedir 300/400/500/600/700
+// baixava cinco arquivos estaticos em vez de um so' com a faixa inteira.
+// Cinco arquivos a mais disputando banda atrasam o resto — inclusive a
+// Yellowtail do titulo "Cardapio", que e' o que aparecia trocando de fonte
+// no meio do carregamento.
 const outfit = Outfit({
-  weight: ["300", "400", "500", "600", "700"],
   subsets: ["latin"],
   variable: "--font-outfit",
   display: "swap",
@@ -56,6 +66,12 @@ const spaceMono = Space_Mono({
    beiradas da pagina, e por isso quem resolve o caso dele e' o recuo da
    cortina no globals.css, nao este valor. */
 export const viewport: Viewport = {
+  /* Sem isto o navegador do celular encaixa a página dentro da área segura
+     e sobra uma faixa no topo, atrás do relógio e da bateria, e outra na
+     base, atrás do indicador. Com `cover` a página vai de borda a borda, e
+     quem é fixo devolve o espaço no próprio recuo (ver .area-segura-* no
+     globals.css) para nada ficar embaixo do relógio. */
+  viewportFit: "cover",
   themeColor: [
     { media: "(prefers-color-scheme: light)", color: "#f3ede2" },
     { media: "(prefers-color-scheme: dark)", color: "#f3ede2" },

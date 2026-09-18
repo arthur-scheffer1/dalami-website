@@ -52,6 +52,25 @@ html {
   scroll-behavior: auto;
 }
 
+/* Área segura do celular.
+   Com viewport-fit=cover a página ocupa a tela inteira, inclusive atrás da
+   barra de status e do indicador inferior — que é o que se quer, para não
+   sobrar faixa de cor nas pontas. O preço é que elemento fixo passa a poder
+   cair embaixo do relógio ou do risco do iPhone, então quem é fixo devolve
+   esse espaço no próprio recuo.
+
+   O valor é 0 em tudo que não seja um celular com entalhe, então estas
+   classes não fazem nada no desktop. */
+.area-segura-topo {
+  padding-top: env(safe-area-inset-top, 0px);
+}
+.area-segura-base {
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+.area-segura-base-margem {
+  margin-bottom: env(safe-area-inset-bottom, 0px);
+}
+
 html,
 body {
   overflow-x: hidden;

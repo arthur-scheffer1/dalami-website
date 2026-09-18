@@ -100,7 +100,7 @@ export default function Hero() {
           dá resultado imprevisível — quem vence é a ordem no CSS gerado.
 
           Fica em z-30, abaixo da cortina, para não vazar no carregamento. */}
-      <div className="hero-estado absolute right-4 bottom-6 z-30 origin-bottom-right scale-90 md:top-28 md:right-8 md:bottom-auto md:origin-top-right md:scale-100">
+      <div className="hero-estado area-segura-base-margem absolute right-4 bottom-6 z-30 origin-bottom-right scale-90 md:top-28 md:right-8 md:bottom-auto md:mb-0 md:origin-top-right md:scale-100">
         <EstadoLoja className="rounded-full bg-cream/80 px-4 py-2.5 text-ink/65 backdrop-blur-sm" />
       </div>
 

@@ -38,7 +38,7 @@ export default function Nav() {
 
   return (
     <header
-      className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
+      className={`area-segura-topo fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
         rolou || open
           ? "border-b border-ink/10 bg-cream/90 backdrop-blur-md"
           : "border-b border-transparent bg-transparent"

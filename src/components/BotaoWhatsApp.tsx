@@ -26,7 +26,7 @@ export default function BotaoWhatsApp() {
       target="_blank"
       rel="noopener noreferrer"
       aria-label={`Fazer um pedido pelo WhatsApp — ${SITE.whatsapp.display}`}
-      className={`group fixed right-5 bottom-5 z-40 flex items-center gap-3 rounded-full bg-olive py-4 pr-5 pl-4 text-gold shadow-lg transition-all duration-300 hover:bg-olive-deep md:right-8 md:bottom-8 ${
+      className={`area-segura-base-margem group fixed right-5 bottom-5 z-40 flex items-center gap-3 rounded-full bg-olive py-4 pr-5 pl-4 text-gold shadow-lg transition-all duration-300 hover:bg-olive-deep md:right-8 md:bottom-8 ${
         visivel ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-4 opacity-0"
       }`}
     >
