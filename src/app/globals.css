@@ -29,13 +29,6 @@
   /* Rosa da caixa de viagem */
   --color-blush: #ebbfc4;
 
-  /* O mesmo rosa, fundo o bastante para ser lido como texto.
-     Mesma matiz do blush (353 graus) e mesma saturacao — so a luminosidade
-     cai de 0,84 para 0,66. O blush puro sobre creme da 1,41:1 de contraste,
-     que nao se le nem em corpo grande; este da 2,56:1, e a diferenca entre
-     um numero decorativo e um numero que a pessoa enxerga. */
-  --color-rose: #d67b85;
-
   /* Marrom claro das formas impressas na caixa das fatias */
   --color-tan: #9a6a3c;
 
