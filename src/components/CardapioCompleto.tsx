@@ -210,7 +210,7 @@ export default function CardapioCompleto() {
                         onClick={() => setAtiva(cat.id)}
                         className={`-ml-px flex items-baseline gap-3 rounded-r-lg border-l-2 py-2.5 pl-4 transition-all duration-300 ${
                           atual
-                            ? "border-olive bg-olive/8 font-semibold text-olive"
+                            ? "border-olive bg-blush/40 font-semibold text-olive"
                             : "border-transparent text-ink/60 hover:border-olive/30 hover:bg-ink/4 hover:text-ink"
                         }`}
                       >
@@ -234,7 +234,10 @@ export default function CardapioCompleto() {
             {CATEGORIAS.map((cat, i) => (
               <section key={cat.id} id={cat.id} className="cat-bloco mb-24 scroll-mt-28 last:mb-0">
                 <div className="cat-head mb-10 flex items-start gap-5 md:gap-7">
-                  <span className="font-poster shrink-0 text-4xl leading-none text-olive/25 md:text-6xl">
+                  {/* Rosa, nao oliva a 25%: o numero antigo sumia no creme.
+                      Este e o mesmo rosa frio da caixa, so que fundo o
+                      bastante para ser lido. */}
+                  <span className="font-poster shrink-0 text-5xl leading-none text-rose md:text-7xl">
                     {String(i + 1).padStart(2, "0")}
                   </span>
                   <div className="max-w-2xl">
