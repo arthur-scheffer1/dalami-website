@@ -246,6 +246,37 @@ body {
   to { opacity: 1; }
 }
 
+/* Traço dourado em volta do botão "Ver os bolos".
+   Sai de um ponto e percorre a pílula inteira. Duas animações idênticas, e
+   não uma só: em CSS não há como reiniciar uma animação que já terminou, e
+   trocar o nome dela no hover é o que faz o traço se redesenhar quando a
+   pessoa passa o mouse. Sem isso ele desenharia uma vez na carga e nunca
+   mais. */
+.hero-cta-traco rect {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: cta-contorna 1.05s cubic-bezier(0.65, 0, 0.35, 1) 0.2s forwards;
+}
+
+.hero-cta-traco-atrasado rect {
+  /* Na primeira carga espera a cortina sair e o contorno do wordmark
+     aparecer, senão três coisas entram ao mesmo tempo. */
+  animation-delay: 1.75s;
+}
+
+.hero-cta:hover .hero-cta-traco rect {
+  animation: cta-redesenha 0.85s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+}
+
+@keyframes cta-contorna {
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes cta-redesenha {
+  from { stroke-dashoffset: 1; }
+  to { stroke-dashoffset: 0; }
+}
+
 @keyframes preloader-sai {
   /* pointer-events junto do visibility, de proposito. Se por qualquer motivo o
      visibility nao aplicar, a cortina fica invisivel mas segue engolindo todo
@@ -261,4 +292,10 @@ body {
   .preloader-barra::after,
   .preloader-barra::before { animation-duration: 0.3s; }
   .preloader-legenda { animation-delay: 0.1s; }
+  .hero-cta-traco rect,
+  .hero-cta-traco-atrasado rect,
+  .hero-cta:hover .hero-cta-traco rect {
+    animation: none;
+    stroke-dashoffset: 0;
+  }
 }

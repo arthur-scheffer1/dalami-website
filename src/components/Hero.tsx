@@ -30,14 +30,37 @@ let jaMostrouCortina = false;
  * Os textos laterais moram em colunas próprias do grid, nunca sobrepostos em
  * position: absolute, para não colidirem com o título.
  */
+/** Quanto o traço em volta do botão se afasta da borda dele, em px. */
+const FOLGA_TRACO = 5;
+
 export default function Hero() {
   const rootRef = useRef<HTMLDivElement>(null);
+  const ctaRef = useRef<HTMLAnchorElement>(null);
+
+  // O traço é um retângulo de cantos totalmente arredondados, e o raio
+  // depende da altura real do botão — que muda com a fonte, com o idioma e
+  // com o tamanho da tela. Por isso ele é medido, não chutado: um raio fixo
+  // sairia de registro da pílula assim que qualquer uma dessas coisas mudar.
+  const [medida, setMedida] = useState<{ l: number; a: number } | null>(null);
 
   // No servidor o módulo nunca é mutado (a flag só muda dentro do efeito), então
   // o HTML sai sempre com a cortina — e a primeira hidratação bate. Em navegação
   // client-side a flag já está marcada e o hero entra sem esperar por cortina
   // nenhuma.
   const [primeiraCarga] = useState(() => !jaMostrouCortina);
+
+  useEffect(() => {
+    const botao = ctaRef.current;
+    if (!botao) return;
+
+    const observador = new ResizeObserver(() => {
+      // offsetWidth/Height e não contentRect: o contentRect desconta o
+      // padding, e o traço tem de acompanhar a borda visível da pílula.
+      setMedida({ l: botao.offsetWidth, a: botao.offsetHeight });
+    });
+    observador.observe(botao);
+    return () => observador.disconnect();
+  }, []);
 
   useEffect(() => {
     const prefereMenos = window.matchMedia(
@@ -165,10 +188,50 @@ export default function Hero() {
 
       <div className="relative z-30 mt-12 flex flex-col items-center px-6">
         <Link
+          ref={ctaRef}
           href="/cardapio"
-          className="hero-cta font-display inline-flex items-center rounded-full bg-olive px-8 py-4 text-lg text-gold italic transition-colors duration-300 hover:bg-olive-deep"
+          className="hero-cta font-display relative inline-flex items-center rounded-full bg-olive px-8 py-4 text-lg text-gold italic transition-colors duration-300 hover:bg-olive-deep"
         >
           Ver os bolos
+
+          {/* O traço dourado que dá a volta no botão.
+              Só existe depois da medição: sem ela o SVG sairia sem tamanho e
+              o desenho ficaria torto. Se o JavaScript não rodar, não aparece
+              traço nenhum e o botão continua inteiro — ele é enfeite, e
+              enfeite não pode ser condição para o botão funcionar.
+
+              O `pathLength="1"` normaliza o perímetro para 1, então o traço
+              anima de 1 a 0 sem ninguém precisar medir o contorno. */}
+          {medida && (
+            <svg
+              aria-hidden="true"
+              className={`hero-cta-traco pointer-events-none absolute ${
+                primeiraCarga ? "hero-cta-traco-atrasado" : ""
+              }`}
+              style={{
+                left: -FOLGA_TRACO,
+                top: -FOLGA_TRACO,
+                width: medida.l + FOLGA_TRACO * 2,
+                height: medida.a + FOLGA_TRACO * 2,
+              }}
+              viewBox={`0 0 ${medida.l + FOLGA_TRACO * 2} ${medida.a + FOLGA_TRACO * 2}`}
+              fill="none"
+            >
+              <rect
+                x="0.8"
+                y="0.8"
+                width={medida.l + FOLGA_TRACO * 2 - 1.6}
+                height={medida.a + FOLGA_TRACO * 2 - 1.6}
+                rx={(medida.a + FOLGA_TRACO * 2 - 1.6) / 2}
+                /* A cor vai no style, nao no atributo: var() dentro de
+                   atributo de apresentacao do SVG e' irregular no Safari,
+                   e la' o traco simplesmente nao apareceria. */
+                style={{ stroke: "var(--color-gold-logo)" }}
+                strokeWidth="1.6"
+                pathLength="1"
+              />
+            </svg>
+          )}
         </Link>
       </div>
     </section>
