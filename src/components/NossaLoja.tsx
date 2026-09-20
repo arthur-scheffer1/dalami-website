@@ -49,14 +49,14 @@ export default function NossaLoja() {
   return (
     <section
       ref={rootRef}
-      /* Verde-água da fachada: entra aqui para quebrar a sequência de seções
-         em creme sem recorrer de novo ao verde escuro, que já carrega o bolo
-         herói e os brigadeiros. */
-      className="bg-agua-light py-12 md:py-20"
+      /* O rosa da caixa de viagem: quebra a sequência de seções em creme sem
+         recorrer de novo ao verde escuro, que já carrega o bolo herói e os
+         brigadeiros. */
+      className="bg-blush-suave py-12 md:py-20"
     >
       <div className="mx-auto max-w-[1400px] px-6">
         <div className="loja-item mb-10 max-w-2xl md:mb-14">
-          <span className="font-mono mb-4 block text-[12px] font-bold tracking-[0.28em] text-agua-deep uppercase">
+          <span className="font-mono mb-4 block text-[12px] font-bold tracking-[0.28em] text-olive-texto uppercase">
             Nossa loja
           </span>
           <h2

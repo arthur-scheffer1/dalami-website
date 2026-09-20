@@ -54,14 +54,12 @@
      e 4,84:1 na areia. */
   --color-olive-texto: #496233;
 
-  /* Verde-agua da placa da fachada. Entra como cor de apoio para alternar
-     secoes e quebrar o peso do verde escuro, sem competir com ele: e' o mesmo
-     verde puxado para o azul e dessaturado. */
-  --color-agua: #7fa8a0;
-  --color-agua-light: #dceae6;
-  /* O tom escuro do verde-agua: 4,99:1 sobre o --color-agua-light, que e' o
-     fundo onde ele e' usado como rotulo. */
-  --color-agua-deep: #436862;
+  /* O rosa da caixa a meio caminho do creme, para fundo de secao inteira.
+     E' um valor proprio, nao --color-blush com transparencia: assim ele nao
+     muda de tom conforme o que estiver atras. O blush puro nesse papel deixa
+     o rotulo em oliva com 4,15:1, que reprova no AA; este da 4,95:1 e
+     continua lendo como o rosa da marca. */
+  --color-blush-suave: #efd6d3;
 
   --font-poster: var(--font-archivo-black), sans-serif;
   --font-script: var(--font-yellowtail), cursive;
