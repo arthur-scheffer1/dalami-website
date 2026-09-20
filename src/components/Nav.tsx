@@ -45,7 +45,12 @@ export default function Nav() {
       }`}
     >
       <nav
-        className={`mx-auto flex max-w-[1400px] items-center justify-between px-6 transition-all duration-300 ${
+        /* Sem o teto de 1400px: preso a ele, o logo e o menu paravam a meio
+           caminho da borda em tela larga e sobrava um vao morto dos dois
+           lados. Aqui a barra ocupa a largura toda e o respiro vem do recuo,
+           que cresce com a tela. O conteudo das secoes segue capado em
+           1400px — e' a barra que vai ate a ponta, de proposito. */
+        className={`flex w-full items-center justify-between px-6 transition-all duration-300 md:px-10 lg:px-14 ${
           rolou ? "py-3" : "py-5"
         }`}
       >
