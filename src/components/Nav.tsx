@@ -98,8 +98,8 @@ export default function Nav() {
                 <Link
                   href={p.href}
                   scroll={!p.href.includes("#")}
-                  className={`font-mono -m-2 inline-block p-2 text-[10px] font-bold tracking-[0.22em] uppercase transition-colors duration-300 hover:text-olive ${
-                    isActive ? "text-olive" : "text-ink/65"
+                  className={`font-mono -m-2 inline-block p-2 text-[12px] font-bold tracking-[0.22em] uppercase transition-colors duration-300 hover:text-olive-texto ${
+                    isActive ? "text-olive-texto" : "text-ink/65"
                   }`}
                 >
                   {p.label}

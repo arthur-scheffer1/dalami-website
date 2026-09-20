@@ -88,7 +88,7 @@ export default function Depoimentos() {
     <section ref={rootRef} className="bg-cream pt-14 pb-20 md:py-32">
       <div className="mx-auto max-w-[1400px] px-6">
         <div className="mb-14 text-center">
-          <span className="font-mono mb-4 block text-[10px] tracking-[0.3em] text-olive uppercase">
+          <span className="font-mono mb-4 block text-[12px] tracking-[0.3em] text-olive-texto uppercase">
             Quem já provou
           </span>
           <h2
@@ -109,10 +109,10 @@ export default function Depoimentos() {
                 “{d.texto}”
               </blockquote>
               <figcaption className="mt-8 border-t border-ink/12 pt-5">
-                <span className="font-mono block text-[10px] tracking-[0.2em] text-olive uppercase">
+                <span className="font-mono block text-[12px] tracking-[0.2em] text-olive-texto uppercase">
                   {d.autor}
                 </span>
-                <span className="font-mono mt-1 block text-[9px] tracking-[0.2em] text-ink/40 uppercase">
+                <span className="font-mono mt-1 block text-[12px] tracking-[0.2em] text-ink/40 uppercase">
                   {d.origem}
                 </span>
               </figcaption>

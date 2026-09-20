@@ -36,7 +36,7 @@ export const COMO_ENCOMENDAR = [
 ] as const;
 
 export const AVISO_DECORACAO =
-  "Nossos bolos seguem o estilo e as decorações tradicionais da Dalami. No momento não trabalhamos com decorações personalizadas, temáticas, reproduções de fotos ou modelos específicos.";
+  "Bolos artesanais prontos, com o sabor e o capricho de sempre. Cada um sai no acabamento tradicional da casa, do jeito que você vê na vitrine.";
 
 /** O bolo-herói da seção 2 — campeão de vendas, escolhido pelo Arthur. */
 export const BOLO_HEROI = {

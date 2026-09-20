@@ -94,8 +94,8 @@ export default function SobreCompleto() {
 
   return (
     <main ref={rootRef} className="bg-cream">
-      <header className="mx-auto max-w-[1400px] px-6 pt-36 pb-16 md:pt-44 md:pb-24">
-        <span className="font-mono mb-5 block text-[10px] tracking-[0.3em] text-olive uppercase">
+      <header className="mx-auto max-w-[1400px] px-6 pt-32 pb-12 md:pt-40 md:pb-18">
+        <span className="font-mono mb-5 block text-[12px] tracking-[0.3em] text-olive-texto uppercase">
           Sobre nós
         </span>
         {/* "Dalami" é o logo real vetorizado, não uma fonte parecida — entra
@@ -106,7 +106,7 @@ export default function SobreCompleto() {
         <h1 aria-label="A Dalami" className="flex items-end gap-3 md:gap-5">
           <span
             aria-hidden
-            className="sobre-artigo font-script leading-none text-olive"
+            className="sobre-artigo font-script leading-none text-olive-texto"
             style={{ fontSize: "clamp(34px, 5vw, 86px)" }}
           >
             A
@@ -148,7 +148,7 @@ export default function SobreCompleto() {
               {p}
             </p>
           ))}
-          <p className="sobre-p font-display mt-4 text-2xl text-olive italic">{SITE.slogan}.</p>
+          <p className="sobre-p font-display mt-4 text-2xl text-olive-texto italic">{SITE.slogan}.</p>
         </div>
       </section>
 
@@ -156,7 +156,7 @@ export default function SobreCompleto() {
         <div className="mx-auto grid max-w-[1400px] gap-10 px-6 md:grid-cols-3">
           {VALORES.map((v) => (
             <div key={v.n} className="sobre-valor">
-              <span className="font-mono block text-[10px] tracking-[0.24em] text-olive">{v.n}</span>
+              <span className="font-mono block text-[12px] tracking-[0.24em] text-olive-texto">{v.n}</span>
               <h2 className="font-display mt-3 mb-3 text-2xl text-ink">{v.titulo}</h2>
               <p className="font-body text-[15px] leading-relaxed text-ink/60">{v.texto}</p>
             </div>
@@ -164,7 +164,7 @@ export default function SobreCompleto() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-[1400px] px-6 py-24">
+      <section className="mx-auto max-w-[1400px] px-6 py-16">
         {/* Escalonadas em vez de lado a lado no mesmo tamanho: duas fotos
             iguais e coladas leem como erro de diagramação. Proporções e alturas
             diferentes dão respiro e hierarquia — a primeira manda. */}
@@ -199,13 +199,13 @@ export default function SobreCompleto() {
           <div className="flex flex-wrap gap-3">
             <Link
               href="/cardapio"
-              className="font-mono rounded-full bg-olive px-7 py-4 text-[10px] font-bold tracking-[0.22em] text-gold uppercase transition-colors duration-300 hover:bg-olive-deep"
+              className="font-mono rounded-full bg-olive-deep px-7 py-4 text-[12px] font-bold tracking-[0.22em] text-gold uppercase transition-colors duration-300 hover:bg-olive-deep"
             >
               Ver cardápio
             </Link>
             <Link
               href="/#localizacao"
-              className="font-mono rounded-full border border-ink/25 px-7 py-4 text-[10px] font-bold tracking-[0.22em] text-ink uppercase transition-colors duration-300 hover:border-olive hover:text-olive"
+              className="font-mono rounded-full border border-ink/25 px-7 py-4 text-[12px] font-bold tracking-[0.22em] text-ink uppercase transition-colors duration-300 hover:border-olive hover:text-olive-texto"
             >
               Como chegar
             </Link>

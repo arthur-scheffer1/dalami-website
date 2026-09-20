@@ -133,7 +133,7 @@ export default function Hero() {
           primeiraCarga ? "pointer-events-none z-[95]" : "z-10"
         } gap-8 px-6 lg:grid-cols-[minmax(130px,180px)_minmax(0,1fr)_minmax(130px,180px)] lg:gap-10`}
       >
-        <p className="hero-side font-mono hidden text-[10px] leading-relaxed tracking-[0.12em] text-ink/55 uppercase lg:block">
+        <p className="hero-side font-mono hidden text-[12px] leading-relaxed tracking-[0.12em] text-ink/55 uppercase lg:block">
           Confeitaria artesanal nos Ingleses. Receitas de recheio generoso e
           acabamento feito à mão.
         </p>
@@ -181,7 +181,7 @@ export default function Hero() {
           </h1>
         </div>
 
-        <p className="hero-side font-mono hidden text-right text-[10px] leading-relaxed tracking-[0.12em] text-ink/55 uppercase lg:block">
+        <p className="hero-side font-mono hidden text-right text-[12px] leading-relaxed tracking-[0.12em] text-ink/55 uppercase lg:block">
           Bolos inteiros por encomenda, fatias na vitrine e café todos os dias.
         </p>
       </div>
@@ -190,7 +190,7 @@ export default function Hero() {
         <Link
           ref={ctaRef}
           href="/cardapio"
-          className="hero-cta font-display relative inline-flex items-center rounded-full bg-olive px-8 py-4 text-lg text-gold italic transition-colors duration-300 hover:bg-olive-deep"
+          className="hero-cta font-display relative inline-flex items-center rounded-full bg-olive-deep px-8 py-4 text-lg text-gold italic transition-colors duration-300 hover:bg-olive-deep"
         >
           Ver os bolos
 

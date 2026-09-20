@@ -5,8 +5,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { gsap, SplitText } from "@/lib/gsap";
 import { revelaAoEntrar } from "@/lib/anima";
+import { garanteVisivel } from "@/lib/garante-visivel";
 import { useIsoLayoutEffect } from "@/lib/use-iso-layout-effect";
 import { BOLO_HEROI } from "@/lib/menu";
+import SeloRedondo from "./SeloRedondo";
 
 /**
  * Seção 2 — um bolo só, em tamanho grande, com nome e ingredientes.
@@ -105,14 +107,19 @@ export default function BoloHeroi() {
       return () => split.revert();
     }, rootRef);
 
-    return () => ctx.revert();
+    const solta = garanteVisivel(".heroi-nome, .heroi-nome *");
+
+    return () => {
+      solta();
+      ctx.revert();
+    };
   }, []);
 
   return (
     <section
       id="bolo-heroi"
       ref={rootRef}
-      className="relative overflow-hidden bg-olive-deep py-24 md:py-32"
+      className="relative overflow-hidden bg-olive-deep py-12 md:py-20"
     >
       <div className="mx-auto grid max-w-[1400px] items-center gap-14 px-6 md:grid-cols-2 md:gap-20">
         <div className="heroi-foto-wrap">
@@ -130,16 +137,21 @@ export default function BoloHeroi() {
         </div>
 
         <div>
-          <div className="heroi-eyebrow mb-5 flex items-center gap-3">
-            <span className="heroi-eyebrow-line h-px w-10 bg-gold" />
-            <span className="font-mono text-[10px] tracking-[0.3em] text-gold uppercase">
-              Campeão de vendas
-            </span>
+          {/* Carimbo no lugar do filete com rótulo: é o mesmo dado, mas o
+              selo redondo da embalagem diz "premiado" sem precisar de mais
+              palavra nenhuma. */}
+          <div className="heroi-eyebrow mb-6 flex items-center gap-4">
+            <SeloRedondo texto="Campeão de vendas" className="h-24 w-24 md:h-28 md:w-28" />
+            <span className="heroi-eyebrow-line h-px w-10 bg-gold-logo/60" />
           </div>
 
+          {/* Serifada do cardápio, não o grotesco pesado: sobre o verde
+              escuro o Archivo Black virava um bloco cinza que brigava com a
+              foto ao lado. A Fraunces tem o desenho da confeitaria e deixa o
+              creme respirar. Sem caixa-alta, pelo mesmo motivo. */}
           <h2
-            className="heroi-nome font-poster mb-6 leading-[0.88] tracking-tight break-words text-cream uppercase"
-            style={{ fontSize: "clamp(38px, 6.5vw, 92px)" }}
+            className="heroi-nome font-display mb-6 leading-[0.95] tracking-tight break-words text-cream"
+            style={{ fontSize: "clamp(40px, 6.5vw, 88px)" }}
           >
             {BOLO_HEROI.nome}
           </h2>
@@ -148,13 +160,13 @@ export default function BoloHeroi() {
             {BOLO_HEROI.descricao}
           </p>
 
-          <ul className="heroi-lista mb-10 flex flex-col gap-0 border-t border-cream/15">
+          <ul className="heroi-lista mb-10 flex flex-col gap-0 border-t border-gold-logo/25">
             {BOLO_HEROI.ingredientes.map((ing, i) => (
               <li
                 key={ing}
-                className="heroi-ing flex items-baseline gap-5 border-b border-cream/15 py-4"
+                className="heroi-ing flex items-baseline gap-5 border-b border-gold-logo/25 py-4"
               >
-                <span className="font-mono text-[10px] tracking-[0.2em] text-gold/70">
+                <span className="font-mono text-[12px] tracking-[0.2em] text-gold">
                   {String(i + 1).padStart(2, "0")}
                 </span>
                 <span className="font-display text-xl text-cream italic md:text-2xl">{ing}</span>
@@ -164,7 +176,7 @@ export default function BoloHeroi() {
 
           <Link
             href="/cardapio#classicos"
-            className="heroi-cta font-mono group inline-flex items-center gap-3 rounded-full border px-7 py-4 text-[11px] font-bold tracking-[0.24em] border-gold/40 text-gold uppercase transition-colors duration-300 hover:border-gold hover:bg-gold hover:text-olive-deep"
+            className="heroi-cta font-mono group inline-flex items-center gap-3 rounded-full border px-7 py-4 text-[12px] font-bold tracking-[0.24em] border-gold/40 text-gold uppercase transition-colors duration-300 hover:border-gold hover:bg-gold hover:text-olive-deep"
           >
             Conheça o {BOLO_HEROI.nome}
             <span className="transition-transform duration-300 group-hover:translate-x-1.5" aria-hidden>

@@ -26,7 +26,7 @@ export default function EstadoLoja({ className = "" }: { className?: string }) {
   const { aberto, hora, outroDia } = estado;
 
   return (
-    <span className={`font-mono inline-flex items-center gap-2 text-[10px] tracking-[0.18em] uppercase ${className}`}>
+    <span className={`font-mono inline-flex items-center gap-2 text-[12px] tracking-[0.18em] uppercase ${className}`}>
       <span className="relative flex h-2 w-2 shrink-0">
         {aberto && (
           /* O anel nasce maior que o ponto: partindo dos mesmos 8px o pulso

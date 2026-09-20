@@ -87,7 +87,7 @@ export default function Composicao() {
   }, []);
 
   return (
-    <section ref={rootRef} className="overflow-hidden bg-cream py-24 md:py-36">
+    <section ref={rootRef} className="overflow-hidden bg-cream py-16 md:py-28">
       <div className="mx-auto max-w-[1400px] px-6">
         {/* Linha 1 — foto grande à esquerda, frase solta à direita */}
         <div className="grid items-center gap-10 md:grid-cols-12 md:gap-16">
@@ -107,11 +107,11 @@ export default function Composicao() {
           </p>
         </div>
 
-        <Divisor className="py-16 md:py-24" />
+        <Divisor className="py-12 md:py-20" />
 
         {/* Linha 2 — frase curta à esquerda, duas fotos à direita */}
         <div className="grid items-end gap-10 md:grid-cols-12 md:gap-16">
-          <p className="comp-frase font-mono text-[11px] leading-loose tracking-[0.2em] text-ink/55 uppercase md:col-span-3">
+          <p className="comp-frase font-mono text-[12px] leading-loose tracking-[0.2em] text-ink/55 uppercase md:col-span-3">
             Massa, recheio
             <br />e cobertura.
             <br />
@@ -141,7 +141,7 @@ export default function Composicao() {
           </div>
         </div>
 
-        <Divisor className="py-16 md:py-24" />
+        <Divisor className="py-12 md:py-20" />
 
         {/* Linha 3 — foto larga centralizada com frase por cima */}
         <div className="relative">

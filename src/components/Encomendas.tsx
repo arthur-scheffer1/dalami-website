@@ -6,6 +6,7 @@ import { revelaAoEntrar } from "@/lib/anima";
 import { useIsoLayoutEffect } from "@/lib/use-iso-layout-effect";
 import { AVISO_DECORACAO, TAMANHOS } from "@/lib/menu";
 import PassoAPasso from "./PassoAPasso";
+import SeloRedondo from "./SeloRedondo";
 import { SITE } from "@/lib/site";
 
 /** Seção 6 — encomendas: tamanhos, regras e o caminho pro WhatsApp. */
@@ -88,11 +89,18 @@ export default function Encomendas() {
   }, []);
 
   return (
-    <section id="encomendas" ref={rootRef} className="bg-cream pt-20 pb-14 md:py-32">
+    <section
+      id="encomendas"
+      ref={rootRef}
+      /* Kraft: a encomenda é a seção do papel — caixa, etiqueta, pedido
+         anotado. A textura é CSS puro, sem requisição de imagem. */
+      className="textura-kraft bg-cream pt-14 pb-12 md:py-24"
+    >
       <div className="mx-auto max-w-[1400px] px-6">
-        <div className="mb-16 max-w-2xl">
+        <div className="mb-11 flex flex-col gap-6 md:mb-16 md:flex-row md:items-start md:justify-between">
+          <div className="max-w-2xl">
           <div className="enc-eyebrow mb-4">
-            <span className="font-mono text-[10px] tracking-[0.3em] text-olive uppercase">
+            <span className="font-mono text-[12px] font-bold tracking-[0.28em] text-olive-texto uppercase">
               Encomendas
             </span>
           </div>
@@ -104,10 +112,20 @@ export default function Encomendas() {
             <br />
             pra sua data
           </h2>
-          <p className="enc-texto font-body text-[17px] leading-relaxed text-ink/65">
+          <p className="enc-texto font-body text-[17px] leading-relaxed text-ink/70">
             Todos os sabores do cardápio saem em quatro tamanhos. Os rendimentos são
             aproximados e variam conforme o corte de cada fatia.
           </p>
+          </div>
+
+          {/* "Feito hoje" é o segundo uso do carimbo: mesma peça, outra
+              informação. Some no celular — ali ele disputaria a largura com
+              o título em vez de acompanhá-lo. */}
+          <SeloRedondo
+            texto="Feito hoje"
+            tom="olive"
+            className="hidden h-28 w-28 shrink-0 md:block lg:h-32 lg:w-32"
+          />
         </div>
 
         <div className="enc-tamanhos mb-12 grid md:mb-20 gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -116,8 +134,8 @@ export default function Encomendas() {
               key={t.sigla}
               className="enc-tamanho rounded-2xl border border-ink/12 bg-sand/50 p-7 transition-colors duration-300 hover:border-olive/50"
             >
-              <span className="font-poster block text-5xl leading-none text-olive">{t.sigla}</span>
-              <span className="font-mono mt-4 block text-[10px] tracking-[0.18em] text-ink/50 uppercase">
+              <span className="font-poster block text-5xl leading-none text-olive-texto">{t.sigla}</span>
+              <span className="font-mono mt-4 block text-[12px] tracking-[0.18em] text-ink/50 uppercase">
                 {t.diametro}
               </span>
               <span className="font-display mt-2 block text-lg text-ink italic">{t.rende}</span>
@@ -133,7 +151,7 @@ export default function Encomendas() {
               href={SITE.whatsapp.href}
               target="_blank"
               rel="noopener noreferrer"
-              className="font-mono mt-10 inline-flex items-center gap-3 rounded-full bg-olive px-8 py-4 text-[11px] font-bold tracking-[0.24em] text-gold uppercase transition-colors duration-300 hover:bg-olive-deep"
+              className="font-mono mt-10 inline-flex items-center gap-3 rounded-full bg-olive-deep px-8 py-4 text-[12px] font-bold tracking-[0.24em] text-gold uppercase transition-colors duration-300 hover:bg-olive-deep"
             >
               Encomendar no WhatsApp
               <span aria-hidden>→</span>
@@ -141,7 +159,7 @@ export default function Encomendas() {
           </div>
 
           <div className="rounded-[2rem] bg-olive-deep p-9 md:p-11">
-            <h3 className="font-mono mb-6 text-[10px] tracking-[0.3em] text-gold uppercase">
+            <h3 className="font-mono mb-6 text-[12px] tracking-[0.3em] text-gold uppercase">
               Antes de pedir
             </h3>
             <p className="font-display text-xl leading-relaxed text-cream/85 italic md:text-2xl">

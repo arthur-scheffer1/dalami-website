@@ -79,12 +79,12 @@ export default function PreCardapio() {
   }, []);
 
   return (
-    <section ref={rootRef} className="bg-cream py-24 md:py-32">
+    <section ref={rootRef} className="bg-cream py-12 md:py-20">
       <div className="mx-auto max-w-[1400px] px-6">
         <div className="mb-14 flex flex-col justify-between gap-5 md:flex-row md:items-end">
           <div>
             <div className="pc-eyebrow mb-4">
-              <span className="font-mono text-[10px] tracking-[0.3em] text-olive uppercase">
+              <span className="font-mono text-[12px] tracking-[0.3em] text-olive-texto uppercase">
                 Cardápio
               </span>
             </div>
@@ -99,7 +99,7 @@ export default function PreCardapio() {
           </div>
           <Link
             href="/cardapio"
-            className="pc-cta font-mono group inline-flex items-center gap-3 rounded-full border px-7 py-4 text-[11px] font-bold tracking-[0.24em] border-olive/40 text-olive uppercase transition-colors duration-300 hover:border-olive hover:bg-olive hover:text-gold"
+            className="pc-cta font-mono group inline-flex items-center gap-3 rounded-full border px-7 py-4 text-[12px] font-bold tracking-[0.24em] border-olive/40 text-olive-texto uppercase transition-colors duration-300 hover:border-olive hover:bg-olive-deep hover:text-gold"
           >
             Ver cardápio completo
             <span className="transition-transform duration-300 group-hover:translate-x-1.5" aria-hidden>
@@ -121,7 +121,7 @@ export default function PreCardapio() {
               <span className="font-display text-2xl text-ink transition-transform duration-300 group-hover:translate-x-2 md:text-4xl">
                 {bolo.nome}
               </span>
-              <span className="font-mono text-[10px] tracking-[0.16em] text-olive uppercase sm:shrink-0 md:text-xs">
+              <span className="font-mono text-[12px] tracking-[0.16em] text-olive-texto uppercase sm:shrink-0 md:text-xs">
                 a partir de R$ {bolo.precos.P}
               </span>
             </Link>

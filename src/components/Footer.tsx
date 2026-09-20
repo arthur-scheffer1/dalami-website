@@ -17,10 +17,10 @@ export default function Footer() {
             quando ela empilha em telas estreitas. */}
         <div className="flex items-start justify-between gap-6">
           <div>
-            <span className="font-display text-3xl leading-none text-olive italic">
+            <span className="font-display text-3xl leading-none text-olive-texto italic">
               {SITE.nome}
             </span>
-            <p className="font-mono mt-2 text-[9px] tracking-[0.3em] text-ink/45 uppercase">
+            <p className="font-mono mt-2 text-[12px] tracking-[0.3em] text-ink/45 uppercase">
               Confeitaria
             </p>
           </div>
@@ -46,7 +46,7 @@ export default function Footer() {
                 href={s.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="font-mono -m-2 p-2 text-[10px] font-bold tracking-[0.22em] text-ink/60 uppercase transition-colors duration-300 hover:text-olive"
+                className="font-mono -m-2 p-2 text-[12px] font-bold tracking-[0.22em] text-ink/60 uppercase transition-colors duration-300 hover:text-olive-texto"
               >
                 {s.label}
               </a>
@@ -58,7 +58,7 @@ export default function Footer() {
               <Link
                 key={p.href}
                 href={p.href}
-                className="font-mono -m-2 p-2 text-[10px] font-bold tracking-[0.22em] text-ink/60 uppercase transition-colors duration-300 hover:text-olive"
+                className="font-mono -m-2 p-2 text-[12px] font-bold tracking-[0.22em] text-ink/60 uppercase transition-colors duration-300 hover:text-olive-texto"
               >
                 {p.label}
               </Link>
@@ -72,7 +72,7 @@ export default function Footer() {
           </address>
         </div>
 
-        <div className="font-mono border-t border-ink/10 pt-6 text-[9px] tracking-[0.2em] text-ink/35 uppercase">
+        <div className="font-mono border-t border-ink/10 pt-6 text-[12px] tracking-[0.2em] text-ink/35 uppercase">
           © 2026 Dalami Confeitaria · Todos os direitos reservados
         </div>
       </div>

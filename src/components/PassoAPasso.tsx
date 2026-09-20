@@ -20,7 +20,7 @@ export default function PassoAPasso({
 }) {
   return (
     <>
-      <span className="font-mono mb-3 block text-[10px] tracking-[0.3em] text-olive uppercase">
+      <span className="font-mono mb-3 block text-[12px] tracking-[0.3em] text-olive-texto uppercase">
         Passo a passo
       </span>
       <Titulo className="font-display mb-9 text-2xl text-ink md:text-3xl">
@@ -36,7 +36,7 @@ export default function PassoAPasso({
         />
         {COMO_ENCOMENDAR.map((passo, i) => (
           <li key={passo} className={`relative flex gap-5 ${classeItem}`}>
-            <span className="font-mono relative z-10 flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-olive text-sm font-bold text-gold">
+            <span className="font-mono relative z-10 flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-olive-deep text-sm font-bold text-gold">
               {i + 1}
             </span>
             <span className="font-body self-center text-[15px] leading-relaxed text-ink/75">

@@ -68,7 +68,7 @@ export default function SobreMarca() {
   }, []);
 
   return (
-    <section ref={rootRef} className="bg-sand py-24 md:py-32">
+    <section ref={rootRef} className="bg-sand py-12 md:py-20">
       <div className="mx-auto grid max-w-[1400px] items-center gap-14 px-6 md:grid-cols-2 md:gap-20">
         <div className="sobre-foto relative aspect-[4/5] overflow-hidden rounded-[2rem]">
           <Image
@@ -83,7 +83,7 @@ export default function SobreMarca() {
         <div>
           <div className="sobre-item mb-5 flex items-center gap-3">
             <span className="h-px w-10 bg-olive" />
-            <span className="font-mono text-[10px] tracking-[0.3em] text-olive uppercase">
+            <span className="font-mono text-[12px] tracking-[0.3em] text-olive-texto uppercase">
               Nossa história
             </span>
           </div>
@@ -91,7 +91,7 @@ export default function SobreMarca() {
           <h2 className="sobre-item font-poster mb-7 leading-[0.9] tracking-tight text-ink uppercase" style={{ fontSize: "clamp(36px, 5vw, 68px)" }}>
             {HISTORIA_RASCUNHO.linha1}
             <br />
-            <span className="text-olive">{HISTORIA_RASCUNHO.linha2}</span>
+            <span className="text-olive-texto">{HISTORIA_RASCUNHO.linha2}</span>
             <br />
             {HISTORIA_RASCUNHO.linha3}
           </h2>
@@ -102,7 +102,7 @@ export default function SobreMarca() {
 
           <Link
             href="/sobre"
-            className="sobre-item font-mono group inline-flex items-center gap-3 rounded-full border px-7 py-4 text-[11px] font-bold tracking-[0.24em] border-olive/40 text-olive uppercase transition-colors duration-300 hover:border-olive hover:bg-olive hover:text-gold"
+            className="sobre-item font-mono group inline-flex items-center gap-3 rounded-full border px-7 py-4 text-[12px] font-bold tracking-[0.24em] border-olive/40 text-olive-texto uppercase transition-colors duration-300 hover:border-olive hover:bg-olive-deep hover:text-gold"
           >
             Conheça nossa história
             <span className="transition-transform duration-300 group-hover:translate-x-1.5" aria-hidden>

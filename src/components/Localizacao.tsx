@@ -212,7 +212,7 @@ export default function Localizacao() {
           <Grafismos />
 
           <div className="relative z-10 mx-auto max-w-2xl text-center">
-            <span className="loc-item font-mono mb-8 block text-[10px] tracking-[0.3em] text-ink/50 uppercase">
+            <span className="loc-item font-mono mb-8 block text-[12px] tracking-[0.3em] text-ink/50 uppercase">
               Onde estamos
             </span>
 
@@ -223,7 +223,7 @@ export default function Localizacao() {
               >
                 {SITE.nome}
               </span>
-              <span className="font-mono mt-1 block text-[10px] tracking-[0.42em] text-olive-deep/80 uppercase sm:text-xs">
+              <span className="font-mono mt-1 block text-[12px] tracking-[0.42em] text-olive-deep/80 uppercase sm:text-xs">
                 Confeitaria
               </span>
             </div>
@@ -234,7 +234,7 @@ export default function Localizacao() {
 
             <div className="mt-14 grid gap-10 text-left sm:grid-cols-2 sm:gap-12">
               <div className="loc-item">
-                <span className="font-mono mb-3 block text-[10px] tracking-[0.22em] text-olive-deep/60 uppercase">
+                <span className="font-mono mb-3 block text-[12px] tracking-[0.22em] text-olive-deep/60 uppercase">
                   Endereço
                 </span>
                 <address className="font-display text-xl leading-snug text-ink not-italic md:text-2xl">
@@ -245,7 +245,7 @@ export default function Localizacao() {
               </div>
 
               <div className="loc-item">
-                <span className="font-mono mb-3 block text-[10px] tracking-[0.22em] text-olive-deep/60 uppercase">
+                <span className="font-mono mb-3 block text-[12px] tracking-[0.22em] text-olive-deep/60 uppercase">
                   Horários
                 </span>
                 <div className="border-t border-ink/15">
@@ -255,7 +255,7 @@ export default function Localizacao() {
                       className="flex items-baseline justify-between gap-5 border-b border-ink/15 py-3"
                     >
                       <span className="font-body text-[14px] text-ink/70">{h.dias}</span>
-                      <span className="font-mono text-[11px] tracking-[0.14em] text-olive-deep">
+                      <span className="font-mono text-[12px] tracking-[0.14em] text-olive-deep">
                         {h.horas}
                       </span>
                     </div>
@@ -270,7 +270,7 @@ export default function Localizacao() {
                 href={SITE.maps}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="font-mono rounded-full bg-olive-deep px-7 py-4 text-[10px] font-bold tracking-[0.22em] text-gold uppercase transition-colors duration-300 hover:bg-olive"
+                className="font-mono rounded-full bg-olive-deep px-7 py-4 text-[12px] font-bold tracking-[0.22em] text-gold uppercase transition-colors duration-300 hover:bg-olive"
               >
                 Como chegar
               </a>
@@ -278,7 +278,7 @@ export default function Localizacao() {
                 href={SITE.whatsapp.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="font-mono rounded-full border border-olive-deep/30 px-7 py-4 text-[10px] font-bold tracking-[0.22em] text-olive-deep uppercase transition-colors duration-300 hover:border-olive-deep hover:bg-olive-deep hover:text-gold"
+                className="font-mono rounded-full border border-olive-deep/30 px-7 py-4 text-[12px] font-bold tracking-[0.22em] text-olive-deep uppercase transition-colors duration-300 hover:border-olive-deep hover:bg-olive-deep hover:text-gold"
               >
                 WhatsApp
               </a>
@@ -286,7 +286,7 @@ export default function Localizacao() {
                 href={SITE.ifood}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="font-mono rounded-full border border-olive-deep/30 px-7 py-4 text-[10px] font-bold tracking-[0.22em] text-olive-deep uppercase transition-colors duration-300 hover:border-olive-deep hover:bg-olive-deep hover:text-gold"
+                className="font-mono rounded-full border border-olive-deep/30 px-7 py-4 text-[12px] font-bold tracking-[0.22em] text-olive-deep uppercase transition-colors duration-300 hover:border-olive-deep hover:bg-olive-deep hover:text-gold"
               >
                 Pedir no iFood
               </a>
@@ -295,7 +295,7 @@ export default function Localizacao() {
         </div>
 
         <div
-          className="loc-mapa relative mt-5 min-h-[340px] overflow-hidden rounded-[1.75rem] border border-cream/15 md:mt-6 md:min-h-[420px] md:rounded-[2.5rem]"
+          className="loc-mapa relative mt-5 min-h-[340px] overflow-hidden rounded-[1.75rem] border border-gold-logo/25 md:mt-6 md:min-h-[420px] md:rounded-[2.5rem]"
           onMouseLeave={() => setMapaAtivo(false)}
         >
           <iframe
@@ -314,7 +314,7 @@ export default function Localizacao() {
               className="group absolute inset-0 z-10 flex cursor-pointer items-end justify-center pb-6"
               aria-label="Ativar o mapa para arrastar e ampliar"
             >
-              <span className="font-mono rounded-full bg-olive-deep/85 px-5 py-3 text-[10px] font-bold tracking-[0.2em] text-cream uppercase backdrop-blur-sm transition-colors duration-300 group-hover:bg-olive-deep">
+              <span className="font-mono rounded-full bg-olive-deep/85 px-5 py-3 text-[12px] font-bold tracking-[0.2em] text-cream uppercase backdrop-blur-sm transition-colors duration-300 group-hover:bg-olive-deep">
                 Clique para usar o mapa
               </span>
             </button>
