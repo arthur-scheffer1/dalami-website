@@ -17,7 +17,12 @@ export default function BoloHeroi() {
 
   useIsoLayoutEffect(() => {
     const ctx = gsap.context(() => {
-      const split = new SplitText(".heroi-nome", { type: "chars" });
+      // "words,chars" e nao so "chars": separando apenas em caracteres, cada
+      // letra vira uma caixa propria e o navegador pode quebrar a linha entre
+      // duas letras quaisquer — era o que rachava "NUTELLA" em "NU" e "TELLA"
+      // no celular. Com os caracteres dentro de um involucro de palavra, a
+      // palavra volta a ser indivisivel e a quebra so acontece no espaco.
+      const split = new SplitText(".heroi-nome", { type: "words,chars" });
       const mm = gsap.matchMedia();
 
       // Desktop: tudo cabe na mesma altura de tela, então uma timeline só
@@ -133,8 +138,8 @@ export default function BoloHeroi() {
           </div>
 
           <h2
-            className="heroi-nome font-poster mb-6 leading-[0.88] tracking-tight text-cream uppercase"
-            style={{ fontSize: "clamp(44px, 6.5vw, 92px)" }}
+            className="heroi-nome font-poster mb-6 leading-[0.88] tracking-tight break-words text-cream uppercase"
+            style={{ fontSize: "clamp(38px, 6.5vw, 92px)" }}
           >
             {BOLO_HEROI.nome}
           </h2>

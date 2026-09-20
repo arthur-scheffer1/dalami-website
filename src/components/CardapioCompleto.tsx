@@ -42,7 +42,9 @@ export default function CardapioCompleto() {
 
   useIsoLayoutEffect(() => {
     const ctx = gsap.context(() => {
-      const split = new SplitText(".card-titulo", { type: "chars" });
+      // Mesmo motivo do BoloHeroi: so "chars" deixaria o navegador partir
+      // "Cardapio" no meio numa tela estreita.
+      const split = new SplitText(".card-titulo", { type: "words,chars" });
       const mm = gsap.matchMedia();
 
       gsap.from(split.chars, {
