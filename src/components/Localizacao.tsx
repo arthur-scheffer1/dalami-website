@@ -6,6 +6,8 @@ import { revelaAoEntrar } from "@/lib/anima";
 import { useIsoLayoutEffect } from "@/lib/use-iso-layout-effect";
 import { SITE } from "@/lib/site";
 import EstadoLoja from "./EstadoLoja";
+import { CELULAR, DESKTOP } from "@/lib/breakpoints";
+import { linkWhatsApp } from "@/lib/whatsapp";
 
 /** Tracinhos curtos em diagonal — a textura impressa na caixa das fatias. */
 function Hachura({ className, cor = "var(--color-ink)" }: { className?: string; cor?: string }) {
@@ -168,7 +170,7 @@ export default function Localizacao() {
         },
       );
 
-      mm.add("(min-width: 768px)", () => {
+      mm.add(DESKTOP, () => {
         gsap.fromTo(
           ".loc-item",
           { opacity: 0, y: 30 },
@@ -185,7 +187,7 @@ export default function Localizacao() {
 
       // Celular: endereço, horários e botões ficam empilhados numa coluna bem
       // alta — os botões estariam a uma tela de distância do gatilho comum.
-      mm.add("(max-width: 767px)", () => {
+      mm.add(CELULAR, () => {
         gsap.utils.toArray<HTMLElement>(".loc-item").forEach((item) => {
           revelaAoEntrar(item, { opacity: 0, y: 24 }, { trigger: item, start: "top 92%", duration: 0.6 });
         });
@@ -275,7 +277,7 @@ export default function Localizacao() {
                 Como chegar
               </a>
               <a
-                href={SITE.whatsapp.href}
+                href={linkWhatsApp()}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="font-mono rounded-full border border-olive-deep/30 px-7 py-4 text-[12px] font-bold tracking-[0.22em] text-olive-deep uppercase transition-colors duration-300 hover:border-olive-deep hover:bg-olive-deep hover:text-gold"

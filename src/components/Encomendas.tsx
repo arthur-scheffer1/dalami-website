@@ -7,7 +7,8 @@ import { useIsoLayoutEffect } from "@/lib/use-iso-layout-effect";
 import { AVISO_DECORACAO, TAMANHOS } from "@/lib/menu";
 import PassoAPasso from "./PassoAPasso";
 import SeloRedondo from "./SeloRedondo";
-import { SITE } from "@/lib/site";
+import { CELULAR, DESKTOP } from "@/lib/breakpoints";
+import { linkWhatsApp } from "@/lib/whatsapp";
 
 /** Seção 6 — encomendas: tamanhos, regras e o caminho pro WhatsApp. */
 export default function Encomendas() {
@@ -17,7 +18,7 @@ export default function Encomendas() {
     const ctx = gsap.context(() => {
       const mm = gsap.matchMedia();
 
-      mm.add("(min-width: 768px)", () => {
+      mm.add(DESKTOP, () => {
       // Gatilho único, sem scrub: a entrada toca uma vez quando a seção chega e
       // fica onde parou. Presa à rolagem, ela se desfazia ao subir — e o texto
       // ficava refém da barra em vez de simplesmente aparecer.
@@ -67,7 +68,7 @@ export default function Encomendas() {
 
       // Celular: os quatro cartões de tamanho viram uma coluna alta; com um
       // gatilho só, os últimos animariam muito antes de entrarem na tela.
-      mm.add("(max-width: 767px)", () => {
+      mm.add(CELULAR, () => {
         revelaAoEntrar(".enc-eyebrow", { opacity: 0.05, y: 14 });
         revelaAoEntrar(
           ".enc-heading",
@@ -148,7 +149,7 @@ export default function Encomendas() {
             <PassoAPasso classeItem="enc-passo" />
 
             <a
-              href={SITE.whatsapp.href}
+              href={linkWhatsApp()}
               target="_blank"
               rel="noopener noreferrer"
               className="font-mono mt-10 inline-flex items-center gap-3 rounded-full bg-olive-deep px-8 py-4 text-[12px] font-bold tracking-[0.24em] text-gold uppercase transition-colors duration-300 hover:bg-olive-deep"

@@ -1,11 +1,12 @@
 import Link from "next/link";
 import Image from "next/image";
 import { PAGINAS, SITE } from "@/lib/site";
+import { linkWhatsApp } from "@/lib/whatsapp";
 
 const SOCIAIS = [
   { label: "Instagram", href: SITE.instagram.href },
   { label: "Google Maps", href: SITE.maps },
-  { label: "WhatsApp", href: SITE.whatsapp.href },
+  { label: "WhatsApp", href: linkWhatsApp() },
 ];
 
 export default function Footer() {

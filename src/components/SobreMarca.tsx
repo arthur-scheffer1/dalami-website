@@ -6,6 +6,7 @@ import Link from "next/link";
 import { gsap } from "@/lib/gsap";
 import { revelaAoEntrar } from "@/lib/anima";
 import { useIsoLayoutEffect } from "@/lib/use-iso-layout-effect";
+import { CELULAR, DESKTOP } from "@/lib/breakpoints";
 
 /**
  * Seção 5 — sobre a marca.
@@ -42,7 +43,7 @@ export default function SobreMarca() {
         },
       );
 
-      mm.add("(min-width: 768px)", () => {
+      mm.add(DESKTOP, () => {
         gsap.fromTo(
           ".sobre-item",
           { opacity: 0, x: 36 },
@@ -58,7 +59,7 @@ export default function SobreMarca() {
       });
 
       // Celular: o texto fica abaixo da foto, longe do topo da seção.
-      mm.add("(max-width: 767px)", () => {
+      mm.add(CELULAR, () => {
         gsap.utils.toArray<HTMLElement>(".sobre-item").forEach((item) => {
           revelaAoEntrar(item, { opacity: 0, x: 24 }, { trigger: item, start: "top 92%", duration: 0.6 });
         });

@@ -6,6 +6,7 @@ import { gsap } from "@/lib/gsap";
 import { revelaAoEntrar } from "@/lib/anima";
 import { useIsoLayoutEffect } from "@/lib/use-iso-layout-effect";
 import { SITE } from "@/lib/site";
+import { CELULAR, DESKTOP } from "@/lib/breakpoints";
 
 /**
  * Seção "Nossa loja" — o ambiente, o mural e a fachada.
@@ -22,7 +23,7 @@ export default function NossaLoja() {
     const ctx = gsap.context(() => {
       const mm = gsap.matchMedia();
 
-      mm.add("(min-width: 768px)", () => {
+      mm.add(DESKTOP, () => {
         gsap.fromTo(
           ".loja-item",
           { opacity: 0, y: 26 },
@@ -37,7 +38,7 @@ export default function NossaLoja() {
         );
       });
 
-      mm.add("(max-width: 767px)", () => {
+      mm.add(CELULAR, () => {
         gsap.utils.toArray<HTMLElement>(".loja-item").forEach((el) => {
           revelaAoEntrar(el, { opacity: 0, y: 18 }, { trigger: el, start: "top 92%", duration: 0.6 });
         });

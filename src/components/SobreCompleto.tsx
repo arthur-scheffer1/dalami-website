@@ -7,6 +7,7 @@ import { gsap } from "@/lib/gsap";
 import { revelaAoEntrar } from "@/lib/anima";
 import { useIsoLayoutEffect } from "@/lib/use-iso-layout-effect";
 import { SITE } from "@/lib/site";
+import { CELULAR, DESKTOP } from "@/lib/breakpoints";
 
 /**
  * ⚠️ PÁGINA SOBRE — TEXTO PROVISÓRIO.
@@ -66,7 +67,7 @@ export default function SobreCompleto() {
         );
       });
 
-      mm.add("(min-width: 768px)", () => {
+      mm.add(DESKTOP, () => {
         gsap.fromTo(
           ".sobre-valor",
           { opacity: 0, y: 28 },
@@ -82,7 +83,7 @@ export default function SobreCompleto() {
       });
 
       // Celular: os três valores empilham; cada um espera a própria vez.
-      mm.add("(max-width: 767px)", () => {
+      mm.add(CELULAR, () => {
         gsap.utils.toArray<HTMLElement>(".sobre-valor").forEach((valor) => {
           revelaAoEntrar(valor, { opacity: 0, y: 24 }, { trigger: valor, start: "top 92%", duration: 0.6 });
         });

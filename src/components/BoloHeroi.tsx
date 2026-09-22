@@ -9,6 +9,7 @@ import { garanteVisivel } from "@/lib/garante-visivel";
 import { useIsoLayoutEffect } from "@/lib/use-iso-layout-effect";
 import { BOLO_HEROI } from "@/lib/menu";
 import SeloRedondo from "./SeloRedondo";
+import { CELULAR, DESKTOP } from "@/lib/breakpoints";
 
 /**
  * Seção 2 — um bolo só, em tamanho grande, com nome e ingredientes.
@@ -32,7 +33,7 @@ export default function BoloHeroi() {
       // Gatilho único, sem scrub: a entrada toca uma vez quando a seção chega e
       // fica onde parou. Presa à rolagem, ela se desfazia ao subir — e o texto
       // ficava refém da barra em vez de simplesmente aparecer.
-      mm.add("(min-width: 768px)", () => {
+      mm.add(DESKTOP, () => {
         const tl = gsap.timeline({
           defaults: { ease: "power3.out" },
           scrollTrigger: { trigger: rootRef.current, start: "top 72%" },
@@ -52,7 +53,7 @@ export default function BoloHeroi() {
       });
 
       // Celular: cada bloco no seu próprio gatilho.
-      mm.add("(max-width: 767px)", () => {
+      mm.add(CELULAR, () => {
         revelaAoEntrar(".heroi-eyebrow", { opacity: 0.05, y: 14 });
         revelaAoEntrar(".heroi-eyebrow-line", { width: 0 }, { width: 40, trigger: ".heroi-eyebrow" });
         revelaAoEntrar(
@@ -87,7 +88,7 @@ export default function BoloHeroi() {
       //
       // E, pelo mesmo motivo dela, só no desktop: preso à rolagem, repinta a
       // foto a cada quadro e trava a rolagem no celular.
-      mm.add("(min-width: 768px)", () => {
+      mm.add(DESKTOP, () => {
         gsap.fromTo(
           ".heroi-foto-img",
           { yPercent: 0 },

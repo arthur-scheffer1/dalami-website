@@ -6,46 +6,14 @@ import { gsap, ScrollTrigger, SplitText } from "@/lib/gsap";
 import { revelaAoEntrar } from "@/lib/anima";
 import { garanteVisivel } from "@/lib/garante-visivel";
 import { useIsoLayoutEffect } from "@/lib/use-iso-layout-effect";
-import { AVISO_DECORACAO, BRIGADEIROS, CATEGORIAS, TAMANHOS } from "@/lib/menu";
+import { AVISO_DECORACAO, BRIGADEIROS, CATEGORIAS, FOTOS_BOLOS, TAMANHOS } from "@/lib/menu";
+import { linkPedidoDeBolo, linkWhatsApp } from "@/lib/whatsapp";
 import PassoAPasso from "./PassoAPasso";
 import { SITE } from "@/lib/site";
 import Faixa from "./Faixa";
+import { CELULAR, DESKTOP } from "@/lib/breakpoints";
 
 const ORDEM_TAMANHOS = ["P", "M", "G", "GG"] as const;
-
-/**
- * Link do WhatsApp com a encomenda já escrita.
- *
- * `encodeURIComponent` e não template solto: nome de bolo tem acento, cedilha
- * e espaço, e sem codificar a mensagem chega truncada no primeiro caractere
- * que o navegador não souber passar na URL.
- */
-function linkPedido(nome: string) {
-  const texto = `Olá! Quero encomendar o bolo ${nome}`;
-  return `${SITE.whatsapp.href}?text=${encodeURIComponent(texto)}`;
-}
-
-/** Nem todo bolo tem foto; só esses aparecem na aba "Fotos" de cada categoria.
- *
- * As fotos vieram dos posts da própria Dalami, recortadas para tirar a
- * marca-d'água, as setas de carrossel e as legendas do Instagram — a página
- * já tem a marca dela, e um logo dentro da foto vira marca repetida.
- *
- * O sabor de cada uma foi lido da foto contra a descrição do cardápio: a
- * cereja e o cream cheese do Red Velvet, a trufa por cima da Matilda, o
- * damasco amarelo com amêndoa em farofa, a ameixa escura do bolo de coco. */
-const FOTOS: Record<string, string> = {
-  "Bolo Dalami": "/images/bolo-dalami.jpg",
-  "Morango e Nutella": "/images/morango-nutella.jpg",
-  "Matilda Cake": "/images/matilda-cake.jpg",
-  "Bolo Catarina": "/images/vitrine.jpg",
-  "Ninho e Nutella": "/images/ninho-nutella.jpg",
-  "Red Velvet": "/images/red-velvet.jpg",
-  "Cheesecake de frutas vermelhas": "/images/cheesecake-red-velvet.jpg",
-  "Limão siciliano e frutas vermelhas": "/images/frutas-vermelhas.jpg",
-  "Damasco e doce de leite": "/images/damasco-doce-de-leite.jpg",
-  "Ameixa, coco e doce de leite": "/images/ameixa-coco.jpg",
-};
 
 export default function CardapioCompleto() {
   const rootRef = useRef<HTMLDivElement>(null);
@@ -80,7 +48,7 @@ export default function CardapioCompleto() {
         });
       });
 
-      mm.add("(min-width: 768px)", () => {
+      mm.add(DESKTOP, () => {
         gsap.utils.toArray<HTMLElement>(".cat-bloco").forEach((bloco) => {
           gsap.fromTo(
             bloco.querySelectorAll(".cat-head"),
@@ -110,7 +78,7 @@ export default function CardapioCompleto() {
 
       // Celular: cada linha espera a própria vez — a lista de um bloco ocupa
       // várias telas, e um gatilho único terminaria muito antes.
-      mm.add("(max-width: 767px)", () => {
+      mm.add(CELULAR, () => {
         gsap.utils.toArray<HTMLElement>(".cat-head").forEach((head) => {
           revelaAoEntrar(head, { opacity: 0, y: 20 }, { trigger: head, start: "top 92%", duration: 0.6 });
         });
@@ -301,7 +269,7 @@ export default function CardapioCompleto() {
                 {modoFotos[cat.id] ? (
                   <div className="cat-fotos grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
                     {cat.bolos
-                      .filter((bolo) => FOTOS[bolo.nome])
+                      .filter((bolo) => FOTOS_BOLOS[bolo.nome])
                       .map((bolo) => {
                         const precos = Object.values(bolo.precos).filter(
                           (v): v is number => v != null,
@@ -310,13 +278,13 @@ export default function CardapioCompleto() {
                         return (
                           <a
                             key={bolo.nome}
-                            href={linkPedido(bolo.nome)}
+                            href={linkPedidoDeBolo(bolo.nome)}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="group relative isolate block aspect-square overflow-hidden rounded-2xl"
                           >
                             <Image
-                              src={FOTOS[bolo.nome]}
+                              src={FOTOS_BOLOS[bolo.nome]}
                               alt={bolo.nome}
                               fill
                               sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
@@ -343,7 +311,7 @@ export default function CardapioCompleto() {
                           </a>
                         );
                       })}
-                    {cat.bolos.every((bolo) => !FOTOS[bolo.nome]) && (
+                    {cat.bolos.every((bolo) => !FOTOS_BOLOS[bolo.nome]) && (
                       <p className="font-mono col-span-full py-10 text-center text-[12px] tracking-[0.14em] text-ink/40 uppercase">
                         Fotos desta categoria em breve
                       </p>
@@ -361,10 +329,10 @@ export default function CardapioCompleto() {
                             galeria. Fica fora do fluxo do texto, então o nome
                             continua começando na mesma coluna em toda linha,
                             tenha foto ou não. */}
-                        {FOTOS[bolo.nome] ? (
+                        {FOTOS_BOLOS[bolo.nome] ? (
                           <span className="relative block h-14 w-14 shrink-0 overflow-hidden rounded-full ring-1 ring-ink/10 md:h-16 md:w-16">
                             <Image
-                              src={FOTOS[bolo.nome]}
+                              src={FOTOS_BOLOS[bolo.nome]}
                               alt=""
                               fill
                               sizes="64px"
@@ -410,7 +378,7 @@ export default function CardapioCompleto() {
                         ))}
 
                         <a
-                          href={linkPedido(bolo.nome)}
+                          href={linkPedidoDeBolo(bolo.nome)}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="font-mono mt-1 inline-flex w-full items-center justify-center gap-2 rounded-full bg-olive-deep px-5 py-3 text-[12px] font-bold tracking-[0.16em] text-gold uppercase transition-colors duration-300 hover:bg-olive md:w-auto"
@@ -469,7 +437,7 @@ export default function CardapioCompleto() {
           <div>
             <PassoAPasso nivel="h2" />
             <a
-              href={SITE.whatsapp.href}
+              href={linkWhatsApp()}
               target="_blank"
               rel="noopener noreferrer"
               className="font-mono mt-10 inline-flex items-center gap-3 rounded-full bg-olive-deep px-8 py-4 text-[12px] font-bold tracking-[0.24em] text-gold uppercase transition-colors duration-300 hover:bg-olive-deep"

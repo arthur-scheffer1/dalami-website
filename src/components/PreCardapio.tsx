@@ -6,6 +6,7 @@ import { gsap } from "@/lib/gsap";
 import { revelaAoEntrar } from "@/lib/anima";
 import { useIsoLayoutEffect } from "@/lib/use-iso-layout-effect";
 import { CATEGORIAS } from "@/lib/menu";
+import { CELULAR, DESKTOP } from "@/lib/breakpoints";
 
 /**
  * Seção 3 — prévia do cardápio: os campeões de venda, com preço a partir de.
@@ -24,7 +25,7 @@ export default function PreCardapio() {
     const ctx = gsap.context(() => {
       const mm = gsap.matchMedia();
 
-      mm.add("(min-width: 768px)", () => {
+      mm.add(DESKTOP, () => {
       // Gatilho único, sem scrub: a entrada toca uma vez quando a seção chega e
       // fica onde parou. Presa à rolagem, ela se desfazia ao subir — e o texto
       // ficava refém da barra em vez de simplesmente aparecer.
@@ -61,7 +62,7 @@ export default function PreCardapio() {
 
       // Celular: a lista fica alta demais para um scrub único preso ao topo —
       // cada linha aparece quando ela mesma entra na tela.
-      mm.add("(max-width: 767px)", () => {
+      mm.add(CELULAR, () => {
         revelaAoEntrar(".pc-eyebrow", { opacity: 0.05, y: 14 });
         revelaAoEntrar(
           ".pc-heading",

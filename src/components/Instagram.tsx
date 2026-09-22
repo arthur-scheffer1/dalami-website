@@ -6,6 +6,7 @@ import { gsap } from "@/lib/gsap";
 import { revelaAoEntrar } from "@/lib/anima";
 import { useIsoLayoutEffect } from "@/lib/use-iso-layout-effect";
 import { SITE } from "@/lib/site";
+import { CELULAR, DESKTOP } from "@/lib/breakpoints";
 
 /**
  * Bloco do Instagram.
@@ -45,7 +46,7 @@ export default function Instagram() {
     const ctx = gsap.context(() => {
       const mm = gsap.matchMedia();
 
-      mm.add("(min-width: 768px)", () => {
+      mm.add(DESKTOP, () => {
         gsap.fromTo(
           ".ig-foto",
           { opacity: 0, scale: 0.94 },
@@ -60,7 +61,7 @@ export default function Instagram() {
         );
       });
 
-      mm.add("(max-width: 767px)", () => {
+      mm.add(CELULAR, () => {
         gsap.utils.toArray<HTMLElement>(".ig-foto").forEach((el) => {
           revelaAoEntrar(el, { opacity: 0, y: 14 }, { trigger: el, start: "top 94%", duration: 0.5 });
         });

@@ -4,6 +4,7 @@ import { useRef } from "react";
 import { gsap } from "@/lib/gsap";
 import { revelaAoEntrar } from "@/lib/anima";
 import { useIsoLayoutEffect } from "@/lib/use-iso-layout-effect";
+import { CELULAR, DESKTOP } from "@/lib/breakpoints";
 
 /**
  * ⚠️ SEÇÃO 7 — DEPOIMENTOS FICTÍCIOS, NÃO PUBLICAR ASSIM.
@@ -44,7 +45,7 @@ export default function Depoimentos() {
     const ctx = gsap.context(() => {
       const mm = gsap.matchMedia();
 
-      mm.add("(min-width: 768px)", () => {
+      mm.add(DESKTOP, () => {
         gsap.fromTo(
           ".dep-card",
           { opacity: 0, y: 40, rotate: (i: number) => (i % 2 === 0 ? -1.5 : 1.5) },
@@ -61,7 +62,7 @@ export default function Depoimentos() {
       });
 
       // Celular: os três cartões viram uma pilha de quase três telas de altura.
-      mm.add("(max-width: 767px)", () => {
+      mm.add(CELULAR, () => {
         gsap.utils.toArray<HTMLElement>(".dep-card").forEach((card) => {
           revelaAoEntrar(card, { opacity: 0, y: 30 }, { trigger: card, start: "top 92%", duration: 0.6 });
         });

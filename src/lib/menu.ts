@@ -54,6 +54,32 @@ export const BOLO_HEROI = {
   imagem: "/images/fatia-nutella-morango.jpg",
 } as const;
 
+/** A foto de cada bolo, quando existe.
+ *
+ * Mora aqui, junto das CATEGORIAS, e não dentro do componente de cardápio:
+ * é dado do produto, não decisão de apresentação. O componente escolhe COMO
+ * mostrar; este arquivo é quem sabe O QUE existe.
+ *
+ * As fotos vieram dos posts da própria Dalami, recortadas para tirar a
+ * marca-d'água, as setas de carrossel e as legendas do Instagram — a página
+ * já tem a marca dela, e um logo dentro da foto vira marca repetida.
+ *
+ * O sabor de cada uma foi lido da foto contra a descrição do cardápio: a
+ * cereja e o cream cheese do Red Velvet, a trufa por cima da Matilda, o
+ * damasco amarelo com amêndoa em farofa, a ameixa escura do bolo de coco. */
+export const FOTOS_BOLOS: Record<string, string> = {
+  "Bolo Dalami": "/images/bolo-dalami.jpg",
+  "Morango e Nutella": "/images/morango-nutella.jpg",
+  "Matilda Cake": "/images/matilda-cake.jpg",
+  "Bolo Catarina": "/images/vitrine.jpg",
+  "Ninho e Nutella": "/images/ninho-nutella.jpg",
+  "Red Velvet": "/images/red-velvet.jpg",
+  "Cheesecake de frutas vermelhas": "/images/cheesecake-red-velvet.jpg",
+  "Limão siciliano e frutas vermelhas": "/images/frutas-vermelhas.jpg",
+  "Damasco e doce de leite": "/images/damasco-doce-de-leite.jpg",
+  "Ameixa, coco e doce de leite": "/images/ameixa-coco.jpg",
+};
+
 export const CATEGORIAS: Categoria[] = [
   {
     id: "classicos",

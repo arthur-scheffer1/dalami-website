@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react";
 import Image from "next/image";
 import { gsap } from "@/lib/gsap";
 import Divisor from "./Divisor";
+import { DESKTOP } from "@/lib/breakpoints";
 
 /**
  * Seção 4 — composição visual, não galeria: fotos grandes, muito espaço vazio
@@ -37,7 +38,7 @@ export default function Composicao() {
         // Só no desktop. Preso à rolagem, este tween repinta uma foto grande a
         // cada quadro — no celular é o que fazia a rolagem travar, e a
         // profundidade que ele dá numa tela de 6 polegadas é quase nula.
-        mm.add("(min-width: 768px)", () => {
+        mm.add(DESKTOP, () => {
           gsap.fromTo(
             img,
             { yPercent: 0 },

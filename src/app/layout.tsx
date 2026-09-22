@@ -131,6 +131,18 @@ const DADOS_ESTRUTURADOS = {
   })),
 };
 
+/**
+ * Serializa um objeto para dentro de uma tag <script>.
+ *
+ * O JSON.stringify sozinho não basta: ele escapa aspas e barras invertidas,
+ * mas deixa `<` passar. Um valor contendo `</script>` fecharia a tag no meio
+ * do JSON e o navegador trataria o resto como marcação. `<` é lido pelo
+ * parser de JSON como `<`, então o dado chega idêntico do outro lado.
+ */
+function paraJsonSeguro(dados: unknown) {
+  return JSON.stringify(dados).replace(/</g, "\\u003c");
+}
+
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
@@ -140,9 +152,12 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <body>
         <script
           type="application/ld+json"
-          /* Objeto próprio, montado acima a partir do SITE — não vem de fora,
-             então não há conteúdo de terceiro sendo injetado aqui. */
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(DADOS_ESTRUTURADOS) }}
+          /* O objeto é montado acima a partir do SITE, não vem de fora. Ainda
+             assim o `<` sai escapado: dentro de um bloco <script>, a sequência
+             `</script>` em QUALQUER valor fecharia a tag antes da hora e o
+             resto viraria HTML no documento. É a única forma de injeção que
+             sobrevive ao JSON.stringify, e o escape custa uma linha. */
+          dangerouslySetInnerHTML={{ __html: paraJsonSeguro(DADOS_ESTRUTURADOS) }}
         />
         <Preloader />
         <SmoothScroll>

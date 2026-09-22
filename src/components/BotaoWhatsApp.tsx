@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { SITE } from "@/lib/site";
+import { linkWhatsApp } from "@/lib/whatsapp";
 
 /**
  * Atalho flutuante para o WhatsApp.
@@ -22,7 +23,7 @@ export default function BotaoWhatsApp() {
 
   return (
     <a
-      href={SITE.whatsapp.href}
+      href={linkWhatsApp()}
       target="_blank"
       rel="noopener noreferrer"
       aria-label={`Fazer um pedido pelo WhatsApp — ${SITE.whatsapp.display}`}
