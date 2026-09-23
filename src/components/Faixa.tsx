@@ -20,6 +20,7 @@ export default function Faixa({
   className?: string;
 }) {
   const trilhoRef = useRef<HTMLDivElement>(null);
+  const observadorRef = useRef<IntersectionObserver | null>(null);
 
   useIsoLayoutEffect(() => {
     const trilho = trilhoRef.current;
@@ -27,15 +28,38 @@ export default function Faixa({
 
     const ctx = gsap.context(() => {
       const prefereMenos = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      gsap.to(trilho, {
+      const laco = gsap.to(trilho, {
         xPercent: -50,
         duration: prefereMenos ? 90 : 38,
         ease: "none",
         repeat: -1,
       });
+
+      // A faixa roda em laço infinito. Sem isto ela continua rodando mesmo
+      // quando está fora da tela — e foi medido, não suposto: rolando até o
+      // fim da página, a matriz de transformação seguia mudando. Ou seja, o
+      // navegador recompunha um elemento que ninguém podia ver, pelo resto da
+      // vida da página.
+      //
+      // O IntersectionObserver custa quase nada e só liga o laço enquanto a
+      // faixa está visível. Para quem olha, nada muda: ela já está em
+      // movimento quando entra na tela.
+      const olho = new IntersectionObserver(
+        ([entrada]) => {
+          if (entrada.isIntersecting) laco.play();
+          else laco.pause();
+        },
+        { rootMargin: "120px" },
+      );
+      olho.observe(trilho);
+      observadorRef.current = olho;
     }, trilho);
 
-    return () => ctx.revert();
+    return () => {
+      observadorRef.current?.disconnect();
+      observadorRef.current = null;
+      ctx.revert();
+    };
   }, []);
 
   const conteudo = [...itens, ...itens];

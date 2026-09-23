@@ -13,7 +13,11 @@ import { SITE } from "@/lib/site";
 import Faixa from "./Faixa";
 import { CELULAR, DESKTOP } from "@/lib/breakpoints";
 
-const ORDEM_TAMANHOS = ["P", "M", "G", "GG"] as const;
+/* Derivado de TAMANHOS em vez de reescrito à mão: eram duas listas com a
+   mesma ordem em arquivos diferentes, e um tamanho novo entraria numa e não
+   na outra — a tabela de preços passaria a esconder uma coluna sem erro
+   nenhum aparecer. */
+const ORDEM_TAMANHOS = TAMANHOS.map((t) => t.sigla);
 
 export default function CardapioCompleto() {
   const rootRef = useRef<HTMLDivElement>(null);
@@ -229,7 +233,12 @@ export default function CardapioCompleto() {
                   <span className="font-poster shrink-0 text-5xl leading-none text-olive-texto/70 md:text-7xl">
                     {String(i + 1).padStart(2, "0")}
                   </span>
-                  <div className="max-w-2xl">
+                  {/* min-w-0: item de flex nasce com `min-width: auto`, ou
+                      seja, se recusa a encolher abaixo da palavra mais larga
+                      que contém. Em 320px isso empurrava o bloco 8px para
+                      fora da tela, onde o `overflow-x: hidden` do body o
+                      cortava em silêncio. */}
+                  <div className="max-w-2xl min-w-0">
                     <h2
                       className="font-poster leading-[0.95] tracking-tight text-ink uppercase"
                       style={{ fontSize: "clamp(28px, 4.2vw, 56px)" }}

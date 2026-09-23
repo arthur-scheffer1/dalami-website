@@ -3,7 +3,6 @@ export const SITE = {
   nome: "Dalami",
   nomeCompleto: "Dalami Confeitaria",
   slogan: "A vida merece ser saboreada",
-  slogan2: "Cada pedaço da vida merece ser saboreado",
 
   endereco: {
     rua: "Rod. João Gualberto Soares, 118",
