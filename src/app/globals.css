@@ -147,7 +147,16 @@ body {
   inset: 0;
   z-index: 90;
   background-color: var(--color-cream);
-  animation: preloader-sai 0.45s ease-out 0.95s forwards;
+  /* Medido: em 4G lento o site já estava pintado aos 1,7s e a cortina só
+     saía aos 3,2s — 1,5 segundo de espera com a página pronta atrás dela.
+     O cronômetro era mais lento que o site.
+
+     Os tempos abaixo encurtam a sequência inteira sem tirar nenhum passo
+     dela: a palavra ainda é escrita, a barra ainda enche. O ritmo é que
+     passou de arrastado a vivo. Segue tudo em CSS, sem depender de JS —
+     uma cortina que precise de script para sair cobre o site inteiro se o
+     script falhar, e isso não mudou. */
+  animation: preloader-sai 0.35s ease-out 0.62s forwards;
 }
 
 /* O wordmark do hero na primeira carga: a palavra aparece da ESQUERDA PARA A
@@ -165,7 +174,7 @@ body {
   background-size: 200% 100%;
   background-position: 100% 0;
   background-repeat: no-repeat;
-  animation: preloader-escreve 0.9s cubic-bezier(0.55, 0, 0.3, 1) forwards;
+  animation: preloader-escreve 0.6s cubic-bezier(0.55, 0, 0.3, 1) forwards;
 }
 
 /* Barra de progresso, embaixo. Enche junto com a palavra, entao o tempo de
@@ -194,7 +203,7 @@ body {
   margin: -4px 0 0 -4px;
   border-radius: 999px;
   background-color: var(--color-olive);
-  animation: preloader-ponta 0.9s cubic-bezier(0.55, 0, 0.3, 1) forwards;
+  animation: preloader-ponta 0.6s cubic-bezier(0.55, 0, 0.3, 1) forwards;
 }
 
 .preloader-barra::after {
@@ -206,7 +215,7 @@ body {
   /* scaleX em vez de width: a largura recalcula layout a cada quadro. */
   transform: scaleX(0);
   transform-origin: left;
-  animation: preloader-progresso 0.9s cubic-bezier(0.55, 0, 0.3, 1) forwards;
+  animation: preloader-progresso 0.6s cubic-bezier(0.55, 0, 0.3, 1) forwards;
 }
 
 .preloader-legenda {
@@ -221,7 +230,7 @@ body {
   white-space: nowrap;
   color: color-mix(in srgb, var(--color-olive) 55%, transparent);
   opacity: 0;
-  animation: preloader-legenda 0.5s ease-out 0.4s forwards;
+  animation: preloader-legenda 0.35s ease-out 0.22s forwards;
 }
 
 /* Contorno dourado do wordmark.
@@ -239,10 +248,10 @@ body {
   mask: url(/images/dalami-contorno.svg) center / 97% no-repeat;
 }
 
-/* So depois de a cortina ter sumido (0,75s de espera + 0,4s de fade). */
+/* Só depois de a cortina ter sumido — que agora é aos 0,97s. */
 .hero-contorno-atrasado {
   opacity: 0;
-  animation: contorno-entra 0.35s ease-out 1.4s forwards;
+  animation: contorno-entra 0.3s ease-out 0.85s forwards;
 }
 
 @keyframes preloader-escreve {
@@ -275,13 +284,13 @@ body {
 .hero-cta-traco rect {
   stroke-dasharray: 1;
   stroke-dashoffset: 1;
-  animation: cta-contorna 1.05s cubic-bezier(0.65, 0, 0.35, 1) 0.2s forwards;
+  animation: cta-contorna 0.8s cubic-bezier(0.65, 0, 0.35, 1) 0.2s forwards;
 }
 
 .hero-cta-traco-atrasado rect {
   /* Na primeira carga espera a cortina sair e o contorno do wordmark
      aparecer, senão três coisas entram ao mesmo tempo. */
-  animation-delay: 1.75s;
+  animation-delay: 1.05s;
 }
 
 .hero-cta:hover .hero-cta-traco rect {

@@ -15,7 +15,7 @@ import EstadoLoja from "./EstadoLoja";
  * Quando a cortina sai antecipada, a entrada continua neste tempo — ela toca
  * com o hero já visível, o que é o mesmo efeito de sempre, só que sem espera.
  */
-const ATRASO_PRELOADER = 1;
+const ATRASO_PRELOADER = 0.62;
 
 /**
  * Só a primeira carga tem cortina. Em navegação client-side (voltar do

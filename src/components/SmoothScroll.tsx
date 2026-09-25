@@ -24,7 +24,14 @@ export default function SmoothScroll({ children }: { children: React.ReactNode }
     }
 
     const lenis = new Lenis({
-      duration: 1.1,
+      /* 1,1s era o tempo que cada giro da roda levava para assentar. Isso
+         não derruba quadro nenhum — a rolagem segue a 60fps — mas atrasa a
+         resposta ao gesto, e atraso de resposta é lido como travamento.
+         0,7s mantém a suavidade e devolve a sensação de imediato.
+
+         Só vale para mouse: o Lenis não intercepta toque (`syncTouch` é
+         false por padrão), então no celular a rolagem já era nativa. */
+      duration: 0.7,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
     });
     lenisRef.current = lenis;
