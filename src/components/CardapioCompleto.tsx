@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { gsap, ScrollTrigger, SplitText } from "@/lib/gsap";
 import { revelaAoEntrar } from "@/lib/anima";
@@ -101,6 +101,32 @@ export default function CardapioCompleto() {
       ctx.revert();
     };
   }, []);
+
+  /* Trocar entre Lista e Fotos troca a altura da página inteira — uma lista de
+     quatro bolos e uma grade de quatro fotos não ocupam nem perto do mesmo
+     espaço. E o gatilho de rolagem guarda a posição de quando foi criado.
+     Depois da troca ele aponta para o lugar errado e nunca dispara, deixando
+     as linhas das outras categorias presas no estado inicial da animação
+     (opacity 0.05) — ou seja, invisíveis, com o espaço delas em branco.
+
+     `ScrollTrigger.refresh()` remede tudo contra o layout novo: o que já
+     passou aparece, o que ainda está abaixo volta a esperar a vez.
+
+     A guarda de primeira execução existe porque o efeito também roda na
+     montagem, e ali um refresh seria desperdício — nada mudou de altura
+     ainda. */
+  const jaTrocouDeAba = useRef(false);
+  useEffect(() => {
+    if (!jaTrocouDeAba.current) {
+      jaTrocouDeAba.current = true;
+      return;
+    }
+    ScrollTrigger.refresh();
+
+    // Rede de segurança: se ainda assim alguma linha ficar presa invisível,
+    // ela reaparece sozinha. Conteúdo escondido é pior que animação perdida.
+    return garanteVisivel(".cat-bolo, .cat-head", 900);
+  }, [modoFotos]);
 
   return (
     <main ref={rootRef} className="bg-cream">
