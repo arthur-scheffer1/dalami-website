@@ -3,7 +3,6 @@
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { gsap, ScrollTrigger, SplitText } from "@/lib/gsap";
-import { revelaAoEntrar } from "@/lib/anima";
 import { garanteVisivel } from "@/lib/garante-visivel";
 import { useIsoLayoutEffect } from "@/lib/use-iso-layout-effect";
 import { AVISO_DECORACAO, BRIGADEIROS, CATEGORIAS, FOTOS_BOLOS, TAMANHOS } from "@/lib/menu";
@@ -11,7 +10,6 @@ import { linkPedidoDeBolo, linkWhatsApp } from "@/lib/whatsapp";
 import PassoAPasso from "./PassoAPasso";
 import { SITE } from "@/lib/site";
 import Faixa from "./Faixa";
-import { CELULAR, DESKTOP } from "@/lib/breakpoints";
 
 /* Derivado de TAMANHOS em vez de reescrito à mão: eram duas listas com a
    mesma ordem em arquivos diferentes, e um tamanho novo entraria numa e não
@@ -30,7 +28,6 @@ export default function CardapioCompleto() {
       // Mesmo motivo do BoloHeroi: so "chars" deixaria o navegador partir
       // "Cardapio" no meio numa tela estreita.
       const split = new SplitText(".card-titulo", { type: "words,chars" });
-      const mm = gsap.matchMedia();
 
       gsap.from(split.chars, {
         yPercent: 110,
@@ -52,44 +49,16 @@ export default function CardapioCompleto() {
         });
       });
 
-      mm.add(DESKTOP, () => {
-        gsap.utils.toArray<HTMLElement>(".cat-bloco").forEach((bloco) => {
-          gsap.fromTo(
-            bloco.querySelectorAll(".cat-head"),
-            { opacity: 0, y: 24 },
-            {
-              opacity: 1,
-              y: 0,
-              duration: 0.8,
-              ease: "power3.out",
-              scrollTrigger: { trigger: bloco, start: "top 78%" },
-            },
-          );
-          gsap.fromTo(
-            bloco.querySelectorAll(".cat-bolo"),
-            { opacity: 0.05, y: 20 },
-            {
-              opacity: 1,
-              y: 0,
-              duration: 0.55,
-              stagger: 0.07,
-              ease: "power3.out",
-              scrollTrigger: { trigger: bloco, start: "top 74%" },
-            },
-          );
-        });
-      });
+      /* As categorias e as linhas de bolo NÃO são reveladas por rolagem.
+         Elas nascem prontas no HTML.
 
-      // Celular: cada linha espera a própria vez — a lista de um bloco ocupa
-      // várias telas, e um gatilho único terminaria muito antes.
-      mm.add(CELULAR, () => {
-        gsap.utils.toArray<HTMLElement>(".cat-head").forEach((head) => {
-          revelaAoEntrar(head, { opacity: 0, y: 20 }, { trigger: head, start: "top 92%", duration: 0.6 });
-        });
-        gsap.utils.toArray<HTMLElement>(".cat-bolo").forEach((linha) => {
-          revelaAoEntrar(linha, { opacity: 0.05, y: 16 }, { trigger: linha, start: "top 94%", duration: 0.5 });
-        });
-      });
+         Cardápio é lista de consulta: quem chega quer varrer os preços de
+         cima a baixo, não esperar cada linha se apresentar. E revelação por
+         rolagem tem um custo escondido que este componente já pagou caro —
+         o estado inicial é aplicado na montagem, então qualquer coisa que
+         desalinhe o gatilho (trocar de aba, mudar a altura da página,
+         script lento) deixa a linha presa invisível. Sem animação, não há
+         estado inicial para travar. */
 
       return () => split.revert();
     }, rootRef);
@@ -105,12 +74,13 @@ export default function CardapioCompleto() {
   /* Trocar entre Lista e Fotos troca a altura da página inteira — uma lista de
      quatro bolos e uma grade de quatro fotos não ocupam nem perto do mesmo
      espaço. E o gatilho de rolagem guarda a posição de quando foi criado.
-     Depois da troca ele aponta para o lugar errado e nunca dispara, deixando
-     as linhas das outras categorias presas no estado inicial da animação
-     (opacity 0.05) — ou seja, invisíveis, com o espaço delas em branco.
+     Depois da troca ele aponta para o lugar errado.
 
-     `ScrollTrigger.refresh()` remede tudo contra o layout novo: o que já
-     passou aparece, o que ainda está abaixo volta a esperar a vez.
+     `ScrollTrigger.refresh()` remede tudo contra o layout novo.
+
+     Quem depende disso hoje é a trilha lateral, que marca a categoria pela
+     posição dela na tela. As linhas em si não animam mais, então não há o
+     que ficar preso invisível.
 
      A guarda de primeira execução existe porque o efeito também roda na
      montagem, e ali um refresh seria desperdício — nada mudou de altura
@@ -122,10 +92,6 @@ export default function CardapioCompleto() {
       return;
     }
     ScrollTrigger.refresh();
-
-    // Rede de segurança: se ainda assim alguma linha ficar presa invisível,
-    // ela reaparece sozinha. Conteúdo escondido é pior que animação perdida.
-    return garanteVisivel(".cat-bolo, .cat-head", 900);
   }, [modoFotos]);
 
   return (
