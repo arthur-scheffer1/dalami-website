@@ -45,3 +45,8 @@ next-env.d.ts
 
 # configuracao pessoal do Claude Code
 .claude/settings.local.json
+
+# Segredo do acesso por link — NUNCA versionar.
+# O .env* acima nao pega este nome, e ele contem o ACCESS_SECRET.
+env.download
+*.download
